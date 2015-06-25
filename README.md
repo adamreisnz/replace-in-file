@@ -8,13 +8,13 @@ npm install replace-in-file
 
 ## Usage
 ```js
-# Require module
+//Require module
 var replace = require('replace-in-file');
 
-# Replace contents in a single file
+//Replace contents in a single file
 replace('path/to/file', /Find\sme/g, 'Replacement', cb);
 
-# Replace contents in a several files
+//Replace contents in a several files
 replace([
   'path/to/file',
   'path/to/other/file',
