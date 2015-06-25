@@ -1,0 +1,26 @@
+{
+  "name": "replace-in-file",
+  "version": "0.0.1",
+  "description": "A simple utility to quickly replace contents in one or more files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adambuczynski/replace-in-file.git"
+  },
+  "keywords": [
+    "replace"
+  ],
+  "author": {
+    "name": "Adam Buczynski",
+    "email": "me@adambuczynski.com",
+    "url": "http://adambuczynski.com/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adambuczynski/replace-in-file/issues"
+  },
+  "homepage": "https://github.com/adambuczynski/replace-in-file#readme"
+}
