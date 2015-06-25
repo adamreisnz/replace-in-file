@@ -1,4 +1,4 @@
-# Replace-in-file
+# Replace in file
 A simple utility to quickly replace text in one or more files.
 
 ## Installation
