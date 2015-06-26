@@ -24,7 +24,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "pretest": "./node_modules/jshint/bin/jshint --reporter=node_modules/jshint-stylish lib/",
+    "pretest": "./node_modules/jshint/bin/jshint --reporter=node_modules/jshint-stylish lib",
     "test": "node test.js"
   },
   "devDependencies": {
