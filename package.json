@@ -1,6 +1,6 @@
 {
   "name": "replace-in-file",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adambuczynski/replace-in-file#readme",
   "author": {
@@ -24,12 +24,15 @@
   ],
   "main": "index.js",
   "scripts": {
-    "pretest": "./node_modules/jshint/bin/jshint --reporter=node_modules/jshint-stylish lib",
+    "jshint": "./node_modules/jshint/bin/jshint --reporter=node_modules/jshint-stylish lib tests",
+    "jscs": "./node_modules/jscs/bin/jscs lib tests || true",
+    "pretest": "npm run jscs & npm run jshint",
     "test": "node test.js"
   },
   "devDependencies": {
     "jasmine": "^2.3.1",
     "jasmine-spec-reporter": "^2.2.3",
+    "jscs": "^1.13.1",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1"
   }
