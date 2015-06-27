@@ -1,3 +1,5 @@
+/* global jasmine */
+/* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
 
 /**
  * Module dependencies
