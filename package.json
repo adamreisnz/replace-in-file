@@ -1,6 +1,6 @@
 {
   "name": "replace-in-file",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adambuczynski/replace-in-file#readme",
   "author": {
@@ -34,6 +34,7 @@
     "jasmine-spec-reporter": "^2.2.3",
     "jscs": "^1.13.1",
     "jshint": "^2.8.0",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "jsonfile": "^2.0.1"
   }
 }
