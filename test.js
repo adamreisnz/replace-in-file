@@ -12,7 +12,9 @@ var noop = function() {};
 var jrunner = new Jasmine();
 
 //Set reporters
-jrunner.configureDefaultReporter({print: noop});
+jrunner.configureDefaultReporter({
+  print: noop
+});
 jasmine.getEnv().addReporter(new SpecReporter());
 
 //Configure

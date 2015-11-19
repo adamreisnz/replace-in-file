@@ -14,22 +14,25 @@ describe('Replace in file', function() {
   var testJson = {
     test: 'a re place c'
   };
-  var testRegex = /re\splace/g;
 
   /**
    * Prepare test files
    */
-  beforeEach(function() {
-    jf.writeFileSync('test1.json', testJson);
-    jf.writeFileSync('test2.json', testJson);
+  beforeEach(function(done) {
+    Promise.all([
+      jf.writeFileSync('test1.json', testJson),
+      jf.writeFileSync('test2.json', testJson)
+    ]).then(done);
   });
 
   /**
    * Clean up test files
    */
-  afterEach(function() {
-    fs.unlinkSync('test1.json');
-    fs.unlinkSync('test2.json');
+  afterEach(function(done) {
+    Promise.all([
+      fs.unlink('test1.json'),
+      fs.unlink('test2.json')
+    ]).then(done);
   });
 
   /**
@@ -38,7 +41,7 @@ describe('Replace in file', function() {
   it('should replace contents in a single file', function(done) {
     replace({
       files: 'test1.json',
-      replace: testRegex,
+      replace: /re\splace/g,
       with: 'b'
     }, function(error) {
       var test1 = jf.readFileSync('test1.json');
@@ -53,7 +56,7 @@ describe('Replace in file', function() {
   it('should replace contents in a an array of files', function(done) {
     replace({
       files: ['test1.json', 'test2.json'],
-      replace: testRegex,
+      replace: /re\splace/g,
       with: 'b'
     }, function(error) {
       var test1 = jf.readFileSync('test1.json');
