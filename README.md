@@ -21,16 +21,19 @@ replace({
     'path/to/other/file',
   ],
 
-  //Replacement to make
-  replace: /Find\sme/g,
+  //Replacement to make (can be string or regex)
+  replace: /Find me/g,
   with: 'Replacement'
 
 }, function(error, changedFiles) {
 
-  if(error) return console.log('Following error occurred: ' + error);
+  //Catch errors
+  if (error) {
+    return console.error('Error occurred:', error);
+  }
 
-  console.log('Modified files: ' + changedFiles.join(', '));
-
+  //List changed files
+  console.log('Modified files:', changedFiles.join(', '));
 });
 ```
 

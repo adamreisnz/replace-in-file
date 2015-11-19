@@ -12,7 +12,7 @@ describe('Replace in file', function() {
 
   //Test JSON
   var testJson = {
-    test: "a re place c"
+    test: 'a re place c'
   };
   var testRegex = /re\splace/g;
 
@@ -60,6 +60,21 @@ describe('Replace in file', function() {
       var test2 = jf.readFileSync('test2.json');
       expect(test1.test).toBe('a b c');
       expect(test2.test).toBe('a b c');
+      done();
+    });
+  });
+
+  /**
+   * Replace in one file
+   */
+  it('should replace contents with a string replacement', function(done) {
+    replace({
+      files: 'test1.json',
+      replace: 're place',
+      with: 'b'
+    }, function(error) {
+      var test1 = jf.readFileSync('test1.json');
+      expect(test1.test).toBe('a b c');
       done();
     });
   });
