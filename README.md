@@ -9,6 +9,7 @@ npm install replace-in-file
 ## Usage
 ```js
 var replace = require('replace-in-file');
+
 replace({
 
   //Single file
@@ -23,7 +24,14 @@ replace({
   //Replacement to make
   replace: /Find\sme/g,
   with: 'Replacement'
-}, cb);
+
+}, function(error, changedFiles) {
+
+  if(error) return console.log('Following error occurred: ' + error);
+
+  console.log('Modified files: ' + changedFiles.join(', '));
+
+});
 ```
 
 ## License
