@@ -88,6 +88,17 @@ describe('Replace in file', () => {
     });
   });
 
+  it('should return an error on failure', function(done) {
+    replace({
+      files: 'nope',
+      replace: /re\splace/g,
+      with: 'b'
+    }, (error) => {
+      expect(error).not.to.equal(null);
+      done();
+    });
+  });
+
   it('should return a changed files array', function(done) {
     replace({
       files: 'test1',
