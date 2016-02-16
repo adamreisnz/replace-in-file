@@ -2,17 +2,17 @@
   "preset": "google",
   "fileExtensions": [".js"],
   "maxErrors": 100,
-  "verbose": true,
+  "verbose": false,
   "excludeFiles": [
-    "public/**",
-    "node_modules/**",
-    "client/vendor/**"
+    "node_modules/**"
   ],
-
   "requireParenthesesAroundIIFE": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
   "maximumLineLength": 100,
   "validateLineBreaks": "LF",
   "validateIndentation": 2,
+  "disallowTrailingComma": true,
+  "disallowMultipleSpaces": true,
   "disallowMultipleVarDecl": "exceptUndefined",
   "disallowKeywordsOnNewLine": null,
   "disallowSpacesInsideObjectBrackets": null,

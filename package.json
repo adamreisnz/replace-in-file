@@ -24,17 +24,20 @@
   ],
   "main": "index.js",
   "scripts": {
-    "jshint": "./node_modules/jshint/bin/jshint --reporter=node_modules/jshint-stylish . || true",
-    "jscs": "./node_modules/jscs/bin/jscs . || true",
-    "pretest": "npm run jscs & npm run jshint",
-    "test": "node test.js"
+    "lint": "npm run lint:jshint --silent && npm run lint:jscs --silent",
+    "lint:jshint": "jshint . --reporter=node_modules/jshint-stylish",
+    "lint:jscs": "jscs . --reporter=node_modules/jscs-stylish",
+    "pretest": "npm run lint",
+    "test": "mocha test/**/*.spec.js",
+    "test-ci": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "devDependencies": {
-    "jasmine": "^2.3.2",
-    "jasmine-spec-reporter": "^2.4.0",
-    "jscs": "^2.5.1",
-    "jshint": "^2.8.0",
+    "bluebird": "^3.3.1",
+    "chai": "^3.5.0",
+    "jscs": "^2.9.0",
+    "jscs-stylish": "^0.3.1",
+    "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
-    "jsonfile": "^2.2.3"
+    "mocha": "^2.4.5"
   }
 }
