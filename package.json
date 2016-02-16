@@ -29,7 +29,9 @@
     "lint:jscs": "jscs . --reporter=node_modules/jscs-stylish",
     "pretest": "npm run lint",
     "test": "mocha test/**/*.spec.js",
-    "test-ci": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha"
+    "test-ci": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
+    "preversion": "npm run test",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
