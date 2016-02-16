@@ -2,7 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/replace-in-file.svg)](https://www.npmjs.com/package/replace-in-file)
 [![node dependencies](https://david-dm.org/adambuczynski/replace-in-file.svg)](https://david-dm.org/adambuczynski/replace-in-file)
-[![Build Status](https://travis-ci.org/adambuczynski/replace-in-file.svg?branch=master)](https://travis-ci.org/adambuczynski/replace-in-file)
+[![build status](https://travis-ci.org/adambuczynski/replace-in-file.svg?branch=master)](https://travis-ci.org/adambuczynski/replace-in-file)
+[![coverage status](https://coveralls.io/repos/github/adambuczynski/replace-in-file/badge.svg?branch=master)](https://coveralls.io/github/adambuczynski/replace-in-file?branch=master)
 [![github issues](https://img.shields.io/github/issues/adambuczynski/replace-in-file.svg)](https://github.com/adambuczynski/replace-in-file/issues)
 
 A simple utility to quickly replace text in one or more files.
