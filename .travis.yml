@@ -11,8 +11,11 @@ branches:
     - master
 before_install:
   - "npm install -g istanbul"
-script:
-  - "npm run test-ci"
-after_script:
   - "npm install -g coveralls"
+before_script:
+  - "npm run lint"
+script:
+  - "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec"
+after_script:
   - "cat ./coverage/lcov.info | coveralls"
+  - "rm -rf ./coverage"

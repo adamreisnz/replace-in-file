@@ -30,7 +30,6 @@
     "pretest": "npm run lint",
     "mocha": "mocha test/**/*.spec.js",
     "test": "npm run mocha",
-    "test-ci": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags && npm publish"
   },
