@@ -28,7 +28,8 @@
     "lint:jshint": "jshint . --reporter=node_modules/jshint-stylish",
     "lint:jscs": "jscs . --reporter=node_modules/jscs-stylish",
     "pretest": "npm run lint",
-    "test": "mocha test/**/*.spec.js",
+    "mocha": "mocha test/**/*.spec.js",
+    "test": "npm run mocha",
     "test-ci": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags && npm publish"
