@@ -1,1 +1,2 @@
 --require test/helpers/setup
+--compilers js:babel-register
