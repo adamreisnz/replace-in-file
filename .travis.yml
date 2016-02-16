@@ -10,12 +10,12 @@ branches:
   only:
     - master
 before_install:
-  - "npm install -g istanbul"
-  - "npm install -g coveralls"
+  - "npm install -g babel-cli coveralls"
+  - "npm install istanbul@1.0.0-alpha coveralls"
 before_script:
   - "npm run lint"
 script:
-  - "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec"
+  - "babel-node ./node_modules/istanbul/lib/cli cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec"
 after_script:
   - "cat ./coverage/lcov.info | coveralls"
   - "rm -rf ./coverage"
