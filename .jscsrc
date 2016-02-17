@@ -4,7 +4,8 @@
   "maxErrors": 100,
   "verbose": false,
   "excludeFiles": [
-    "node_modules/**"
+    "node_modules/**",
+    "coverage/**"
   ],
   "requireParenthesesAroundIIFE": true,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
