@@ -3,7 +3,7 @@
 /**
  * Dependencies
  */
-let replace = require('../lib/replaceInFile');
+let replace = require('../lib/replace-in-file');
 let fs = require('fs');
 let writeFile = Promise.promisify(fs.writeFile);
 let deleteFile = Promise.promisify(fs.unlink);
