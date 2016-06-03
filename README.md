@@ -17,6 +17,7 @@ npm install replace-in-file
 ```js
 var replace = require('replace-in-file');
 
+//Asynchronous
 replace({
 
   //Single file
@@ -42,6 +43,29 @@ replace({
   //List changed files
   console.log('Modified files:', changedFiles.join(', '));
 });
+
+//Synchronous
+try {
+  var changedFiles = replace({
+
+    //Single file
+    files: 'path/to/file',
+
+    //Or multiple files
+    files: [
+      'path/to/file',
+      'path/to/other/file',
+    ],
+
+    //Replacement to make (can be string or regex)
+    replace: /Find me/g,
+    with: 'Replacement'
+  });
+  console.log('Modified files:', changedFiles.join(', '));
+}
+catch (error) {
+  console.error('Error occurred:', error);
+}
 ```
 
 ## License
