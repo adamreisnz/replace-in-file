@@ -22,7 +22,7 @@ describe('Replace in file', () => {
   beforeEach(() => Promise.all([
     writeFile('test1', testData, 'utf8'),
     writeFile('test2', testData, 'utf8'),
-    writeFile('test3', 'nope', 'utf8')
+    writeFile('test3', 'nope', 'utf8'),
   ]));
 
   /**
@@ -31,7 +31,7 @@ describe('Replace in file', () => {
   afterEach(() => Promise.all([
     deleteFile('test1'),
     deleteFile('test2'),
-    deleteFile('test3')
+    deleteFile('test3'),
   ]));
 
   /**
@@ -46,7 +46,7 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, () => {
         let test1 = fs.readFileSync('test1', 'utf8');
         let test2 = fs.readFileSync('test2', 'utf8');
@@ -60,7 +60,7 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: 're place',
-        with: 'b'
+        with: 'b',
       }, () => {
         let test1 = fs.readFileSync('test1', 'utf8');
         expect(test1).to.equal('a b c');
@@ -72,7 +72,7 @@ describe('Replace in file', () => {
       replace({
         files: ['test1', 'test2'],
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, () => {
         let test1 = fs.readFileSync('test1', 'utf8');
         let test2 = fs.readFileSync('test2', 'utf8');
@@ -86,7 +86,7 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, (error) => {
         expect(error).to.equal(null);
         done();
@@ -97,7 +97,7 @@ describe('Replace in file', () => {
       replace({
         files: 'nope',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, (error) => {
         expect(error).not.to.equal(null);
         done();
@@ -108,18 +108,18 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, (error, changedFiles) => {
         expect(changedFiles).to.be.instanceof(Array);
         done();
       });
     });
 
-    it('should return in changed files if something was replaced', function(done) {
+    it('should return in files if something was replaced', function(done) {
       replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, (error, changedFiles) => {
         expect(changedFiles).to.have.length(1);
         expect(changedFiles[0]).to.equal('test1');
@@ -127,11 +127,11 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should not return in changed files if nothing replaced', function(done) {
+    it('should not return in files if nothing replaced', function(done) {
       replace({
         files: 'test1',
         replace: 'nope',
-        with: 'b'
+        with: 'b',
       }, (error, changedFiles) => {
         expect(changedFiles).to.have.length(0);
         done();
@@ -142,7 +142,7 @@ describe('Replace in file', () => {
       replace({
         files: ['test1', 'test2', 'test3'],
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       }, (error, changedFiles) => {
         expect(changedFiles).to.have.length(2);
         expect(changedFiles).to.contain('test1');
@@ -164,7 +164,7 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       });
       let test1 = fs.readFileSync('test1', 'utf8');
       let test2 = fs.readFileSync('test2', 'utf8');
@@ -176,7 +176,7 @@ describe('Replace in file', () => {
       replace({
         files: 'test1',
         replace: 're place',
-        with: 'b'
+        with: 'b',
       });
       let test1 = fs.readFileSync('test1', 'utf8');
       expect(test1).to.equal('a b c');
@@ -186,7 +186,7 @@ describe('Replace in file', () => {
       replace({
         files: ['test1', 'test2'],
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       });
       let test1 = fs.readFileSync('test1', 'utf8');
       let test2 = fs.readFileSync('test2', 'utf8');
@@ -198,7 +198,7 @@ describe('Replace in file', () => {
       let changedFiles = replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       });
       expect(changedFiles).to.be.instanceof(Array);
     });
@@ -207,7 +207,7 @@ describe('Replace in file', () => {
       let changedFiles = replace({
         files: 'test1',
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       });
       expect(changedFiles).to.have.length(1);
       expect(changedFiles[0]).to.equal('test1');
@@ -217,7 +217,7 @@ describe('Replace in file', () => {
       let changedFiles = replace({
         files: 'test1',
         replace: 'nope',
-        with: 'b'
+        with: 'b',
       });
       expect(changedFiles).to.have.length(0);
     });
@@ -226,7 +226,7 @@ describe('Replace in file', () => {
       let changedFiles = replace({
         files: ['test1', 'test2', 'test3'],
         replace: /re\splace/g,
-        with: 'b'
+        with: 'b',
       });
       expect(changedFiles).to.have.length(2);
       expect(changedFiles).to.contain('test1');

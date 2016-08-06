@@ -10,8 +10,8 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# JS/JSON
-[{*.js,*.json}]
+# JS
+[{*.js}]
 quote_type = single
 curly_bracket_next_line = false
 spaces_around_operators = true
