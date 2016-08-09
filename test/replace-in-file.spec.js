@@ -82,6 +82,20 @@ describe('Replace in file', () => {
       });
     });
 
+    it('should expand globs', function(done) {
+      replace({
+        files: 'test*',
+        replace: /re\splace/g,
+        with: 'b',
+      }, () => {
+        let test1 = fs.readFileSync('test1', 'utf8');
+        let test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b c');
+        expect(test2).to.equal('a b c');
+        done();
+      });
+    });
+
     it('should not return an error on success', function(done) {
       replace({
         files: 'test1',
@@ -100,6 +114,18 @@ describe('Replace in file', () => {
         with: 'b',
       }, (error) => {
         expect(error).not.to.equal(null);
+        done();
+      });
+    });
+
+    it('should not return an error if allowEmptyPaths is true', function(done) {
+      replace({
+        files: 'nope',
+        allowEmptyPaths: true,
+        replace: /re\splace/g,
+        with: 'b',
+      }, (error) => {
+        expect(error).to.equal(null);
         done();
       });
     });
@@ -185,6 +211,18 @@ describe('Replace in file', () => {
     it('should replace contents in a an array of files', function() {
       replace({
         files: ['test1', 'test2'],
+        replace: /re\splace/g,
+        with: 'b',
+      });
+      let test1 = fs.readFileSync('test1', 'utf8');
+      let test2 = fs.readFileSync('test2', 'utf8');
+      expect(test1).to.equal('a b c');
+      expect(test2).to.equal('a b c');
+    });
+
+    it('should expand globs', function() {
+      replace({
+        files: 'test*',
         replace: /re\splace/g,
         with: 'b',
       });

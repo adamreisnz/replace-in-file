@@ -29,6 +29,12 @@ replace({
     'path/to/other/file',
   ],
 
+  //Or, glob(s)
+  files: [
+    'path/to/files/*.html',
+    'another/**/*.path',
+  ],
+
   //Replacement to make (can be string or regex)
   replace: /Find me/g,
   with: 'Replacement'
@@ -57,6 +63,12 @@ try {
       'path/to/other/file',
     ],
 
+    //Or, glob(s)
+    files: [
+      'path/to/files/*.html',
+      'another/**/*.path',
+    ],
+
     //Replacement to make (can be string or regex)
     replace: /Find me/g,
     with: 'Replacement'
@@ -66,6 +78,21 @@ try {
 catch (error) {
   console.error('Error occurred:', error);
 }
+```
+
+Replace in file also has an `allowEmptyPaths` option. When this is set to `true`, replace in file will not error if `files` contains invalid file paths. Default is `false`.
+
+Example:
+
+```js
+replace({
+  files: 'this/path/does/not/*.exist',
+  replace: 'abc',
+  with: 'xyz',
+  allowEmptyPaths: true
+});
+// Doesn't Error
+// => []
 ```
 
 ## License
