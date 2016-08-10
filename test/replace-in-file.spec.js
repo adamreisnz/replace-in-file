@@ -104,23 +104,12 @@ describe('Replace in file', () => {
       }).should.be.fulfilled;
     });
 
-    it('should reject the promise on failure', () => {
-      return replace({
+    it('should reject the promise with an error on failure', () => {
+      return expect(replace({
         files: 'nope',
         replace: /re\splace/g,
         with: 'b',
-      }).should.be.rejected;
-    });
-
-    it('should reject the promise with an error on failure', done => {
-      replace({
-        files: 'nope',
-        replace: /re\splace/g,
-        with: 'b',
-      }).catch(error => {
-        expect(error).not.to.equal(null);
-        done();
-      });
+      })).to.eventually.be.rejectedWith(Error);
     });
 
     it('should not reject the promise if allowEmptyPaths is true', () => {
