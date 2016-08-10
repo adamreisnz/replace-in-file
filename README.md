@@ -41,7 +41,7 @@ const options = {
   with: 'Replacement',
 
   //Specify if empty/invalid file paths are allowed, defaults to false.
-  //If set to true, these paths will fail silently and no error will be thrown.
+  //If set to true these paths will fail silently and no error will be thrown.
   allowEmptyPaths: false,
 };
 ```
