@@ -14,85 +14,71 @@ npm install replace-in-file
 ```
 
 ## Usage
-```js
-var replace = require('replace-in-file');
 
-//Asynchronous
-replace({
+Specify options:
+
+```js
+const replace = require('replace-in-file');
+const options = {
 
   //Single file
   files: 'path/to/file',
 
-  //Or multiple files
+  //Multiple files
   files: [
     'path/to/file',
     'path/to/other/file',
   ],
 
-  //Or, glob(s)
+  //Glob(s)
   files: [
     'path/to/files/*.html',
     'another/**/*.path',
   ],
 
-  //Replacement to make (can be string or regex)
+  //Replacement to make (string or regex)
   replace: /Find me/g,
-  with: 'Replacement'
+  with: 'Replacement',
 
-}, function(error, changedFiles) {
+  //Specify if empty/invalid file paths are allowed, defaults to false.
+  //If set to true, these paths will fail silently and no error will be thrown.
+  allowEmptyPaths: false,
+};
+```
 
-  //Catch errors
+Asynchronous replacement, with promises:
+
+```js
+replace(options)
+  .then(changedFiles => {
+    console.log('Modified files:', changedFiles.join(', '));
+  })
+  .catch(error => {
+    console.error('Error occurred:', error);
+  });
+```
+
+Asynchronous replacement, with callback:
+
+```js
+replace(options, (error, changedFiles) => {
   if (error) {
     return console.error('Error occurred:', error);
   }
-
-  //List changed files
   console.log('Modified files:', changedFiles.join(', '));
 });
+```
 
-//Synchronous
+Synchronous replacement:
+
+```js
 try {
-  var changedFiles = replace({
-
-    //Single file
-    files: 'path/to/file',
-
-    //Or multiple files
-    files: [
-      'path/to/file',
-      'path/to/other/file',
-    ],
-
-    //Or, glob(s)
-    files: [
-      'path/to/files/*.html',
-      'another/**/*.path',
-    ],
-
-    //Replacement to make (can be string or regex)
-    replace: /Find me/g,
-    with: 'Replacement'
-  });
+  let changedFiles = replace.sync(options);
   console.log('Modified files:', changedFiles.join(', '));
 }
 catch (error) {
   console.error('Error occurred:', error);
 }
-```
-
-Replace in file also has an `allowEmptyPaths` option. When this is set to `true`, replace in file will not error if `files` contains invalid file paths. Default is `false`.
-
-Example:
-
-```js
-replace({
-  files: 'this/path/does/not/*.exist',
-  replace: 'abc',
-  with: 'xyz',
-  allowEmptyPaths: true
-});
-// Doesn't Error
-// => []
 ```
 
 ## License

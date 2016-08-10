@@ -35,14 +35,160 @@ describe('Replace in file', () => {
   ]));
 
   /**
-   * Async
+   * Async with promises
    */
-  describe('Async', () => {
+  describe('Async with promises', () => {
 
     /**
      * Tests
      */
-    it('should replace contents in a single file with regex', function(done) {
+    it('should replace contents in a single file with regex', done => {
+      replace({
+        files: 'test1',
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(() => {
+        let test1 = fs.readFileSync('test1', 'utf8');
+        let test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b c');
+        expect(test2).to.equal(testData);
+        done();
+      });
+    });
+
+    it('should replace contents with a string replacement', done => {
+      replace({
+        files: 'test1',
+        replace: 're place',
+        with: 'b',
+      }).then(() => {
+        let test1 = fs.readFileSync('test1', 'utf8');
+        expect(test1).to.equal('a b c');
+        done();
+      });
+    });
+
+    it('should replace contents in a an array of files', done => {
+      replace({
+        files: ['test1', 'test2'],
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(() => {
+        let test1 = fs.readFileSync('test1', 'utf8');
+        let test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b c');
+        expect(test2).to.equal('a b c');
+        done();
+      });
+    });
+
+    it('should expand globs', done => {
+      replace({
+        files: 'test*',
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(() => {
+        let test1 = fs.readFileSync('test1', 'utf8');
+        let test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b c');
+        expect(test2).to.equal('a b c');
+        done();
+      });
+    });
+
+    it('should fulfill the promise on success', () => {
+      return replace({
+        files: 'test1',
+        replace: /re\splace/g,
+        with: 'b',
+      }).should.be.fulfilled;
+    });
+
+    it('should reject the promise on failure', () => {
+      return replace({
+        files: 'nope',
+        replace: /re\splace/g,
+        with: 'b',
+      }).should.be.rejected;
+    });
+
+    it('should reject the promise with an error on failure', done => {
+      replace({
+        files: 'nope',
+        replace: /re\splace/g,
+        with: 'b',
+      }).catch(error => {
+        expect(error).not.to.equal(null);
+        done();
+      });
+    });
+
+    it('should not reject the promise if allowEmptyPaths is true', () => {
+      return replace({
+        files: 'nope',
+        allowEmptyPaths: true,
+        replace: /re\splace/g,
+        with: 'b',
+      }).should.be.fulfilled;
+    });
+
+    it('should return a changed files array', done => {
+      replace({
+        files: 'test1',
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(changedFiles => {
+        expect(changedFiles).to.be.instanceof(Array);
+        done();
+      });
+    });
+
+    it('should return in files if something was replaced', done => {
+      replace({
+        files: 'test1',
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(changedFiles => {
+        expect(changedFiles).to.have.length(1);
+        expect(changedFiles[0]).to.equal('test1');
+        done();
+      });
+    });
+
+    it('should not return in files if nothing replaced', done => {
+      replace({
+        files: 'test1',
+        replace: 'nope',
+        with: 'b',
+      }).then(changedFiles => {
+        expect(changedFiles).to.have.length(0);
+        done();
+      });
+    });
+
+    it('should return changed files for multiple files', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: /re\splace/g,
+        with: 'b',
+      }).then(changedFiles => {
+        expect(changedFiles).to.have.length(2);
+        expect(changedFiles).to.contain('test1');
+        expect(changedFiles).to.contain('test2');
+        done();
+      });
+    });
+  });
+
+  /**
+   * Async with callback
+   */
+  describe('Async with callback', () => {
+
+    /**
+     * Tests
+     */
+    it('should replace contents in a single file with regex', done => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
@@ -56,7 +202,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should replace contents with a string replacement', function(done) {
+    it('should replace contents with a string replacement', done => {
       replace({
         files: 'test1',
         replace: 're place',
@@ -68,7 +214,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should replace contents in a an array of files', function(done) {
+    it('should replace contents in a an array of files', done => {
       replace({
         files: ['test1', 'test2'],
         replace: /re\splace/g,
@@ -82,7 +228,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should expand globs', function(done) {
+    it('should expand globs', done => {
       replace({
         files: 'test*',
         replace: /re\splace/g,
@@ -96,7 +242,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should not return an error on success', function(done) {
+    it('should not return an error on success', done => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
@@ -107,7 +253,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should return an error on failure', function(done) {
+    it('should return an error on failure', done => {
       replace({
         files: 'nope',
         replace: /re\splace/g,
@@ -118,7 +264,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should not return an error if allowEmptyPaths is true', function(done) {
+    it('should not return an error if allowEmptyPaths is true', done => {
       replace({
         files: 'nope',
         allowEmptyPaths: true,
@@ -130,7 +276,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should return a changed files array', function(done) {
+    it('should return a changed files array', done => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
@@ -141,7 +287,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should return in files if something was replaced', function(done) {
+    it('should return in files if something was replaced', done => {
       replace({
         files: 'test1',
         replace: /re\splace/g,
@@ -153,7 +299,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should not return in files if nothing replaced', function(done) {
+    it('should not return in files if nothing replaced', done => {
       replace({
         files: 'test1',
         replace: 'nope',
@@ -164,7 +310,7 @@ describe('Replace in file', () => {
       });
     });
 
-    it('should return changed files for multiple files', function(done) {
+    it('should return changed files for multiple files', done => {
       replace({
         files: ['test1', 'test2', 'test3'],
         replace: /re\splace/g,
@@ -187,7 +333,7 @@ describe('Replace in file', () => {
      * Tests
      */
     it('should replace contents in a single file with regex', function() {
-      replace({
+      replace.sync({
         files: 'test1',
         replace: /re\splace/g,
         with: 'b',
@@ -199,7 +345,7 @@ describe('Replace in file', () => {
     });
 
     it('should replace contents with a string replacement', function() {
-      replace({
+      replace.sync({
         files: 'test1',
         replace: 're place',
         with: 'b',
@@ -209,7 +355,7 @@ describe('Replace in file', () => {
     });
 
     it('should replace contents in a an array of files', function() {
-      replace({
+      replace.sync({
         files: ['test1', 'test2'],
         replace: /re\splace/g,
         with: 'b',
@@ -221,7 +367,7 @@ describe('Replace in file', () => {
     });
 
     it('should expand globs', function() {
-      replace({
+      replace.sync({
         files: 'test*',
         replace: /re\splace/g,
         with: 'b',
@@ -233,7 +379,7 @@ describe('Replace in file', () => {
     });
 
     it('should return a changed files array', function() {
-      let changedFiles = replace({
+      let changedFiles = replace.sync({
         files: 'test1',
         replace: /re\splace/g,
         with: 'b',
@@ -242,7 +388,7 @@ describe('Replace in file', () => {
     });
 
     it('should return in changed files if something was replaced', function() {
-      let changedFiles = replace({
+      let changedFiles = replace.sync({
         files: 'test1',
         replace: /re\splace/g,
         with: 'b',
@@ -252,7 +398,7 @@ describe('Replace in file', () => {
     });
 
     it('should not return in changed files if nothing replaced', function() {
-      let changedFiles = replace({
+      let changedFiles = replace.sync({
         files: 'test1',
         replace: 'nope',
         with: 'b',
@@ -261,7 +407,7 @@ describe('Replace in file', () => {
     });
 
     it('should return changed files for multiple files', function() {
-      let changedFiles = replace({
+      let changedFiles = replace.sync({
         files: ['test1', 'test2', 'test3'],
         replace: /re\splace/g,
         with: 'b',
