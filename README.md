@@ -6,7 +6,7 @@
 [![coverage status](https://coveralls.io/repos/github/adambuczynski/replace-in-file/badge.svg?branch=master)](https://coveralls.io/github/adambuczynski/replace-in-file?branch=master)
 [![github issues](https://img.shields.io/github/issues/adambuczynski/replace-in-file.svg)](https://github.com/adambuczynski/replace-in-file/issues)
 
-A simple utility to quickly replace text in one or more files.
+A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks.
 
 ## Installation
 ```shell
