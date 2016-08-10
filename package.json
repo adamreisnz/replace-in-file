@@ -27,7 +27,6 @@
     "lint": "eslint . --fix",
     "istanbul": "babel-node ./node_modules/istanbul/lib/cli cover ./node_modules/mocha/bin/_mocha test/**/*.spec.js",
     "test": "npm run istanbul -s",
-    "preversion": "npm run test -s",
     "postversion": "git push && git push --tags && npm publish",
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
