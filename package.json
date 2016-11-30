@@ -1,6 +1,6 @@
 {
   "name": "replace-in-file",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adambuczynski/replace-in-file#readme",
   "author": {
@@ -45,6 +45,15 @@
     "glob": "^7.1.1"
   },
   "browserify": {
-    "transform": [["babelify", { "presets": ["es2015"] }]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
   }
 }
