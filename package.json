@@ -2,19 +2,19 @@
   "name": "replace-in-file",
   "version": "2.0.2",
   "description": "A simple utility to quickly replace text in one or more files.",
-  "homepage": "https://github.com/adambuczynski/replace-in-file#readme",
+  "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
-    "name": "Adam Buczynski",
-    "email": "me@adambuczynski.com",
-    "url": "http://adambuczynski.com/"
+    "name": "Adam Reis",
+    "email": "adam@reis.nz",
+    "url": "http://adam.reiz.nz/"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/adambuczynski/replace-in-file.git"
+    "url": "https://github.com/adamreisnz/replace-in-file.git"
   },
   "bugs": {
-    "url": "https://github.com/adambuczynski/replace-in-file/issues"
+    "url": "https://github.com/adamreisnz/replace-in-file/issues"
   },
   "keywords": [
     "replace",
