@@ -48,8 +48,8 @@ describe('Replace in file', () => {
         replace: /re\splace/g,
         with: 'b',
       }).then(() => {
-        let test1 = fs.readFileSync('test1', 'utf8');
-        let test2 = fs.readFileSync('test2', 'utf8');
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
         expect(test1).to.equal('a b c');
         expect(test2).to.equal(testData);
         done();
@@ -62,7 +62,7 @@ describe('Replace in file', () => {
         replace: 're place',
         with: 'b',
       }).then(() => {
-        let test1 = fs.readFileSync('test1', 'utf8');
+        const test1 = fs.readFileSync('test1', 'utf8');
         expect(test1).to.equal('a b c');
         done();
       });
@@ -74,8 +74,8 @@ describe('Replace in file', () => {
         replace: /re\splace/g,
         with: 'b',
       }).then(() => {
-        let test1 = fs.readFileSync('test1', 'utf8');
-        let test2 = fs.readFileSync('test2', 'utf8');
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
         expect(test1).to.equal('a b c');
         expect(test2).to.equal('a b c');
         done();
@@ -88,8 +88,8 @@ describe('Replace in file', () => {
         replace: /re\splace/g,
         with: 'b',
       }).then(() => {
-        let test1 = fs.readFileSync('test1', 'utf8');
-        let test2 = fs.readFileSync('test2', 'utf8');
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
         expect(test1).to.equal('a b c');
         expect(test2).to.equal('a b c');
         done();
@@ -167,6 +167,48 @@ describe('Replace in file', () => {
         done();
       });
     });
+
+    it('should make multiple replacements with the same string', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: 'b',
+      }).then(() => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b b c');
+        expect(test2).to.equal('a b b c');
+        done();
+      });
+    });
+
+    it('should make multiple replacements with different strings', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b', 'e'],
+      }).then(() => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b e c');
+        expect(test2).to.equal('a b e c');
+        done();
+      });
+    });
+
+    it('should not replace with missing replacement values', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b'],
+      }).then(() => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b place c');
+        expect(test2).to.equal('a b place c');
+        done();
+      });
+    });
   });
 
   /**
@@ -183,8 +225,8 @@ describe('Replace in file', () => {
         replace: /re\splace/g,
         with: 'b',
       }, () => {
-        let test1 = fs.readFileSync('test1', 'utf8');
-        let test2 = fs.readFileSync('test2', 'utf8');
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
         expect(test1).to.equal('a b c');
         expect(test2).to.equal(testData);
         done();
@@ -311,6 +353,48 @@ describe('Replace in file', () => {
         done();
       });
     });
+
+    it('should make multiple replacements with the same string', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: 'b',
+      }, () => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b b c');
+        expect(test2).to.equal('a b b c');
+        done();
+      });
+    });
+
+    it('should make multiple replacements with different strings', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b', 'e'],
+      }, () => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b e c');
+        expect(test2).to.equal('a b e c');
+        done();
+      });
+    });
+
+    it('should not replace with missing replacement values', done => {
+      replace({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b'],
+      }, () => {
+        const test1 = fs.readFileSync('test1', 'utf8');
+        const test2 = fs.readFileSync('test2', 'utf8');
+        expect(test1).to.equal('a b place c');
+        expect(test2).to.equal('a b place c');
+        done();
+      });
+    });
   });
 
   /**
@@ -404,6 +488,42 @@ describe('Replace in file', () => {
       expect(changedFiles).to.have.length(2);
       expect(changedFiles).to.contain('test1');
       expect(changedFiles).to.contain('test2');
+    });
+
+    it('should make multiple replacements with the same string', () => {
+      replace.sync({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: 'b',
+      });
+      const test1 = fs.readFileSync('test1', 'utf8');
+      const test2 = fs.readFileSync('test2', 'utf8');
+      expect(test1).to.equal('a b b c');
+      expect(test2).to.equal('a b b c');
+    });
+
+    it('should make multiple replacements with different strings', () => {
+      replace.sync({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b', 'e'],
+      });
+      const test1 = fs.readFileSync('test1', 'utf8');
+      const test2 = fs.readFileSync('test2', 'utf8');
+      expect(test1).to.equal('a b e c');
+      expect(test2).to.equal('a b e c');
+    });
+
+    it('should not replace with missing replacement values', () => {
+      replace.sync({
+        files: ['test1', 'test2', 'test3'],
+        replace: [/re/g, /place/g],
+        with: ['b'],
+      });
+      const test1 = fs.readFileSync('test1', 'utf8');
+      const test2 = fs.readFileSync('test2', 'utf8');
+      expect(test1).to.equal('a b place c');
+      expect(test2).to.equal('a b place c');
     });
   });
 });
