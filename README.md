@@ -6,7 +6,7 @@
 [![coverage status](https://coveralls.io/repos/github/adamreisnz/replace-in-file/badge.svg?branch=master)](https://coveralls.io/github/adamreisnz/replace-in-file?branch=master)
 [![github issues](https://img.shields.io/github/issues/adamreisnz/replace-in-file.svg)](https://github.com/adamreisnz/replace-in-file/issues)
 
-A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks.
+A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks. Make a single replacement or multiple replacements at once.
 
 ## Installation
 ```shell
@@ -40,11 +40,11 @@ const options = {
   replace: /foo/g,
   with: 'bar',
 
-  //Multiple replacements with the same string (sequentially in order)
+  //Multiple replacements with the same string (replaced sequentially)
   replace: [/foo/g, /baz/g],
   with: 'bar',
 
-  //Multiple replacements with different strings (sequentially in order)
+  //Multiple replacements with different strings (replaced sequentially)
   replace: [/foo/g, /baz/g],
   with: ['bar', 'bax'],
 
