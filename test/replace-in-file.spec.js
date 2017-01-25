@@ -3,10 +3,10 @@
 /**
  * Dependencies
  */
-let replace = require('../lib/replace-in-file');
-let fs = require('fs');
-let writeFile = Promise.promisify(fs.writeFile);
-let deleteFile = Promise.promisify(fs.unlink);
+const replace = require('../lib/replace-in-file');
+const fs = require('fs');
+const writeFile = Promise.promisify(fs.writeFile);
+const deleteFile = Promise.promisify(fs.unlink);
 
 /**
  * Specifications
@@ -14,7 +14,7 @@ let deleteFile = Promise.promisify(fs.unlink);
 describe('Replace in file', () => {
 
   //Test JSON
-  let testData = 'a re place c';
+  const testData = 'a re place c';
 
   /**
    * Prepare test files
@@ -39,9 +39,35 @@ describe('Replace in file', () => {
    */
   describe('Async with promises', () => {
 
-    /**
-     * Tests
-     */
+    it('should throw an error when no config provided', () => {
+      return expect(replace()).to.eventually.be.rejectedWith(Error);
+    });
+
+    it('should throw an error when invalid config provided', () => {
+      return expect(replace(42)).to.eventually.be.rejectedWith(Error);
+    });
+
+    it('should throw an error when no files defined', () => {
+      return expect(replace({
+        replace: /re\splace/g,
+        with: 'b',
+      })).to.eventually.be.rejectedWith(Error);
+    });
+
+    it('should throw an error when no replace defined', () => {
+      return expect(replace({
+        files: 'test1',
+        with: 'b',
+      })).to.eventually.be.rejectedWith(Error);
+    });
+
+    it('should throw an error when no with defined', () => {
+      return expect(replace({
+        files: 'test1',
+        replace: /re\splace/g,
+      })).to.eventually.be.rejectedWith(Error);
+    });
+
     it('should replace contents in a single file with regex', done => {
       replace({
         files: 'test1',
@@ -216,9 +242,50 @@ describe('Replace in file', () => {
    */
   describe('Async with callback', () => {
 
-    /**
-     * Tests
-     */
+    it('should throw an error when no config provided', done => {
+      replace(null, (error) => {
+        expect(error).to.be.instanceof(Error);
+        done();
+      });
+    });
+
+    it('should throw an error when invalid config provided', done => {
+      replace(42, (error) => {
+        expect(error).to.be.instanceof(Error);
+        done();
+      });
+    });
+
+    it('should throw an error when no files defined', done => {
+      replace({
+        replace: /re\splace/g,
+        with: 'b',
+      }, (error) => {
+        expect(error).to.be.instanceof(Error);
+        done();
+      });
+    });
+
+    it('should throw an error when no replace defined', done => {
+      replace({
+        files: 'test1',
+        with: 'b',
+      }, (error) => {
+        expect(error).to.be.instanceof(Error);
+        done();
+      });
+    });
+
+    it('should throw an error when no with defined', done => {
+      replace({
+        files: 'test1',
+        replace: /re\splace/g,
+      }, (error) => {
+        expect(error).to.be.instanceof(Error);
+        done();
+      });
+    });
+
     it('should replace contents in a single file with regex', done => {
       replace({
         files: 'test1',
@@ -290,7 +357,7 @@ describe('Replace in file', () => {
         replace: /re\splace/g,
         with: 'b',
       }, (error) => {
-        expect(error).not.to.equal(null);
+        expect(error).to.be.instanceof(Error);
         done();
       });
     });
@@ -402,9 +469,45 @@ describe('Replace in file', () => {
    */
   describe('Sync', () => {
 
-    /**
-     * Tests
-     */
+    it('should throw an error when no config provided', () => {
+      expect(function() {
+        replace.sync();
+      }).to.throw(Error);
+    });
+
+    it('should throw an error when invalid config provided', () => {
+      expect(function() {
+        replace.sync(42);
+      }).to.throw(Error);
+    });
+
+    it('should throw an error when no files defined', () => {
+      expect(function() {
+        replace.sync({
+          replace: /re\splace/g,
+          with: 'b',
+        });
+      }).to.throw(Error);
+    });
+
+    it('should throw an error when no replace defined', () => {
+      expect(function() {
+        replace.sync({
+          files: 'test1',
+          with: 'b',
+        });
+      }).to.throw(Error);
+    });
+
+    it('should throw an error when no with defined', () => {
+      expect(function() {
+        replace.sync({
+          files: 'test1',
+          replace: /re\splace/g,
+        });
+      }).to.throw(Error);
+    });
+
     it('should replace contents in a single file with regex', function() {
       replace.sync({
         files: 'test1',

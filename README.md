@@ -48,9 +48,12 @@ const options = {
   replace: [/foo/g, /baz/g],
   with: ['bar', 'bax'],
 
-  //Specify if empty/invalid file paths are allowed, defaults to false.
+  //Specify if empty/invalid file paths are allowed (defaults to false)
   //If set to true these paths will fail silently and no error will be thrown.
   allowEmptyPaths: false,
+
+  //Character encoding for reading/writing files (defaults to utf-8)
+  encoding: 'utf8',
 };
 ```
 
