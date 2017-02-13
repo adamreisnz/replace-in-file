@@ -92,6 +92,15 @@ catch (error) {
 }
 ```
 
+Via CLI:
+
+```sh
+replace-in-file from to some/file.js,some/**/glob.js
+```
+
+The options `allowEmptyPaths` and `encoding` are supported in the CLI as well.
+In addition, the CLI supports the `verbose` option to list the changed files.
+
 ## License
 (MIT License)
 
