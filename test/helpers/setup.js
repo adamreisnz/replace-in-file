@@ -1,10 +1,10 @@
 'use strict';
 
 //Load dependencies
-let Promise = require('bluebird');
-let chai = require('chai');
-let dirtyChai = require('dirty-chai');
-let chaiAsPromised = require('chai-as-promised');
+const Promise = require('bluebird');
+const chai = require('chai');
+const dirtyChai = require('dirty-chai');
+const chaiAsPromised = require('chai-as-promised');
 
 //Enable should assertion style for usage with chai-as-promised
 chai.should();

@@ -37,16 +37,16 @@ const options = {
   ],
 
   //Replacement to make (string or regex)
-  replace: /foo/g,
-  with: 'bar',
+  from: /foo/g,
+  to: 'bar',
 
   //Multiple replacements with the same string (replaced sequentially)
-  replace: [/foo/g, /baz/g],
-  with: 'bar',
+  from: [/foo/g, /baz/g],
+  to: 'bar',
 
   //Multiple replacements with different strings (replaced sequentially)
-  replace: [/foo/g, /baz/g],
-  with: ['bar', 'bax'],
+  from: [/foo/g, /baz/g],
+  to: ['bar', 'bax'],
 
   //Specify if empty/invalid file paths are allowed (defaults to false)
   //If set to true these paths will fail silently and no error will be thrown.
