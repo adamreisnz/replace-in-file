@@ -98,8 +98,10 @@ Via CLI:
 replace-in-file from to some/file.js,some/**/glob.js
 ```
 
-The options `allowEmptyPaths` and `encoding` are supported in the CLI as well.
+The options `allowEmptyPaths` and `encoding` are supported in the CLI.
 In addition, the CLI supports the `verbose` option to list the changed files.
+
+Multiple files or globs can be replaced by providing a comma separated list.
 
 ## License
 (MIT License)
