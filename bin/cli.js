@@ -17,10 +17,14 @@ if (argv._.length < 3) {
 //Collect main arguments
 const from = argv._.shift();
 const to = argv._.shift();
-const files = argv._.shift().split(',');
+
+//Single star globs already get expanded in the command line
+const files = argv._.reduce((files, file) => {
+  return files.concat(file.split(','));
+}, []);
 
 //Log
-console.log(`Replacing '${from}' with '${to}' in ${files}`);
+console.log(`Replacing '${from}' with '${to}'`);
 
 //Create options
 const options = {files, from, to};
