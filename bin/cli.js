@@ -16,16 +16,21 @@ if (argv._.length < 3) {
 
 // Parse from/to as either a Regex or a string
 const isRegexMatch = /.*\/([gimy]*)$/;
-const getRegexOrString = value => {
-  if(!isRegexMatch.test(value)) return value;
+const getRegexFromString = value => {
+  if (!value || !isRegexMatch.test(value)) {
+    return value;
+  }
   const flags = value.replace(/.*\/([gimy]*)$/, '$1');
-  const pattern = value.replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
+  const pattern = value.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
   return new RegExp(pattern, flags);
 };
 
 //Collect main arguments
-const from = getRegexOrString(argv._.shift());
-const to = getRegexOrString(argv._.shift());
+let from = argv._.shift();
+if (from === '-isRegex') {
+  from = getRegexFromString(argv._.shift());
+}
+const to = argv._.shift();
 
 //Single star globs already get expanded in the command line
 const files = argv._.reduce((files, file) => {
