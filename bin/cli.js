@@ -14,23 +14,27 @@ if (argv._.length < 3) {
   process.exit(1);
 }
 
-// Parse from/to as either a Regex or a string
-const isRegexMatch = /.*\/([gimy]*)$/;
-const getRegexOrString = value => {
-  if(!isRegexMatch.test(value)) return value;
-  const flags = value.replace(/.*\/([gimy]*)$/, '$1');
-  const pattern = value.replace(new RegExp('^/(.*?)/'+flags+'$'), '$1');
-  return new RegExp(pattern, flags);
-};
-
 //Collect main arguments
-const from = getRegexOrString(argv._.shift());
-const to = getRegexOrString(argv._.shift());
+let from = argv._.shift();
+const to = argv._.shift();
 
 //Single star globs already get expanded in the command line
 const files = argv._.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
+
+// If the --isRegex flag is passed, send the 'from' parameter
+// to the lib as a RegExp object
+if (argv.isRegex) {
+  const flags = from.replace(/.*\/([gimy]*)$/, '$1');
+  const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
+  try {
+    from = new RegExp(pattern, flags);
+  }
+  catch (error) {
+    console.error('Could not create RegExp from \'from\' parameter', error);
+  }
+}
 
 //Log
 console.log(`Replacing '${from}' with '${to}'`);
