@@ -23,8 +23,8 @@ const files = argv._.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
 
-// If the --isRegex flag is passed, send the 'from' parameter
-// to the lib as a RegExp object
+//If the --isRegex flag is passed, send the 'from' parameter
+//to the lib as a RegExp object
 if (argv.isRegex) {
   const flags = from.replace(/.*\/([gimy]*)$/, '$1');
   const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
@@ -32,7 +32,9 @@ if (argv.isRegex) {
     from = new RegExp(pattern, flags);
   }
   catch (error) {
-    console.error('Could not create RegExp from \'from\' parameter', error);
+    console.error('Could not create RegExp from \'from\' parameter:');
+    console.error(error);
+    process.exit(1);
   }
 }
 
