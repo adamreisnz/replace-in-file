@@ -4,19 +4,42 @@
 /**
  * Dependencies
  */
+const path = require('path');
 const chalk = require('chalk');
 const argv = require('yargs').argv;
 const replace = require('../lib/replace-in-file');
 
 //Verify arguments
-if (argv._.length < 3) {
+if (argv._.length < 3 && !argv.config) {
   console.error(chalk.red('Replace in file needs at least 3 arguments'));
   process.exit(1);
 }
 
-//Collect main arguments
-let from = argv._.shift();
-const to = argv._.shift();
+let from;
+let to;
+
+if (argv.config) {
+  if (!argv.length) {
+    console.error(chalk.red('Must pass a list of files'));
+    process.exit(1);
+  }
+  //Read config file
+  let config;
+  try {
+    config = require(path.join(process.cwd(), argv.config));
+  }
+  catch (e) {
+    console.error(chalk.red('Cannot load config file'));
+    process.exit(1);
+  }
+  from = config.from;
+  to = config.to;
+}
+else {
+  //Collect main arguments
+  from = argv._.shift();
+  to = argv._.shift();
+}
 
 //Single star globs already get expanded in the command line
 const files = argv._.reduce((files, file) => {
