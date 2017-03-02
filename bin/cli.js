@@ -15,14 +15,10 @@ if (argv._.length < 3 && !argv.config) {
   process.exit(1);
 }
 
-let from;
-let to;
+let from, to, files;
 
+// If --config is set, load config file
 if (argv.config) {
-  if (!argv.length) {
-    console.error(chalk.red('Must pass a list of files'));
-    process.exit(1);
-  }
   //Read config file
   let config;
   try {
@@ -30,19 +26,38 @@ if (argv.config) {
   }
   catch (e) {
     console.error(chalk.red('Cannot load config file'));
+    console.error(e);
     process.exit(1);
   }
   from = config.from;
   to = config.to;
+  if (typeof config.files === 'string') {
+    config.files = [config.files];
+  }
+  files = config.files;
 }
-else {
-  //Collect main arguments
+
+if (!from === undefined) {
   from = argv._.shift();
+}
+if (!to === undefined) {
   to = argv._.shift();
+}
+if (!files) {
+  files = argv._;
+}
+
+if (!from === undefined || !to === undefined) {
+  console.error(chalk.red('Must set from & to options'));
+  process.exit(1);
+}
+if (!files) {
+  console.error(chalk.red('Must pass a list of files'));
+  process.exit(1);
 }
 
 //Single star globs already get expanded in the command line
-const files = argv._.reduce((files, file) => {
+files = files.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
 
