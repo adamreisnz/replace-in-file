@@ -91,9 +91,8 @@ if (typeof argv.allowEmptyPaths !== 'undefined') {
 //Replace
 try {
   const changedFiles = replace.sync(options);
-  if (changedFiles.length > 0) {
-    console.log(chalk.green(changedFiles.length, 'file(s) were changed'));
-    if (argv.verbose) {
+  console.log(chalk.green(changedFiles.length, 'file(s) were changed'));
+    if (argv.verbose && (changedFiles.length > 0)) {
       changedFiles.forEach(file => console.log(chalk.grey('-', file)));
     }
   }
