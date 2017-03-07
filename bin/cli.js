@@ -27,7 +27,7 @@ if (argv.config) {
     config = require(path.join(process.cwd(), argv.config));
   }
   catch (error) {
-    console.error(chalk.red('Cannot load config file:'));
+    console.error(chalk.red('Error loading config file:'));
     console.error(error);
     process.exit(1);
   }
@@ -79,7 +79,7 @@ if (argv.isRegex) {
     from = new RegExp(pattern, flags);
   }
   catch (error) {
-    console.error('Could not create RegExp from \'from\' parameter:');
+    console.error(chalk.red('Error creating RegExp from `from` parameter:'));
     console.error(error);
     process.exit(1);
   }
@@ -111,5 +111,6 @@ try {
   }
 }
 catch (error) {
+  console.errir(chalk.red('Error making replacements:'));
   console.error(error);
 }
