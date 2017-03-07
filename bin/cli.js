@@ -15,39 +15,49 @@ if (argv._.length < 3 && !argv.config) {
   process.exit(1);
 }
 
+//Prepare vars
 let from, to, files;
 
-// If --config is set, load config file
+//If config is set, load config file
 if (argv.config) {
+
   //Read config file
   let config;
   try {
     config = require(path.join(process.cwd(), argv.config));
   }
-  catch (e) {
-    console.error(chalk.red('Cannot load config file'));
-    console.error(e);
+  catch (error) {
+    console.error(chalk.red('Cannot load config file:'));
+    console.error(error);
     process.exit(1);
   }
+
+  //Set from/to params
   from = config.from;
   to = config.to;
+
+  //Set files param
   if (typeof config.files === 'string') {
     config.files = [config.files];
   }
   files = config.files;
 }
 
-if (!from === undefined) {
+//Get from/to parameters from CLI args if not defined in config file
+if (typeof from === 'undefined') {
   from = argv._.shift();
 }
-if (!to === undefined) {
+if (typeof to === 'undefined') {
   to = argv._.shift();
 }
+
+//Get files
 if (!files) {
   files = argv._;
 }
 
-if (!from === undefined || !to === undefined) {
+//Validate data
+if (typeof from === 'undefined' || typeof to === 'undefined') {
   console.error(chalk.red('Must set from & to options'));
   process.exit(1);
 }
@@ -61,8 +71,7 @@ files = files.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
 
-//If the --isRegex flag is passed, send the 'from' parameter
-//to the lib as a RegExp object
+//If the isRegex flag is passed, send the from parameter as a RegExp object
 if (argv.isRegex) {
   const flags = from.replace(/.*\/([gimy]*)$/, '$1');
   const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
@@ -92,9 +101,8 @@ if (typeof argv.allowEmptyPaths !== 'undefined') {
 try {
   const changedFiles = replace.sync(options);
   console.log(chalk.green(changedFiles.length, 'file(s) were changed'));
-    if (argv.verbose && (changedFiles.length > 0)) {
-      changedFiles.forEach(file => console.log(chalk.grey('-', file)));
-    }
+  if (argv.verbose && (changedFiles.length > 0)) {
+    changedFiles.forEach(file => console.log(chalk.grey('-', file)));
   }
   else {
     console.log(chalk.yellow('No files were changed'));
