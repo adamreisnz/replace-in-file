@@ -10,28 +10,28 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
 
 ## Installation
 ```shell
+# Using npm
 npm install replace-in-file
+
+# Using yarn
+yarn add replace-in-file
 ```
 
 ## Usage
 
-Specify options:
+### Specify options
 
 ```js
 const replace = require('replace-in-file');
 const options = {
 
-  //Single file
+  //Single file or glob
   files: 'path/to/file',
 
-  //Multiple files
+  //Multiple files or globs
   files: [
     'path/to/file',
     'path/to/other/file',
-  ],
-
-  //Glob(s)
-  files: [
     'path/to/files/*.html',
     'another/**/*.path',
   ],
@@ -57,7 +57,7 @@ const options = {
 };
 ```
 
-Asynchronous replacement, with promises:
+### Asynchronous replacement with promises
 
 ```js
 replace(options)
@@ -69,7 +69,7 @@ replace(options)
   });
 ```
 
-Asynchronous replacement, with callback:
+### Asynchronous replacement with callback
 
 ```js
 replace(options, (error, changedFiles) => {
@@ -80,11 +80,11 @@ replace(options, (error, changedFiles) => {
 });
 ```
 
-Synchronous replacement:
+### Synchronous replacement
 
 ```js
 try {
-  let changedFiles = replace.sync(options);
+  const changedFiles = replace.sync(options);
   console.log('Modified files:', changedFiles.join(', '));
 }
 catch (error) {
@@ -92,7 +92,29 @@ catch (error) {
 }
 ```
 
-Via CLI:
+### Return value
+
+The return value of the library is an array of file names of files that were modified (e.g.
+had some of the contents replaced). If no replacements were made, the return array will be empty.
+
+For example:
+
+```js
+const changedFiles = replace.sync({
+  files: 'path/to/files/*.html',
+  from: 'a',
+  to: 'b',
+});
+
+// changedFiles could be an array like:
+[
+  'path/to/files/file1.html',
+  'path/to/files/file3.html',
+  'path/to/files/file5.html',
+]
+```
+
+### CLI usage
 
 ```sh
 replace-in-file from to some/file.js,some/**/glob.js [--isRegex]
@@ -108,4 +130,4 @@ A regular expression may be used for the `from` parameter by specifying the `--i
 ## License
 (MIT License)
 
-Copyright 2015-2017, [Adam Reis](http://adam.reis.nz)
+Copyright 2015-2017, [Adam Reis](https://adam.reis.nz)
