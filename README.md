@@ -57,6 +57,11 @@ const options = {
 };
 ```
 
+### Replacing multiple occurrences
+Please note that the value specified in the `from` parameter is passed straight to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace). As such, if you pass a string as the `from` parameter, it will _only replace the first occurrence_.
+
+To replace multiple occurrences at once, you must use a regular expression for the `from` parameter with the global flag enabled, e.g. `/foo/g`.
+
 ### Asynchronous replacement with promises
 
 ```js
