@@ -16,7 +16,7 @@ if (argv._.length < 3 && !argv.config) {
 }
 
 //Prepare vars
-let from, to, files;
+let from, to, files, ignore;
 
 //If config is set, load config file
 if (argv.config) {
@@ -41,19 +41,30 @@ if (argv.config) {
     config.files = [config.files];
   }
   files = config.files;
+
+  //Set ignore param
+  if (typeof config.ignore === 'string') {
+    config.ignore = [config.ignore];
+  }
+  ignore = config.ignore;
 }
 
 //Get from/to parameters from CLI args if not defined in config file
 if (typeof from === 'undefined') {
-  from = argv._.shift();
+  from = argv._[0];
 }
 if (typeof to === 'undefined') {
-  to = argv._.shift();
+  to = argv._[1];
 }
 
 //Get files
 if (!files) {
-  files = argv._;
+  files = argv._[2];
+}
+
+//Get ignore
+if (!ignore) {
+  ignore = argv._[3];
 }
 
 //Validate data
@@ -68,6 +79,10 @@ if (!files) {
 
 //Single star globs already get expanded in the command line
 files = files.reduce((files, file) => {
+  return files.concat(file.split(','));
+}, []);
+
+ignore = ignore.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
 
