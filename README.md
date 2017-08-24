@@ -133,10 +133,15 @@ const changedFiles = replace.sync({
 ### CLI usage
 
 ```sh
-replace-in-file from to some/file.js,some/**/glob.js --ignore=ignore/files.js,ignore/**/glob.js [--isRegex]
+replace-in-file from to some/file.js,some/**/glob.js
+  [--ignore=ignore/files.js,ignore/**/glob.js]
+  [--encoding=utf-8]
+  [--allowEmptyPaths]
+  [--isRegex]
+  [--verbose]
 ```
 
-The flags `allowEmptyPaths` and `encoding` are supported in the CLI.
+The flags `allowEmptyPaths`, `ignore` and `encoding` are supported in the CLI.
 In addition, the CLI supports the `verbose` flag to list the changed files.
 
 Multiple files or globs can be replaced by providing a comma separated list.
