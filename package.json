@@ -32,18 +32,18 @@
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "bluebird": "^3.5.0",
-    "chai": "^4.0.2",
-    "chai-as-promised": "^7.1.0",
-    "dirty-chai": "^2.0.0",
-    "eslint": "^4.1.1",
+    "chai": "^4.1.1",
+    "chai-as-promised": "^7.1.1",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^4.5.0",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^3.4.2"
+    "mocha": "^3.5.0"
   },
   "dependencies": {
-    "chalk": "^2.0.1",
+    "chalk": "^2.1.0",
     "glob": "^7.1.2",
     "yargs": "^8.0.2"
   },
