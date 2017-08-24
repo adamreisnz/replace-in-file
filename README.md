@@ -54,6 +54,17 @@ const options = {
 
   //Character encoding for reading/writing files (defaults to utf-8)
   encoding: 'utf8',
+
+  //Single file or glob to ignore
+  ignore: 'path/to/ignored/file',
+
+  //Multiple files or globs to ignore
+  ignore: [
+    'path/to/ignored/file',
+    'path/to/other/ignored_file',
+    'path/to/ignored_files/*.html',
+    'another/**/*.ignore',
+  ]
 };
 ```
 
@@ -122,7 +133,7 @@ const changedFiles = replace.sync({
 ### CLI usage
 
 ```sh
-replace-in-file from to some/file.js,some/**/glob.js [--isRegex]
+replace-in-file from to some/file.js,some/**/glob.js --ignore=ignore/files.js,ignore/**/glob.js [--isRegex]
 ```
 
 The flags `allowEmptyPaths` and `encoding` are supported in the CLI.

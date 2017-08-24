@@ -16,7 +16,7 @@ if (argv._.length < 3 && !argv.config) {
 }
 
 //Prepare vars
-let from, to, files;
+let from, to, files, ignore;
 
 //If config is set, load config file
 if (argv.config) {
@@ -41,6 +41,12 @@ if (argv.config) {
     config.files = [config.files];
   }
   files = config.files;
+
+  //Set ignore param
+  if (typeof config.ignore === 'string') {
+    config.ignore = [config.ignore];
+  }
+  ignore = config.ignore;
 }
 
 //Get from/to parameters from CLI args if not defined in config file
@@ -85,11 +91,16 @@ if (argv.isRegex) {
   }
 }
 
+//Get ignored files from ignore flag
+if (!ignore && typeof argv.ignore !== 'undefined') {
+  ignore = argv.ignore;
+}
+
 //Log
 console.log(`Replacing '${from}' with '${to}'`);
 
 //Create options
-const options = {files, from, to};
+const options = {files, from, to, ignore};
 if (typeof argv.encoding !== 'undefined') {
   options.encoding = argv.encoding;
 }
