@@ -93,7 +93,7 @@ if (argv.isRegex) {
 
 //Get ignored files from ignore flag
 if (!ignore && typeof argv.ignore !== 'undefined') {
-  ignore = argv.ignore
+  ignore = argv.ignore;
 }
 
 //Log
