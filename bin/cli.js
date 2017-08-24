@@ -51,20 +51,15 @@ if (argv.config) {
 
 //Get from/to parameters from CLI args if not defined in config file
 if (typeof from === 'undefined') {
-  from = argv._[0];
+  from = argv._.shift();
 }
 if (typeof to === 'undefined') {
-  to = argv._[1];
+  to = argv._.shift();
 }
 
 //Get files
 if (!files) {
-  files = argv._[2];
-}
-
-//Get ignore
-if (!ignore) {
-  ignore = argv._[3];
+  files = argv._;
 }
 
 //Validate data
@@ -82,10 +77,6 @@ files = files.reduce((files, file) => {
   return files.concat(file.split(','));
 }, []);
 
-ignore = ignore.reduce((files, file) => {
-  return files.concat(file.split(','));
-}, []);
-
 //If the isRegex flag is passed, send the from parameter as a RegExp object
 if (argv.isRegex) {
   const flags = from.replace(/.*\/([gimy]*)$/, '$1');
@@ -100,11 +91,16 @@ if (argv.isRegex) {
   }
 }
 
+//Get ignored files from ignore flag
+if (!ignore && typeof argv.ignore !== 'undefined') {
+  ignore = argv.ignore
+}
+
 //Log
 console.log(`Replacing '${from}' with '${to}'`);
 
 //Create options
-const options = {files, from, to};
+const options = {files, from, to, ignore};
 if (typeof argv.encoding !== 'undefined') {
   options.encoding = argv.encoding;
 }

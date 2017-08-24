@@ -133,7 +133,7 @@ const changedFiles = replace.sync({
 ### CLI usage
 
 ```sh
-replace-in-file from to some/file.js,some/**/glob.js ignore/files.js,ignore/**/glob.js [--isRegex]
+replace-in-file from to some/file.js,some/**/glob.js --ignore=ignore/files.js,ignore/**/glob.js [--isRegex]
 ```
 
 The flags `allowEmptyPaths` and `encoding` are supported in the CLI.
