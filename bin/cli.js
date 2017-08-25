@@ -122,6 +122,6 @@ try {
   }
 }
 catch (error) {
-  console.errir(chalk.red('Error making replacements:'));
+  console.error(chalk.red('Error making replacements:'));
   console.error(error);
 }
