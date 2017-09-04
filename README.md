@@ -73,6 +73,17 @@ Please note that the value specified in the `from` parameter is passed straight 
 
 To replace multiple occurrences at once, you must use a regular expression for the `from` parameter with the global flag enabled, e.g. `/foo/g`.
 
+### Using callbacks for `to`
+As the `to` parameter is passed straight to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), you can also specify a callback. The following example uses a callback to convert matching strings to lowercase:
+
+```js
+const options = {
+  files: 'path/to/file',
+  from: /SomePattern[A-Za-z-]+/g,
+  to: (match) => match.toLowerCase(),
+};
+```
+
 ### Asynchronous replacement with promises
 
 ```js
