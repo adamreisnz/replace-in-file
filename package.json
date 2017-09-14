@@ -25,7 +25,6 @@
   "main": "index.js",
   "bin": "./bin/cli.js",
   "scripts": {
-    "lint": "eslint . --fix",
     "istanbul": "babel-node ./node_modules/istanbul/lib/cli cover ./node_modules/mocha/bin/_mocha lib/**/*.spec.js",
     "test": "npm run istanbul -s",
     "postversion": "git push && git push --tags && npm publish",
@@ -38,7 +37,6 @@
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
-    "eslint": "^4.5.0",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^3.5.0"
   },
