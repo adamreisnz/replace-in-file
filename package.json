@@ -43,7 +43,7 @@
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^3.5.3"
+    "mocha": "^4.0.1"
   },
   "browserify": {
     "transform": [
