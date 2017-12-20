@@ -223,14 +223,19 @@ replace-in-file from to some/file.js,some/**/glob.js
 
 Multiple files or globs can be replaced by providing a comma separated list.
 
-The flags `disableGlobs`, `ignore` and `encoding` are supported in the CLI.
+The flags `--disableGlobs`, `--ignore` and `--encoding` are supported in the CLI.
 
-The flag `allowEmptyPaths` is not supported in the CLI as the replacement is
-synchronous, and the flag is only relevant for asynchronous replacement.
+The setting `allowEmptyPaths` is not supported in the CLI as the replacement is
+synchronous, and this setting is only relevant for asynchronous replacement.
 
-To list the changed files, use the `verbose` flag.
+To list the changed files, use the `--verbose` flag.
 
 A regular expression may be used for the `from` parameter by specifying the `--isRegex` flag.
+
+The `from` and `to` parameters, as well as the files list, can be omitted if you provide this
+information in a configuration file. You can provide a path to a configuration file
+(either Javascript or JSON) with the `--configFile` flag. This path will be resolved using
+Node’s built in `path.resolve()`, so you can pass in an absolute or relative path.
 
 ## Version information
 From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, use version 2.x.x.
