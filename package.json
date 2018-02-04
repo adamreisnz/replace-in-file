@@ -33,7 +33,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "glob": "^7.1.2",
-    "yargs": "^10.0.3"
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -43,7 +43,7 @@
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^4.0.1"
+    "mocha": "^5.0.0"
   },
   "browserify": {
     "transform": [
