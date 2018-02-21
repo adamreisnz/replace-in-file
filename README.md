@@ -29,6 +29,18 @@ const options = {
 };
 ```
 
+### Asynchronous replacement with `async`/`await`
+
+```js
+try {
+  const changes = await replace(options)
+  console.log('Modified files:', changes.join(', '));
+}
+catch (error) {
+  console.error('Error occurred:', error);
+}
+```
+
 ### Asynchronous replacement with promises
 
 ```js
