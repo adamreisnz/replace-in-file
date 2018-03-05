@@ -9,7 +9,29 @@
 A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks. Make a single replacement or multiple replacements at once.
 
 # Index
-[Installation](#Installation)
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+  - [Asynchronous replacement with `async`/`await`](#asynchronous-replacement-with-asyncawait)
+  - [Asynchronous replacement with promises](asynchronous-replacement-with-promises)
+  - [Asynchronous replacement with callback](#asynchronous-replacement-with-callback)
+  - [Synchronous replacement](#synchronous-replacement)
+  - [Return value](#return-value)
+- [Advanced usage](#advanced-usage)
+  - [Replace a single file or glob](#replace-a-single-file-or-glob)
+  - [Replace multiple files or globs](#replace-multiple-files-or-globs)
+  - [Replace first occurrence only](#replace-first-occurrence-only)
+  - [Replace all occurrences](#replace-all-occurrences)
+  - [Multiple values with the same replacement](#multiple-values-with-the-same-replacement)
+  - [Multiple values with different replacements](#multiple-values-with-different-replacements)
+  - [Using callbacks for `to`](#using-callbacks-for-to)
+  - [Ignore a single file or glob](#ignore-a-single-file-or-glob)
+  - [Ignore multiple files or globs](#ignore-multiple-files-or-globs)
+  - [Allow empty/invalid paths](#allow-emptyinvalid-paths)
+  - [Disable globs](#disable-globs)
+  - [Specify character encoding](#specify-character-encoding)
+- [CLI usage](#cli-usage)
+- [Version information](#version-information)
+- [License](#license)
 
 ## Installation
 ```shell
