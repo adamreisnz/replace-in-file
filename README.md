@@ -9,7 +9,7 @@
 A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks. Make a single replacement or multiple replacements at once.
 
 # Index
-[Installation](##Installation)
+[Installation](#Installation)
 
 ## Installation
 ```shell
