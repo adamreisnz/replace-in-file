@@ -35,8 +35,11 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
 
 ## Installation
 ```shell
-# Using npm
-npm install replace-in-file
+# Using npm, installing to local project
+npm i --save replace-in-file
+
+# Using npm, installing globally
+sudo npm i -g replace-in-file
 
 # Using yarn
 yarn add replace-in-file
