@@ -29,6 +29,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Allow empty/invalid paths](#allow-emptyinvalid-paths)
   - [Disable globs](#disable-globs)
   - [Specify character encoding](#specify-character-encoding)
+  - [Dry run](#dry-run)
 - [CLI usage](#cli-usage)
 - [Version information](#version-information)
 - [License](#license)
@@ -249,6 +250,15 @@ const options = {
 };
 ```
 
+### Dry run
+To do a dry run without actually making replacements, for testing purposes. Defaults to `false`.
+
+```js
+const options = {
+  dry: true,
+};
+```
+
 ## CLI usage
 
 ```sh
@@ -259,6 +269,7 @@ replace-in-file from to some/file.js,some/**/glob.js
   [--disableGlobs]
   [--isRegex]
   [--verbose]
+  [--dry]
 ```
 
 Multiple files or globs can be replaced by providing a comma separated list.
@@ -268,7 +279,7 @@ The flags `--disableGlobs`, `--ignore` and `--encoding` are supported in the CLI
 The setting `allowEmptyPaths` is not supported in the CLI as the replacement is
 synchronous, and this setting is only relevant for asynchronous replacement.
 
-To list the changed files, use the `--verbose` flag.
+To list the changed files, use the `--verbose` flag. To do a dry run, use `--dry`.
 
 A regular expression may be used for the `from` parameter by specifying the `--isRegex` flag.
 
@@ -278,9 +289,9 @@ information in a configuration file. You can provide a path to a configuration f
 Node’s built in `path.resolve()`, so you can pass in an absolute or relative path.
 
 ## Version information
-From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, use version 2.x.x.
+From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, please use version 2.x.x.
 
 ## License
 (MIT License)
 
-Copyright 2015-2017, [Adam Reis](https://adam.reis.nz)
+Copyright 2015-2018, [Adam Reis](https://adam.reis.nz)
