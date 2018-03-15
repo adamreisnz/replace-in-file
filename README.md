@@ -294,4 +294,4 @@ From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you ne
 ## License
 (MIT License)
 
-Copyright 2015-2018, [Adam Reis](https://adam.reis.nz)
+Copyright 2015-2018, [Adam Reis](https://adam.reis.nz), co-founder at [Hello Club](https://helloclub.com/?source=npm)
