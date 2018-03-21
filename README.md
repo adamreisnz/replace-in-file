@@ -23,6 +23,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Replace all occurrences](#replace-all-occurrences)
   - [Multiple values with the same replacement](#multiple-values-with-the-same-replacement)
   - [Multiple values with different replacements](#multiple-values-with-different-replacements)
+  - [Using callbacks for `from`](#using-callbacks-for-from)
   - [Using callbacks for `to`](#using-callbacks-for-to)
   - [Ignore a single file or glob](#ignore-a-single-file-or-glob)
   - [Ignore multiple files or globs](#ignore-multiple-files-or-globs)
@@ -191,14 +192,38 @@ const options = {
 };
 ```
 
+### Using callbacks for `from`
+You can also specify a callback that returns a string or a regular expression. The callback receives the name of the file in which the replacement is being performed, thereby allowing the user to tailor the search string. The following example uses a callback to produce a search string dependent on the filename:
+
+```js
+const options = {
+  files: 'path/to/file',
+  from: (file) => RegExp(`${foo('SomePattern[A-Za-z-]+', file)}`, g);,
+  to: 'bar',
+};
+```
+
 ### Using callbacks for `to`
-As the `to` parameter is passed straight to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), you can also specify a callback. The following example uses a callback to convert matching strings to lowercase:
+As the `to` parameter is passed to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), you can also specify a callback. The following example uses a callback to convert matching strings to lowercase:
 
 ```js
 const options = {
   files: 'path/to/file',
   from: /SomePattern[A-Za-z-]+/g,
   to: (match) => match.toLowerCase(),
+};
+```
+
+This callback provides for an extra argument above the String replace method, which is the name of the file in which the replacement is being performed. The following example replaces the matched string with the filename:
+
+```js
+const options = {
+  files: 'path/to/file',
+  from: /SomePattern[A-Za-z-]+/g,
+  to: (...args)  => {
+    const file = args.pop();
+    return file;
+  },
 };
 ```
 
