@@ -204,14 +204,26 @@ const options = {
 ```
 
 ### Using callbacks for `to`
-As the `to` parameter is passed to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), you can also specify a callback. This callback provides as an extra argument the name of the file in which the replacement is being performed. The following example uses a callback to convert matching strings to lowercase and appends the file extension to it:
+As the `to` parameter is passed to the native [String replace method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), you can also specify a callback. The following example uses a callback to convert matching strings to lowercase:
 
 ```js
-var path = require('path');
 const options = {
   files: 'path/to/file',
-  from: /SomePattern([A-Za-z-]+)/g,
-  to: (match, p1, offset, string, file)  => `${match.toLowerCase()}${path.extname(file)}`,
+  from: /SomePattern[A-Za-z-]+/g,
+  to: (match) => match.toLowerCase(),
+};
+```
+
+This callback provides for an extra argument above the String replace method, which is the name of the file in which the replacement is being performed. The following example replaces the matched string with the filename:
+
+```js
+const options = {
+  files: 'path/to/file',
+  from: /SomePattern[A-Za-z-]+/g,
+  to: (...args)  => {
+    const file = args.pop();
+    return file;
+  },
 };
 ```
 
