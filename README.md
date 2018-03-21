@@ -198,7 +198,7 @@ You can also specify a callback that returns a string or a regular expression. T
 ```js
 const options = {
   files: 'path/to/file',
-  from: (file) => RegExp(`${foo('SomePattern[A-Za-z-]+', file)}`, g);,
+  from: (file) => new RegExp(file, 'g'),
   to: 'bar',
 };
 ```
@@ -220,10 +220,7 @@ This callback provides for an extra argument above the String replace method, wh
 const options = {
   files: 'path/to/file',
   from: /SomePattern[A-Za-z-]+/g,
-  to: (...args)  => {
-    const file = args.pop();
-    return file;
-  },
+  to: (...args) => args.pop(),
 };
 ```
 
