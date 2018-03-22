@@ -29,6 +29,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Ignore multiple files or globs](#ignore-multiple-files-or-globs)
   - [Allow empty/invalid paths](#allow-emptyinvalid-paths)
   - [Disable globs](#disable-globs)
+  - [Specify glob configuration](#glob-configuration)
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
 - [CLI usage](#cli-usage)
@@ -262,6 +263,19 @@ const options = {
   disableGlobs: true,
 };
 ```
+
+### Specify glob configuration
+Specify configuration passed to the `glob` call:
+
+```js
+const options = {
+  glob: {
+    //Glob settings here
+  },
+};
+```
+
+Please note that the setting `nodir` will always be passed as `false`.
 
 ### Specify character encoding
 Use a different character encoding for reading/writing files. Defaults to `utf-8`.
