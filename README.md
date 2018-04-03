@@ -246,6 +246,8 @@ const options = {
 };
 ```
 
+Please note that there is an [open issue with Glob](https://github.com/isaacs/node-glob/issues/309) that causes ignored patterns to be ignored when using a `./` prefix in your files glob. To work around this, simply remove the prefix, e.g. use `**/*` instead of `./**/*`.
+
 ### Allow empty/invalid paths
 If set to true, empty or invalid paths will fail silently and no error will be thrown. For asynchronous replacement only. Defaults to `false`.
 
