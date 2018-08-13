@@ -31,9 +31,9 @@
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
   "dependencies": {
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.1",
     "glob": "^7.1.2",
-    "yargs": "^11.0.0"
+    "yargs": "^12.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
