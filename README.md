@@ -193,6 +193,19 @@ const options = {
 };
 ```
 
+### Custom regular expressions
+
+Use the [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) constructor to create any regular expression.
+
+```js
+const str = 'foo';
+const regex = new RegExp('^' + str + 'bar', 'i');
+const options = {
+  from: regex,
+  to: 'bar',
+};
+```
+
 ### Using callbacks for `from`
 You can also specify a callback that returns a string or a regular expression. The callback receives the name of the file in which the replacement is being performed, thereby allowing the user to tailor the search string. The following example uses a callback to produce a search string dependent on the filename:
 
