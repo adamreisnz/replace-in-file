@@ -22,6 +22,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Replace first occurrence only](#replace-first-occurrence-only)
   - [Replace all occurrences](#replace-all-occurrences)
   - [Multiple values with the same replacement](#multiple-values-with-the-same-replacement)
+  - [Custom regular expressions](#custom-regular-expressions)
   - [Multiple values with different replacements](#multiple-values-with-different-replacements)
   - [Using callbacks for `from`](#using-callbacks-for-from)
   - [Using callbacks for `to`](#using-callbacks-for-to)
