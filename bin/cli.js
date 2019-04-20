@@ -48,8 +48,8 @@ console.log(`Replacing '${from}' with '${to}'`);
 
 //Replace
 try {
-  const changes = replace.sync(options);
-  successHandler(changes, verbose);
+  const results = replace.sync(options);
+  successHandler(results, verbose);
 }
 catch (error) {
   errorHandler(error);
