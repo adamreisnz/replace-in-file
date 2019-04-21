@@ -24,7 +24,7 @@ const config = loadConfig(configFile);
 const options = combineConfig(config, argv);
 
 //Extract settings
-const {from, to, files, isRegex, verbose} = options;
+const {from, to, files, isRegex, verbose, quiet} = options;
 
 //Single star globs already get expanded in the command line
 options.files = files.reduce((files, file) => {
@@ -44,12 +44,16 @@ if (isRegex) {
 }
 
 //Log
-console.log(`Replacing '${from}' with '${to}'`);
+if (!quiet) {
+  console.log(`Replacing '${from}' with '${to}'`);
+}
 
 //Replace
 try {
   const results = replace.sync(options);
-  successHandler(results, verbose);
+  if (!quiet) {
+    successHandler(results, verbose);
+  }
 }
 catch (error) {
   errorHandler(error);
