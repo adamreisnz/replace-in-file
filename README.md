@@ -16,6 +16,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Asynchronous replacement with callback](#asynchronous-replacement-with-callback)
   - [Synchronous replacement](#synchronous-replacement)
   - [Return value](#return-value)
+  - [Counting matches and replacements](#counting-matches-and-replacements)
 - [Advanced usage](#advanced-usage)
   - [Replace a single file or glob](#replace-a-single-file-or-glob)
   - [Replace multiple files or globs](#replace-multiple-files-or-globs)
@@ -30,7 +31,8 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Ignore multiple files or globs](#ignore-multiple-files-or-globs)
   - [Allow empty/invalid paths](#allow-emptyinvalid-paths)
   - [Disable globs](#disable-globs)
-  - [Specify glob configuration](#glob-configuration)
+  - [Specify glob configuration](#specify-glob-configuration)
+  - [Making replacements on network drives](#making-replacements-on-network-drives)
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
 - [CLI usage](#cli-usage)
@@ -65,8 +67,8 @@ const options = {
 
 ```js
 try {
-  const changes = await replace(options)
-  console.log('Modified files:', changes.join(', '));
+  const results = await replace(options)
+  console.log('Replacement results:', results);
 }
 catch (error) {
   console.error('Error occurred:', error);
@@ -77,8 +79,8 @@ catch (error) {
 
 ```js
 replace(options)
-  .then(changes => {
-    console.log('Modified files:', changes.join(', '));
+  .then(results => {
+    console.log('Replacement results:', results);
   })
   .catch(error => {
     console.error('Error occurred:', error);
@@ -88,11 +90,11 @@ replace(options)
 ### Asynchronous replacement with callback
 
 ```js
-replace(options, (error, changes) => {
+replace(options, (error, results) => {
   if (error) {
     return console.error('Error occurred:', error);
   }
-  console.log('Modified files:', changes.join(', '));
+  console.log('Replacement results:', results);
 });
 ```
 
@@ -100,8 +102,8 @@ replace(options, (error, changes) => {
 
 ```js
 try {
-  const changes = replace.sync(options);
-  console.log('Modified files:', changes.join(', '));
+  const results = replace.sync(options);
+  console.log('Replacement results:', results);
 }
 catch (error) {
   console.error('Error occurred:', error);
@@ -110,22 +112,84 @@ catch (error) {
 
 ### Return value
 
-The return value of the library is an array of file names of files that were modified (e.g.
-had some of the contents replaced). If no replacements were made, the return array will be empty.
+The return value of the library is an array of replacement results against each file that was processed. This includes files in which no replacements were made.
+
+Each result contains the following values:
+
+- `file`: The path to the file that was processed
+- `hasChanged`: Flag to indicate if the file was changed or not
 
 ```js
-const changes = replace.sync({
+const results = replace.sync({
   files: 'path/to/files/*.html',
-  from: 'foo',
+  from: /foo/g,
   to: 'bar',
 });
 
-console.log(changes);
+console.log(results);
 
 // [
-//   'path/to/files/file1.html',
-//   'path/to/files/file3.html',
-//   'path/to/files/file5.html',
+//   {
+//     file: 'path/to/files/file1.html',
+//     hasChanged: true,
+//   },
+//   {
+//     file: 'path/to/files/file2.html',
+//     hasChanged: true,
+//   },
+//   {
+//     file: 'path/to/files/file3.html',
+//     hasChanged: false,
+//   },
+// ]
+
+```
+
+To get an array of changed files, simply map the results as follows:
+
+```js
+const changedFiles = results
+  .filter(result => result.hasChanged)
+  .map(result => result.file);
+```
+
+### Counting matches and replacements
+By setting the `countMatches` configuration flag to `true`, the number of matches and replacements per file will be counted and present in the results array.
+
+- `numMatches`: Indicates the number of times a match was found in the file
+- `numReplacements`: Indicates the number of times a replacement was made in the file
+
+Note that the number of matches can be higher than the number of replacements if a match and replacement are the same string.
+
+```js
+const results = replace.sync({
+  files: 'path/to/files/*.html',
+  from: /foo/g,
+  to: 'bar',
+  countMatches: true,
+});
+
+console.log(results);
+
+// [
+//   {
+//     file: 'path/to/files/file1.html',
+//     hasChanged: true,
+//     numMatches: 3,
+//     numReplacements: 3,
+//   },
+//   {
+//     file: 'path/to/files/file2.html',
+//     hasChanged: true,
+//     numMatches: 1,
+//     numReplacements: 1,
+//   },
+//   {
+//     file: 'path/to/files/file3.html',
+//     hasChanged: false,
+//     numMatches: 0,
+//     numReplacements: 0,
+//   },
 // ]
 ```
 
@@ -293,6 +357,9 @@ const options = {
 
 Please note that the setting `nodir` will always be passed as `false`.
 
+### Making replacements on network drives
+To make replacements in files on network drives, you may need to specify the UNC path as the `cwd` config option. This will then be passed to glob and prefixed to your paths accordingly. See [#56](https://github.com/adamreisnz/replace-in-file/issues/56) for more details.
+
 ### Specify character encoding
 Use a different character encoding for reading/writing files. Defaults to `utf-8`.
 
@@ -321,6 +388,7 @@ replace-in-file from to some/file.js,some/**/glob.js
   [--disableGlobs]
   [--isRegex]
   [--verbose]
+  [--quiet]
   [--dry]
 ```
 
@@ -331,7 +399,9 @@ The flags `--disableGlobs`, `--ignore` and `--encoding` are supported in the CLI
 The setting `allowEmptyPaths` is not supported in the CLI as the replacement is
 synchronous, and this setting is only relevant for asynchronous replacement.
 
-To list the changed files, use the `--verbose` flag. To do a dry run, use `--dry`.
+To list the changed files, use the `--verbose` flag. Success output can be suppressed by using the `--quiet` flag.
+
+To do a dry run without making any actual changes, use `--dry`.
 
 A regular expression may be used for the `from` parameter by specifying the `--isRegex` flag.
 
@@ -343,7 +413,9 @@ Node’s built in `path.resolve()`, so you can pass in an absolute or relative p
 ## Version information
 From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, please use version 2.x.x.
 
+See the [Changelog](CHANGELOG.md) for more information.
+
 ## License
 (MIT License)
 
-Copyright 2015-2018, [Adam Reis](https://adam.reis.nz), co-founder at [Hello Club](https://helloclub.com/?source=npm)
+Copyright 2015-2019, [Adam Reis](https://adam.reis.nz), Co-founder at [Hello Club](https://helloclub.com/?source=npm)
