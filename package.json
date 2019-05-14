@@ -24,6 +24,7 @@
   ],
   "main": "index.js",
   "bin": "./bin/cli.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "istanbul": "babel-node ./node_modules/istanbul/lib/cli cover ./node_modules/mocha/bin/_mocha lib/**/*.spec.js",
     "test": "npm run istanbul -s",
