@@ -1,11 +1,11 @@
 
 declare module 'replace-in-file' {
-  function replaceInFile(config: ReplaceInFileConfig): Promise<ReplaceResults>;
-  function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResults) => void): void;
+  function replaceInFile(config: ReplaceInFileConfig): Promise<ReplaceResult[]>;
+  function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResult[]) => void): void;
   export default replaceInFile;
 
   namespace replaceInFile {
-    export function sync(config: ReplaceInFileConfig): ReplaceResults;
+    export function sync(config: ReplaceInFileConfig): ReplaceResult[];
   }
 
   export interface ReplaceInFileConfig {
@@ -19,7 +19,7 @@ declare module 'replace-in-file' {
     dry?:boolean
   }
 
-  export interface ReplaceResults {
+  export interface ReplaceResult {
     file: string;
     hasChanged: boolean;
     numMatches?: number,
