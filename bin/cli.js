@@ -33,7 +33,7 @@ options.files = files.reduce((files, file) => {
 
 //If the isRegex flag is passed, convert the from parameter to a RegExp object
 if (isRegex) {
-  const flags = from.replace(/.*\/([gimy]*)$/, '$1');
+  const flags = from.replace(/.*\/([gimyus]*)$/, '$1');
   const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
   try {
     options.from = new RegExp(pattern, flags);
