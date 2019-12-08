@@ -10,7 +10,7 @@ declare module 'replace-in-file' {
 
   export interface ReplaceInFileConfig {
     files: string | string[];
-    ignore: string | string[];
+    ignore?: string | string[];
     from: string | RegExp | string[] | RegExp[] | FromCallback;
     to: string | string[] | ToCallback;
     countMatches?: boolean;
