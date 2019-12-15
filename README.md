@@ -426,6 +426,7 @@ Node’s built in `path.resolve()`, so you can pass in an absolute or relative p
 
 ## Version information
 From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, please use version 2.x.x.
+
 From version 5.0.0 onwards, replace in file requires Node 8 or higher. If you need support for Node 6, please use version 4.x.x.
 
 See the [Changelog](CHANGELOG.md) for more information.
