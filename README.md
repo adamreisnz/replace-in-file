@@ -8,6 +8,22 @@
 
 A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks. Make a single replacement or multiple replacements at once.
 
+---
+Hey there 👋🏼, thank you for using `replace-in-file`!
+
+Sorry to bother you, but as you probably know, I don’t get paid for maintaining this package, and I also haven't put up a donation thingy of any kind.
+
+However, I _am_ trying to grow our start-up [Hello Club](https://helloclub.com) internationally, and would _really_ appreciate it if you could have a quick look on our [website](https://helloclub.com) to see what we're all about. 👀
+
+As the name implies, we offer an [all-in-one club management solution](https://helloclub.com) complete with booking system, membership renewals, online payments and even an integrated access control system.
+
+Clubs that have switched to Hello Club have been saving so much time managing their members and finances, and the members themselves really enjoy using it, with overwhelmingly positive feedback.
+
+If you belong to any kind of club (not just a sports club), or if you know someone who is a member or helps run a club, it'd be much appreciated if you could spare a minute to point them in [our direction](https://helloclub.com)!
+
+Thank you so much for your time, now go and replace some data in your files! 🎉
+---
+
 # Index
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
