@@ -1,6 +1,6 @@
 {
   "name": "replace-in-file",
-  "version": "4.3.1",
+  "version": "4.3.0",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
@@ -32,7 +32,7 @@
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "glob": "^7.1.6",
     "yargs": "^15.0.2"
   },
