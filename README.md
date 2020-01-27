@@ -14,11 +14,11 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
 
 > However, I _am_ trying to grow our start-up [Hello Club](https://helloclub.com/?source=npm) internationally, and would _really_ appreciate it if you could have a quick look on our [website](https://helloclub.com/?source=npm) to see what we're all about. 👀
 
-> As the name implies, we offer an [all-in-one club management solution](https://helloclub.com/?source=npm) complete with booking system, membership renewals, online payments and even an integrated access control system.
+> As the name implies, we offer an [all-in-one club and membership management solution](https://helloclub.com/?source=npm) complete with booking system, automated membership renewals, online payments and integrated access and light control.
 
 > Clubs that have switched to Hello Club have been saving so much time managing their members and finances, and the members themselves really enjoy using it, with overwhelmingly positive feedback.
 
-> If you belong to any kind of club (not just a sports club), or if you know someone who is a member or helps run a club, it'd be much appreciated if you could spare a minute to point them in [our direction](https://helloclub.com/?source=npm)!
+> Check us out if you belong to any kind of club or if you know someone who helps run a club!
 
 > Thank you so much for your time, now go and replace some data in your files! 🎉
 
@@ -434,4 +434,4 @@ See the [Changelog](CHANGELOG.md) for more information.
 ## License
 (MIT License)
 
-Copyright 2015-2019, [Adam Reis](https://adam.reis.nz), Co-founder at [Hello Club](https://helloclub.com/?source=npm)
+Copyright 2015-2020, Adam Reis, Co-founder at [Hello Club](https://helloclub.com/?source=npm)
