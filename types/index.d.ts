@@ -4,11 +4,11 @@ declare module 'replace-in-file' {
   function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResult[]) => void): void;
   export default replaceInFile;
 
-  export function sync(config: ReplaceInFileConfig): ReplaceResult[];
-
   namespace replaceInFile {
-    export { sync };
+    export function sync(config: ReplaceInFileConfig): ReplaceResult[];
   }
+
+  export function sync(config: ReplaceInFileConfig): ReplaceResult[];
 
   export type From = string | RegExp | FromCallback;
   export type To = string | ToCallback;
