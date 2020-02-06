@@ -4,15 +4,20 @@ declare module 'replace-in-file' {
   function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResult[]) => void): void;
   export default replaceInFile;
 
+  export function sync(config: ReplaceInFileConfig): ReplaceResult[];
+
   namespace replaceInFile {
-    export function sync(config: ReplaceInFileConfig): ReplaceResult[];
+    export { sync };
   }
+
+  export type From = string | RegExp | FromCallback;
+  export type To = string | ToCallback;
 
   export interface ReplaceInFileConfig {
     files: string | string[];
     ignore?: string | string[];
-    from: string | RegExp | string[] | RegExp[] | FromCallback;
-    to: string | string[] | ToCallback;
+    from: From | Array<From>;
+    to: To | Array<To>;
     countMatches?: boolean;
     allowEmptyPaths?: boolean,
     disableGlobs?: boolean,
