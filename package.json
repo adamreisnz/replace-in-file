@@ -32,9 +32,9 @@
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "glob": "^7.1.6",
-    "yargs": "^15.0.2"
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -44,7 +44,7 @@
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^6.2.2"
+    "mocha": "^7.1.1"
   },
   "browserify": {
     "transform": [
