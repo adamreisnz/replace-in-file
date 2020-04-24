@@ -1,3 +1,6 @@
+## 6.0.0
+From version 6.0.0 onwards, replace in file requires Node 10 or higher. If you need support for Node 8, please use version 5.x.x.
+
 ## 5.0.0
 From version 5.0.0 onwards, replace in file requires Node 8 or higher. If you need support for Node 6, please use version 4.x.x.
 
