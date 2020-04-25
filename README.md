@@ -50,6 +50,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
 - [CLI usage](#cli-usage)
+- [A note on using globs with the CLI](#a-note-on-using-globs-with-the-cli)
 - [Version information](#version-information)
 - [License](#license)
 
@@ -423,6 +424,44 @@ The `from` and `to` parameters, as well as the files list, can be omitted if you
 information in a configuration file. You can provide a path to a configuration file
 (either Javascript or JSON) with the `--configFile` flag. This path will be resolved using
 Node’s built in `path.resolve()`, so you can pass in an absolute or relative path.
+
+## A note on using globs with the CLI
+When using the CLI, the glob pattern is handled by the operating system. But if you specify the glob pattern in the configuration file, the package will use the glob module from the Node modules, and this can lead to different behaviour despite using the same pattern.
+
+For example, the following will only look at top level files:
+
+```js
+//config.js
+module.exports = {
+  from: /cat/g,
+  to: 'dog',
+};
+```
+
+```sh
+replace-in-file **  --configFile=config.js
+```
+
+However, this example is recursive:
+
+```js
+//config.js
+module.exports = {
+  files: '**',
+  from: /cat/g,
+  to: 'dog',
+};
+```
+
+```sh
+replace-in-file --configFile=config.js
+```
+
+If you want to do a recursive file search as an argument you must use:
+
+```sh
+replace-in-file $(ls l {,**/}*)  --configFile=config.js
+```
 
 ## Version information
 From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, please use version 2.x.x.
