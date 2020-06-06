@@ -11,13 +11,17 @@ const combineConfig = require('../lib/helpers/combine-config');
 const errorHandler = require('../lib/helpers/error-handler');
 const successHandler = require('../lib/helpers/success-handler');
 
+/**
+ * Main routine
+ */
 async function main() {
+
   //Extract parameters
   const {configFile} = argv;
 
   //Verify arguments
   if (argv._.length < 3 && !configFile) {
-    errorHandler('Replace in file needs at least 3 arguments');
+    throw new Error('Replace in file needs at least 3 arguments');
   }
 
   //Load config and combine with passed arguments
@@ -36,12 +40,7 @@ async function main() {
   if (isRegex) {
     const flags = from.replace(/.*\/([gimyus]*)$/, '$1');
     const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1');
-    try {
-      options.from = new RegExp(pattern, flags);
-    }
-    catch (error) {
-      errorHandler(error, 'Error creating RegExp from `from` parameter');
-    }
+    options.from = new RegExp(pattern, flags);
   }
 
   //Log
@@ -50,15 +49,11 @@ async function main() {
   }
 
   //Replace
-  try {
-    const results = replace.sync(options);
-    if (!quiet) {
-      successHandler(results, verbose);
-    }
-  }
-  catch (error) {
-    errorHandler(error);
+  const results = replace.sync(options);
+  if (!quiet) {
+    successHandler(results, verbose);
   }
 }
 
-main().catch((error) => errorHandler(error));
+//Call main routine
+main().catch(error => errorHandler(error));
