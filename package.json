@@ -29,7 +29,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc mocha lib/**/*.spec.js",
+    "test": "nyc mocha 'lib/**/*.spec.js'",
     "postversion": "git push && git push --tags && npm publish",
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
@@ -39,6 +39,7 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
     "@babel/cli": "^7.8.4",
     "@babel/preset-env": "^7.9.6",
     "@babel/register": "^7.9.0",
@@ -46,7 +47,6 @@
     "bluebird": "^3.7.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "cross-env": "^7.0.2",
     "dirty-chai": "^2.0.1",
     "mocha": "^7.1.2",
     "nyc": "^15.0.1"
