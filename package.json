@@ -29,8 +29,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "istanbul": "babel-node ./node_modules/istanbul/lib/cli cover ./node_modules/mocha/bin/_mocha lib/**/*.spec.js",
-    "test": "npm run istanbul -s",
+    "test": "cross-env NODE_ENV=test nyc mocha lib/**/*.spec.js",
     "postversion": "git push && git push --tags && npm publish",
     "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
   },
@@ -40,14 +39,17 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/cli": "^7.8.4",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/register": "^7.9.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "bluebird": "^3.7.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
     "dirty-chai": "^2.0.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1"
   },
   "browserify": {
     "transform": [
