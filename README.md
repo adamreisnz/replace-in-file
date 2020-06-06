@@ -360,7 +360,7 @@ const options = {
 ```
 
 ### Specify glob configuration
-Specify configuration passed to the `glob` call:
+Specify configuration passed to the [glob](https://www.npmjs.com/package/glob) call:
 
 ```js
 const options = {

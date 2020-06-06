@@ -27,6 +27,7 @@ declare module 'replace-in-file' {
     disableGlobs?: boolean,
     encoding?: string,
     dry?:boolean
+    glob?:object
   }
 
   export interface ReplaceResult {
