@@ -36,11 +36,12 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "glob": "^7.1.6",
+    "iconv-lite": "^0.6.2",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
     "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.9.6",
     "@babel/register": "^7.9.0",
     "babel-plugin-istanbul": "^6.0.0",
