@@ -49,6 +49,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
+    "eslint": "^7.9.0",
     "mocha": "^7.1.2",
     "nyc": "^15.0.1"
   },
