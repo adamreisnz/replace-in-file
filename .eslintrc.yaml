@@ -45,7 +45,9 @@ rules:
     - all
   comma-dangle:
     - error
-    - always-multiline
+    - functions: never
+      arrays: always-multiline
+      objects: always-multiline
   new-cap:
     - error
     - newIsCap: true
