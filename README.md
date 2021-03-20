@@ -366,6 +366,7 @@ Specify configuration passed to the [glob](https://www.npmjs.com/package/glob) c
 const options = {
   glob: {
     //Glob settings here
+    dot: true, //E.g. to include file names starting with a dot
   },
 };
 ```
