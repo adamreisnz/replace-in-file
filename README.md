@@ -31,6 +31,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Synchronous replacement](#synchronous-replacement)
   - [Return value](#return-value)
   - [Counting matches and replacements](#counting-matches-and-replacements)
+  - [Custom processor](#custom-processor)
 - [Advanced usage](#advanced-usage)
   - [Replace a single file or glob](#replace-a-single-file-or-glob)
   - [Replace multiple files or globs](#replace-multiple-files-or-globs)
@@ -206,6 +207,38 @@ console.log(results);
 //     numReplacements: 0,
 //   },
 // ]
+```
+
+### Custom processor
+
+For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
+
+```js
+const results = replace.sync({
+  files: 'path/to/files/*.html',
+  processor: (input) => input.replace(/foo/g, 'bar'),
+});
+```
+
+### Array of custom processors
+
+Passing processor function also supports passing an array of functions that will be executed sequentially
+
+```js
+function someProcessingA(input) {
+  const chapters = input.split('###')
+  chapters[1] = chapters[1].replace(/foo/g, 'bar')
+  return chapters.join('###')
+}
+
+function someProcessingB(input) {
+  return input.replace(/foo/g, 'bar')
+}
+
+const results = replace.sync({
+  files: 'path/to/files/*.html',
+  processor: [someProcessingA, someProcessingB],
+});
 ```
 
 ## Advanced usage
