@@ -1,3 +1,6 @@
+## 7.0.0
+Strings provided to the `from` value are now escaped for regex matching when counting of matches is enabled. This is unlikely to result in any breaking changes, but as a precaution the major version has been bumped.
+
 ## 6.0.0
 From version 6.0.0 onwards, replace in file requires Node 10 or higher. If you need support for Node 8, please use version 5.x.x.
 
