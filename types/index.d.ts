@@ -4,7 +4,7 @@ declare module 'replace-in-file' {
   export function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResult[]) => void): void;
   export default replaceInFile;
 
-  namespace replaceInFile {
+  export namespace replaceInFile {
     export function sync(config: ReplaceInFileConfig): ReplaceResult[];
     export function replaceInFileSync(config: ReplaceInFileConfig): ReplaceResult[];
     export function replaceInFile(config: ReplaceInFileConfig): Promise<ReplaceResult[]>;
