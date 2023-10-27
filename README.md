@@ -383,8 +383,10 @@ Specify configuration passed to the [glob](https://www.npmjs.com/package/glob) c
 ```js
 const options = {
   glob: {
-    //Glob settings here
-    dot: true, //E.g. to include file names starting with a dot
+
+    //Glob settings here (examples given below)
+    dot: true, //To include file names starting with a dot
+    windowsPathsNoEscape: true, //To fix paths on Windows OS when path.join() is used to create paths
   },
 };
 ```
