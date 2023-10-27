@@ -492,4 +492,4 @@ See the [Changelog](CHANGELOG.md) for more information.
 ## License
 (MIT License)
 
-Copyright 2015-2020, Adam Reis, Co-founder at [Hello Club](https://helloclub.com/?source=npm)
+Copyright 2015-2023, Adam Reis, Co-founder at [Hello Club](https://helloclub.com/?source=npm) and [Frello](https://getfrello.com/?source=npm)

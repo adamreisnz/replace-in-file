@@ -1,9 +1,5 @@
 #!/usr/bin/env node
-'use strict';
 
-/**
- * Dependencies
- */
 const {argv} = require('yargs');
 const replace = require('../lib/replace-in-file');
 const loadConfig = require('../lib/helpers/load-config');

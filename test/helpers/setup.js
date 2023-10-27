@@ -1,4 +1,3 @@
-'use strict';
 
 //Load dependencies
 const Promise = require('bluebird');
