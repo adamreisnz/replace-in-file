@@ -1,12 +1,11 @@
 {
   "name": "replace-in-file",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
     "name": "Adam Reis",
-    "email": "adam@reis.nz",
-    "url": "https://adam.reiz.nz/"
+    "email": "adam@reis.nz"
   },
   "license": "MIT",
   "repository": {
