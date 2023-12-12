@@ -35,6 +35,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Making replacements on network drives](#making-replacements-on-network-drives)
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
+  - [File system](#file-system)
 - [CLI usage](#cli-usage)
 - [A note on using globs with the CLI](#a-note-on-using-globs-with-the-cli)
 - [Version information](#version-information)
@@ -412,6 +413,32 @@ To do a dry run without actually making replacements, for testing purposes. Defa
 const options = {
   dry: true,
 };
+```
+
+### File system
+`replace-in-file` defaults to using `require('fs')` to provide file reading and write APIs.
+You can provide an `fs` object of your own to switch to a different file system, such as a mock file system for unit tests.
+
+* If using asynchronous APIs, the provided `fs` must provide `readFile` and `writeFile` methods
+* If using synchronous APIs, the provided `fs` must provide `readFileSync` and `writeFileSync` methods
+
+Custom `fs` methods should have the same parameters and returned values as their [built-in Node `fs`](https://nodejs.org/api/fs.html) equivalents.
+
+```js
+replaceInFile({
+  from: 'a',
+  fs: {
+    readFile: (file, encoding, callback) => {
+      console.log(`Reading ${file} with encoding ${encoding}...`);
+      callback(null, 'fake file contents');
+    },
+    writeFile: (file, newContents, encoding, callback) => {
+      console.log(`Writing ${file} with encoding ${encoding}: ${newContents}`);
+      callback(null);
+    },
+  },
+  to: 'b',
+})
 ```
 
 ## CLI usage
