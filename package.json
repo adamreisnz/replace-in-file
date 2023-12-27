@@ -38,13 +38,13 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/cli": "^7.15.7",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/register": "^7.15.3",
+    "@babel/core": "^7.23.6",
+    "@babel/cli": "^7.23.4",
+    "@babel/preset-env": "^7.23.6",
+    "@babel/register": "^7.22.15",
     "babel-plugin-istanbul": "^6.1.1",
     "bluebird": "^3.7.2",
-    "chai": "^4.3.4",
+    "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "mocha": "^10.2.0",
