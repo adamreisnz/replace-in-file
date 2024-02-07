@@ -205,6 +205,14 @@ const results = replace.sync({
   processor: (input) => input.replace(/foo/g, 'bar'),
 });
 ```
+It's also possible to use a custom processor with two arguments. In this case the first argument of the callback is still the content to be processed. The second one receives the file being processed.
+
+```js
+const results = replace.sync({
+  files: 'path/to/files/*.html',
+  processor: (input, file) => input.replace(/foo/g, 'bar') + file,
+});
+```
 
 ### Array of custom processors
 
