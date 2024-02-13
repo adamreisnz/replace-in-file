@@ -210,7 +210,7 @@ The custom processor will receive the path of the file being processed as a seco
 ```js
 const results = replace.sync({
   files: 'path/to/files/*.html',
-  processor: (input, file) => input.replace(/foo/g, 'bar') + file,
+  processor: (input, file) => input.replace(/foo/g, file),
 });
 ```
 
