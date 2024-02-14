@@ -205,6 +205,14 @@ const results = replace.sync({
   processor: (input) => input.replace(/foo/g, 'bar'),
 });
 ```
+The custom processor will receive the path of the file being processed as a second parameter:
+
+```js
+const results = replace.sync({
+  files: 'path/to/files/*.html',
+  processor: (input, file) => input.replace(/foo/g, file),
+});
+```
 
 ### Array of custom processors
 
