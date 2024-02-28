@@ -15,7 +15,7 @@ declare module 'replace-in-file' {
   export function replaceInFileSync(config: ReplaceInFileConfig): ReplaceResult[];
 
   export type From = string | RegExp | FromCallback;
-  export type To = string | ToCallback;
+  export type To = string | RegExp | ToCallback;
 
   export interface ReplaceInFileConfig {
     files: string | string[];
@@ -26,8 +26,8 @@ declare module 'replace-in-file' {
     allowEmptyPaths?: boolean,
     disableGlobs?: boolean,
     encoding?: string,
-    dry?:boolean
-    glob?:object
+    dry?: boolean
+    glob?: object
   }
 
   export interface ReplaceResult {
