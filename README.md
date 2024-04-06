@@ -58,11 +58,31 @@ yarn add replace-in-file
 ```js
 //Load the library and specify options
 const replace = require('replace-in-file');
+
+// 'options' could be single config object or an array collection for multiple replacements
+
+// Single config object
 const options = {
   files: 'path/to/file',
   from: /foo/g,
   to: 'bar',
 };
+
+(or)
+
+// Config collection for multiple replacements
+const options = [
+  {
+    files: 'path/to/file1',
+    from: /foo/g,
+    to: 'bar',
+  },
+  {
+    files: 'path/to/file2',
+    from: /bar/g,
+    to: 'foo',
+  }
+];
 ```
 
 ### Asynchronous replacement with `async`/`await`

@@ -17,7 +17,7 @@ declare module 'replace-in-file' {
   export type From = string | RegExp | FromCallback;
   export type To = string | ToCallback;
 
-  export interface ReplaceInFileConfig {
+  export interface ReplaceInFileConfigObj {
     files: string | string[];
     ignore?: string | string[];
     from: From | Array<From>;
@@ -29,6 +29,8 @@ declare module 'replace-in-file' {
     dry?:boolean
     glob?:object
   }
+
+  type ReplaceInFileConfig = ReplaceInFileConfigObj | ReplaceInFileConfigObj[];
 
   export interface ReplaceResult {
     file: string;
