@@ -14,7 +14,6 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Synchronous replacement](#synchronous-replacement)
   - [Return value](#return-value)
   - [Counting matches and replacements](#counting-matches-and-replacements)
-  - [Custom processor](#custom-processor)
 - [Advanced usage](#advanced-usage)
   - [Replace a single file or glob](#replace-a-single-file-or-glob)
   - [Replace multiple files or globs](#replace-multiple-files-or-globs)
@@ -23,8 +22,10 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Multiple values with the same replacement](#multiple-values-with-the-same-replacement)
   - [Custom regular expressions](#custom-regular-expressions)
   - [Multiple values with different replacements](#multiple-values-with-different-replacements)
+  - [Multiple replacements with different options](#multiple-replacements-with-different-options)
   - [Using callbacks for `from`](#using-callbacks-for-from)
   - [Using callbacks for `to`](#using-callbacks-for-to)
+  - [Saving to a different file](#saving-to-a-different-file)
   - [Ignore a single file or glob](#ignore-a-single-file-or-glob)
   - [Ignore multiple files or globs](#ignore-multiple-files-or-globs)
   - [Allow empty/invalid paths](#allow-emptyinvalid-paths)
@@ -33,7 +34,8 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Making replacements on network drives](#making-replacements-on-network-drives)
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
-  - [File system](#file-system)
+  - [Using custom processors](#using-custom-processors)
+  - [Using a custom file system API](#using-a-custom-file-system-api)
 - [CLI usage](#cli-usage)
 - [A note on using globs with the CLI](#a-note-on-using-globs-with-the-cli)
 - [Version information](#version-information)
@@ -394,7 +396,7 @@ const options = {
 }
 ```
 
-### Custom processor
+### Using custom processors
 
 For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
 
@@ -413,9 +415,7 @@ const results = await replaceInFile({
 })
 ```
 
-### Array of custom processors
-
-Passing processor function also supports passing an array of functions that will be executed sequentially
+This also supports passing an array of functions that will be executed sequentially
 
 ```js
 function someProcessingA(input) {
@@ -434,7 +434,7 @@ const results = replaceInFileSync({
 })
 ```
 
-### File system
+### Using a custom file system API
 `replace-in-file` defaults to using `'node:fs/promises'` and `'node:fs'` to provide file reading and write APIs.
 You can provide an `fs` or `fsSync` object of your own to switch to a different file system, such as a mock file system for unit tests.
 
