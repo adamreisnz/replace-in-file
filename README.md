@@ -557,13 +557,11 @@ replace-in-file $(ls l {,**/}*)  --configFile=config.json
 ```
 
 ## Version information
-From version 3.0.0 onwards, replace in file requires Node 6 or higher. If you need support for Node 4 or 5, please use version 2.x.x.
-
-From version 5.0.0 onwards, replace in file requires Node 8 or higher. If you need support for Node 6, please use version 4.x.x.
+From version 8.0.0 onwards, this package requires Node 18 or higher. If you need support for older versions of Node, please use a previous version of this package.
 
 See the [Changelog](CHANGELOG.md) for more information.
 
 ## License
 (MIT License)
 
-Copyright 2015-2023, Adam Reis, Co-founder at [Hello Club](https://helloclub.com/?source=npm) and [Frello](https://getfrello.com/?source=npm)
+Copyright 2015-2024, Adam Reis
