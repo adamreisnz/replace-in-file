@@ -12,31 +12,10 @@ use(chaiAsPromised)
  */
 describe('helpers/config.js', () => {
 
-  //Test config
-  const config = {
-    files: ['file.txt'],
-    from: 'foo',
-    to: 'bar',
-  }
-
   /**
    * Load config
    */
   describe('loadConfig()', () => {
-
-    /**
-     * Prepare test files
-     */
-    beforeEach(() => {
-      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
-    })
-
-    /**
-     * Clean up test files
-     */
-    afterEach(() => {
-      fs.unlinkSync('config.json')
-    })
 
     it('should error if no file is provided', () => {
       return expect(loadConfig()).to.eventually.be.rejectedWith(Error)
@@ -47,12 +26,62 @@ describe('helpers/config.js', () => {
     })
 
     it('should read config from a valid file', async () => {
+
+      //Test config
+      const config = {
+        files: ['file.txt'],
+        from: 'foo',
+        to: 'bar',
+      }
+      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
+
+      //Load config
       const cfg = await loadConfig('config.json')
       expect(cfg).to.be.an('object')
       expect(cfg.files).to.be.an('array')
       expect(cfg.files).to.eql(config.files)
       expect(cfg.from).to.equal(config.from)
       expect(cfg.to).to.equal(config.to)
+
+      //Clean up
+      fs.unlinkSync('config.json')
+    })
+
+    it('should convert from regex if provided in JSON', async () => {
+
+      //Test config
+      const config = {
+        files: ['file.txt'],
+        from: '/foo/g',
+        to: 'bar',
+      }
+      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
+
+      //Load config
+      const cfg = await loadConfig('config.json')
+      expect(cfg.from).to.be.an.instanceof(RegExp)
+
+      //Clean up
+      fs.unlinkSync('config.json')
+    })
+
+    it('should not convert from regex if it is a regular string', async () => {
+
+      //Test config
+      const config = {
+        files: ['file.txt'],
+        from: 'foo',
+        to: 'bar',
+      }
+      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
+
+      //Load config
+      const cfg = await loadConfig('config.json')
+      expect(cfg.from).not.to.be.an.instanceof(RegExp)
+      expect(cfg.from).to.equal(config.from)
+
+      //Clean up
+      fs.unlinkSync('config.json')
     })
   })
 

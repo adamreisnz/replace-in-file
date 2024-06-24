@@ -14,7 +14,15 @@ export async function loadConfig(file) {
 
   //Read file
   const json = await fs.readFile(path.resolve(file), 'utf8')
-  return JSON.parse(json)
+  const config = JSON.parse(json)
+
+  //Since we can't store Regexp in JSON, convert from string if needed
+  if (config.from && config.from.startsWith('/')) {
+    config.from = new RegExp(config.from)
+  }
+
+  //Return config
+  return config
 }
 
 /**

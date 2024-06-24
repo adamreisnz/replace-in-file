@@ -505,19 +505,29 @@ To do a dry run without making any actual changes, use `--dry`.
 A regular expression may be used for the `from` parameter by specifying the `--isRegex` flag.
 
 The `from` and `to` parameters, as well as the files list, can be omitted if you provide this
-information in a configuration file. You can provide a path to a configuration file
+information in a configuration file.
+
+You can provide a path to a configuration file
 (JSON) with the `--configFile` flag. This path will be resolved using
 Node’s built in `path.resolve()`, so you can pass in an absolute or relative path.
+
+If you are using a configuration file, and you want to use a regular expression for the `from` value, ensure that it starts with a `/`, for example:
+
+```json
+{
+  "from": "/cat/g",
+  "to": "dog",
+}
+```
 
 ## A note on using globs with the CLI
 When using the CLI, the glob pattern is handled by the operating system. But if you specify the glob pattern in the configuration file, the package will use the glob module from the Node modules, and this can lead to different behaviour despite using the same pattern.
 
 For example, the following will only look at top level files:
 
-```js
-//config.json
+```json
 {
-  "from": "/cat/g",
+  "from": "cat",
   "to": "dog",
 }
 ```
@@ -528,11 +538,10 @@ replace-in-file **  --configFile=config.json
 
 However, this example is recursive:
 
-```js
-//config.json
+```json
 {
   "files": "**",
-  "from": "/cat/g",
+  "from": "cat",
   "to": "dog",
 }
 ```
