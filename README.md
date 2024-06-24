@@ -171,46 +171,6 @@ console.log(results)
 // ]
 ```
 
-### Custom processor
-
-For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
-
-```js
-const results = replaceInFileSync({
-  files: 'path/to/files/*.html',
-  processor: (input) => input.replace(/foo/g, 'bar'),
-})
-```
-The custom processor will receive the path of the file being processed as a second parameter:
-
-```js
-const results = replaceInFileSync({
-  files: 'path/to/files/*.html',
-  processor: (input, file) => input.replace(/foo/g, file),
-})
-```
-
-### Array of custom processors
-
-Passing processor function also supports passing an array of functions that will be executed sequentially
-
-```js
-function someProcessingA(input) {
-  const chapters = input.split('###')
-  chapters[1] = chapters[1].replace(/foo/g, 'bar')
-  return chapters.join('###')
-}
-
-function someProcessingB(input) {
-  return input.replace(/foo/g, 'bar')
-}
-
-const results = replaceInFileSync({
-  files: 'path/to/files/*.html',
-  processor: [someProcessingA, someProcessingB],
-})
-```
-
 ## Advanced usage
 
 ### Replace a single file or glob
@@ -344,6 +304,18 @@ const options = {
 }
 ```
 
+### Saving to a different file
+You can specify a `getTargetFile` config param to modify the target file for saving the new file contents to. For example:
+
+```js
+const options = {
+  files: 'path/to/files/*.html',
+  getTargetFile: source => `new/path/${source}`,
+  from: 'foo',
+  to: 'bar',
+}
+```
+
 ### Ignore a single file or glob
 
 ```js
@@ -420,6 +392,46 @@ To do a dry run without actually making replacements, for testing purposes. Defa
 const options = {
   dry: true,
 }
+```
+
+### Custom processor
+
+For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
+
+```js
+const results = await replaceInFile({
+  files: 'path/to/files/*.html',
+  processor: (input) => input.replace(/foo/g, 'bar'),
+})
+```
+The custom processor will receive the path of the file being processed as a second parameter:
+
+```js
+const results = await replaceInFile({
+  files: 'path/to/files/*.html',
+  processor: (input, file) => input.replace(/foo/g, file),
+})
+```
+
+### Array of custom processors
+
+Passing processor function also supports passing an array of functions that will be executed sequentially
+
+```js
+function someProcessingA(input) {
+  const chapters = input.split('###')
+  chapters[1] = chapters[1].replace(/foo/g, 'bar')
+  return chapters.join('###')
+}
+
+function someProcessingB(input) {
+  return input.replace(/foo/g, 'bar')
+}
+
+const results = replaceInFileSync({
+  files: 'path/to/files/*.html',
+  processor: [someProcessingA, someProcessingB],
+})
 ```
 
 ### File system

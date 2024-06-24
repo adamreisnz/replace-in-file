@@ -104,6 +104,22 @@ describe('Replace in file', () => {
       })
     })
 
+    it(`should store in the correct target file if getTargetFile is used`, done => {
+      replaceInFile({
+        files: 'test1',
+        getTargetFile: () => 'test2',
+        from: 're place',
+        to: 'b',
+      })
+        .then(() => {
+          const test1 = fs.readFileSync('test1', 'utf8')
+          const test2 = fs.readFileSync('test2', 'utf8')
+          expect(test1).to.equal('a re place c')
+          expect(test2).to.equal('a b c')
+          done()
+        })
+    })
+
     it(`should pass the match as first arg and file as last arg to a replacer function and replace contents with a string replacement`, done => {
       replaceInFile({
         files: 'test1',
@@ -505,6 +521,19 @@ describe('Replace in file', () => {
       })
       const test1 = fs.readFileSync('test1', 'utf8')
       expect(test1).to.equal('a b c')
+    })
+
+    it(`should store in the correct target file if getTargetFile is used`, () => {
+      replaceInFileSync({
+        files: 'test1',
+        getTargetFile: () => 'test2',
+        from: 're place',
+        to: 'b',
+      })
+      const test1 = fs.readFileSync('test1', 'utf8')
+      const test2 = fs.readFileSync('test2', 'utf8')
+      expect(test1).to.equal('a re place c')
+      expect(test2).to.equal('a b c')
     })
 
     it(`should pass the match as first arg and file as last arg to a replacer function and replace contents with a string replacement`, function() {

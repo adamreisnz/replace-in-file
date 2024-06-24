@@ -31,14 +31,13 @@ export function parseConfig(config) {
   config.glob = config.glob || {}
 
   //Extract data
-  const {files, from, to, processor, ignore, encoding} = config
+  const {files, getTargetFile, from, to, processor, ignore, encoding} = config
   if (typeof processor !== 'undefined') {
     if (typeof processor !== 'function' && !Array.isArray(processor)) {
       throw new Error(`Processor should be either a function or an array of functions`)
     }
   }
   else {
-    //Validate values
     if (typeof files === 'undefined') {
       throw new Error('Must specify file or files')
     }
@@ -47,6 +46,9 @@ export function parseConfig(config) {
     }
     if (typeof to === 'undefined') {
       throw new Error('Must specify a replacement (can be blank string)')
+    }
+    if (typeof getTargetFile !== 'undefined' && typeof getTargetFile !== 'function') {
+      throw new Error(`Target file transformation parameter should be a function that takes the source file path as argument and returns the target file path`)
     }
   }
 
@@ -81,6 +83,7 @@ export function parseConfig(config) {
     dry: false,
     glob: {},
     cwd: null,
+    getTargetFile: source => source,
     fs,
     fsSync,
   }, config)

@@ -23,7 +23,7 @@ export async function replaceInFile(config) {
 
   //Find paths and process them
   const paths = await pathsAsync(files, config)
-  const promises = paths.map(file => replaceAsync(file, from, to, config))
+  const promises = paths.map(path => replaceAsync(path, from, to, config))
   const results = await Promise.all(promises)
 
   //Return results

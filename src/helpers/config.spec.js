@@ -127,6 +127,15 @@ describe('helpers/config.js', () => {
       })).to.throw(Error)
     })
 
+    it('should error when an invalid `getTargetFile` handler is specified', () => {
+      expect(() => parseConfig({
+        getTargetFile: 'foo',
+        files: ['test1', 'test2', 'test3'],
+        from: [/re/g, /place/g],
+        to: ['b'],
+      })).to.throw(Error)
+    })
+
     it('should convert `files` to an array', () => {
       const parsed = parseConfig({
         files: 'test1',

@@ -86,20 +86,23 @@ export function makeReplacements(contents, from, to, file, count) {
 /**
  * Helper to replace in a single file (sync)
  */
-export function replaceSync(file, from, to, config) {
+export function replaceSync(source, from, to, config) {
 
   //Extract relevant config and read file contents
-  const {encoding, dry, countMatches, fsSync} = config
-  const contents = fsSync.readFileSync(file, encoding)
+  const {getTargetFile, encoding, dry, countMatches, fsSync} = config
+  const contents = fsSync.readFileSync(source, encoding)
 
   //Replace contents and check if anything changed
   const [result, newContents] = makeReplacements(
-    contents, from, to, file, countMatches
+    contents, from, to, source, countMatches
   )
+
+  //Get target file
+  const target = getTargetFile(source)
 
   //Contents changed and not a dry run? Write to file
   if (result.hasChanged && !dry) {
-    fsSync.writeFileSync(file, newContents, encoding)
+    fsSync.writeFileSync(target, newContents, encoding)
   }
 
   //Return result
@@ -109,20 +112,23 @@ export function replaceSync(file, from, to, config) {
 /**
  * Helper to replace in a single file (async)
  */
-export async function replaceAsync(file, from, to, config) {
+export async function replaceAsync(source, from, to, config) {
 
   //Extract relevant config and read file contents
-  const {encoding, dry, countMatches, fs} = config
-  const contents = await fs.readFile(file, encoding)
+  const {getTargetFile, encoding, dry, countMatches, fs} = config
+  const contents = await fs.readFile(source, encoding)
 
   //Make replacements
   const [result, newContents] = makeReplacements(
-    contents, from, to, file, countMatches
+    contents, from, to, source, countMatches
   )
+
+  //Get target file
+  const target = getTargetFile(source)
 
   //Contents changed and not a dry run? Write to file
   if (result.hasChanged && !dry) {
-    await fs.writeFile(file, newContents, encoding)
+    await fs.writeFile(target, newContents, encoding)
   }
 
   //Return result
