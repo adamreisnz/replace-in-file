@@ -276,6 +276,29 @@ const options = {
 }
 ```
 
+### Multiple replacements with different options
+
+There is no direct API in this package to make multiple replacements on different files with different options. However, you can easily accomplish this in your scripts as follows:
+
+```js
+const replacements = [
+  {
+    files: 'path/to/file1',
+    from: /foo/g,
+    to: 'bar',
+  },
+  {
+    files: 'path/to/file2',
+    from: /bar/g,
+    to: 'foo',
+  }
+]
+
+await Promise.all(
+  replacements.map(options => replaceInFile(options))
+)
+```
+
 ### Custom regular expressions
 
 Use the [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) constructor to create any regular expression.

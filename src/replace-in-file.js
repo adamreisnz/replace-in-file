@@ -9,7 +9,7 @@ import {processFile, processFileSync} from './process-file.js'
  */
 export async function replaceInFile(config) {
 
-  // If custom processor is provided use it instead
+  //If custom processor is provided use it instead
   if (config && config.processor) {
     return await processFile(config)
   }
