@@ -1,21 +1,16 @@
 
 declare module 'replace-in-file' {
   export function replaceInFile(config: ReplaceInFileConfig & { from?: never, to?: never, processor: ReplaceInFileConfig["processor"] }): Promise<ReplaceResult[]>;
-  export function replaceInFile(config: ReplaceInFileConfig & { from?: never, to?: never, processor: ReplaceInFileConfig["processor"] }, cb: (error: Error, results: ReplaceResult[]) => void): void;
 
   export function replaceInFile(config: ReplaceInFileConfig & { from: ReplaceInFileConfig["from"], to: ReplaceInFileConfig["to"], processor?: never }): Promise<ReplaceResult[]>;
-  export function replaceInFile(config: ReplaceInFileConfig & { from: ReplaceInFileConfig["from"], to: ReplaceInFileConfig["to"], processor?: never }, cb: (error: Error, results: ReplaceResult[]) => void): void;
 
   export default replaceInFile;
 
   export namespace replaceInFile {
-    export function sync(config: ReplaceInFileConfig): ReplaceResult[];
     export function replaceInFileSync(config: ReplaceInFileConfig): ReplaceResult[];
     export function replaceInFile(config: ReplaceInFileConfig): Promise<ReplaceResult[]>;
-    export function replaceInFile(config: ReplaceInFileConfig, cb: (error: Error, results: ReplaceResult[]) => void): void;
   }
 
-  export function sync(config: ReplaceInFileConfig): ReplaceResult[];
   export function replaceInFileSync(config: ReplaceInFileConfig): ReplaceResult[];
 
   export type From = string | RegExp | FromCallback;

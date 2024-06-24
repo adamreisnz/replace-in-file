@@ -10,9 +10,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
 # Index
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
-  - [Asynchronous replacement with `async`/`await`](#asynchronous-replacement-with-asyncawait)
-  - [Asynchronous replacement with promises](asynchronous-replacement-with-promises)
-  - [Asynchronous replacement with callback](#asynchronous-replacement-with-callback)
+  - [Asynchronous replacement](#asynchronous-replacement)
   - [Synchronous replacement](#synchronous-replacement)
   - [Return value](#return-value)
   - [Counting matches and replacements](#counting-matches-and-replacements)
@@ -43,72 +41,50 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
 
 ## Installation
 ```shell
-# Using npm, installing to local project
-npm i --save replace-in-file
-
-# Using npm, installing globally for global cli usage
-npm i -g replace-in-file
+# Using npm
+npm i replace-in-file
 
 # Using yarn
 yarn add replace-in-file
 ```
 
-## Basic usage
+### Asynchronous replacement
 
 ```js
-//Load the library and specify options
-const replace = require('replace-in-file');
+import {replaceInFile} from 'replace-in-file'
+
 const options = {
   files: 'path/to/file',
   from: /foo/g,
   to: 'bar',
-};
-```
+}
 
-### Asynchronous replacement with `async`/`await`
-
-```js
 try {
-  const results = await replace(options)
-  console.log('Replacement results:', results);
+  const results = await replaceInFile(options)
+  console.log('Replacement results:', results)
 }
 catch (error) {
-  console.error('Error occurred:', error);
+  console.error('Error occurred:', error)
 }
-```
-
-### Asynchronous replacement with promises
-
-```js
-replace(options)
-  .then(results => {
-    console.log('Replacement results:', results);
-  })
-  .catch(error => {
-    console.error('Error occurred:', error);
-  });
-```
-
-### Asynchronous replacement with callback
-
-```js
-replace(options, (error, results) => {
-  if (error) {
-    return console.error('Error occurred:', error);
-  }
-  console.log('Replacement results:', results);
-});
 ```
 
 ### Synchronous replacement
 
 ```js
+import {replaceInFileSync} from 'replace-in-file'
+
+const options = {
+  files: 'path/to/file',
+  from: /foo/g,
+  to: 'bar',
+}
+
 try {
-  const results = replace.sync(options);
-  console.log('Replacement results:', results);
+  const results = replaceInFileSync(options)
+  console.log('Replacement results:', results)
 }
 catch (error) {
-  console.error('Error occurred:', error);
+  console.error('Error occurred:', error)
 }
 ```
 
@@ -122,13 +98,13 @@ Each result contains the following values:
 - `hasChanged`: Flag to indicate if the file was changed or not
 
 ```js
-const results = replace.sync({
+const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   from: /foo/g,
   to: 'bar',
-});
+})
 
-console.log(results);
+console.log(results)
 
 // [
 //   {
@@ -152,7 +128,7 @@ To get an array of changed files, simply map the results as follows:
 ```js
 const changedFiles = results
   .filter(result => result.hasChanged)
-  .map(result => result.file);
+  .map(result => result.file)
 ```
 
 ### Counting matches and replacements
@@ -164,14 +140,14 @@ By setting the `countMatches` configuration flag to `true`, the number of matche
 Note that the number of matches can be higher than the number of replacements if a match and replacement are the same string.
 
 ```js
-const results = replace.sync({
+const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   from: /foo/g,
   to: 'bar',
   countMatches: true,
-});
+})
 
-console.log(results);
+console.log(results)
 
 // [
 //   {
@@ -200,18 +176,18 @@ console.log(results);
 For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
 
 ```js
-const results = replace.sync({
+const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   processor: (input) => input.replace(/foo/g, 'bar'),
-});
+})
 ```
 The custom processor will receive the path of the file being processed as a second parameter:
 
 ```js
-const results = replace.sync({
+const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   processor: (input, file) => input.replace(/foo/g, file),
-});
+})
 ```
 
 ### Array of custom processors
@@ -229,10 +205,10 @@ function someProcessingB(input) {
   return input.replace(/foo/g, 'bar')
 }
 
-const results = replace.sync({
+const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   processor: [someProcessingA, someProcessingB],
-});
+})
 ```
 
 ## Advanced usage
@@ -241,7 +217,7 @@ const results = replace.sync({
 ```js
 const options = {
   files: 'path/to/file',
-};
+}
 ```
 
 ### Replace multiple files or globs
@@ -254,7 +230,7 @@ const options = {
     'path/to/files/*.html',
     'another/**/*.path',
   ],
-};
+}
 ```
 
 ### Replace first occurrence only
@@ -263,7 +239,7 @@ const options = {
 const options = {
   from: 'foo',
   to: 'bar',
-};
+}
 ```
 
 ### Replace all occurrences
@@ -275,7 +251,7 @@ To replace multiple occurrences at once, you must use a regular expression for t
 const options = {
   from: /foo/g,
   to: 'bar',
-};
+}
 ```
 
 ### Multiple values with the same replacement
@@ -286,7 +262,7 @@ These will be replaced sequentially.
 const options = {
   from: [/foo/g, /baz/g],
   to: 'bar',
-};
+}
 ```
 
 ### Multiple values with different replacements
@@ -297,7 +273,7 @@ These will be replaced sequentially.
 const options = {
   from: [/foo/g, /baz/g],
   to: ['bar', 'bax'],
-};
+}
 ```
 
 ### Custom regular expressions
@@ -305,12 +281,12 @@ const options = {
 Use the [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) constructor to create any regular expression.
 
 ```js
-const str = 'foo';
-const regex = new RegExp('^' + str + 'bar', 'i');
+const str = 'foo'
+const regex = new RegExp('^' + str + 'bar', 'i')
 const options = {
   from: regex,
   to: 'bar',
-};
+}
 ```
 
 ### Using callbacks for `from`
@@ -321,7 +297,7 @@ const options = {
   files: 'path/to/file',
   from: (file) => new RegExp(file, 'g'),
   to: 'bar',
-};
+}
 ```
 
 ### Using callbacks for `to`
@@ -332,7 +308,7 @@ const options = {
   files: 'path/to/file',
   from: /SomePattern[A-Za-z-]+/g,
   to: (match) => match.toLowerCase(),
-};
+}
 ```
 
 This callback provides for an extra argument above the String replace method, which is the name of the file in which the replacement is being performed. The following example replaces the matched string with the filename:
@@ -342,7 +318,7 @@ const options = {
   files: 'path/to/file',
   from: /SomePattern[A-Za-z-]+/g,
   to: (...args) => args.pop(),
-};
+}
 ```
 
 ### Ignore a single file or glob
@@ -350,7 +326,7 @@ const options = {
 ```js
 const options = {
   ignore: 'path/to/ignored/file',
-};
+}
 ```
 
 ### Ignore multiple files or globs
@@ -363,7 +339,7 @@ const options = {
     'path/to/ignored_files/*.html',
     'another/**/*.ignore',
   ],
-};
+}
 ```
 
 Please note that there is an [open issue with Glob](https://github.com/isaacs/node-glob/issues/309) that causes ignored patterns to be ignored when using a `./` prefix in your files glob. To work around this, simply remove the prefix, e.g. use `**/*` instead of `./**/*`.
@@ -374,7 +350,7 @@ If set to true, empty or invalid paths will fail silently and no error will be t
 ```js
 const options = {
   allowEmptyPaths: true,
-};
+}
 ```
 
 ### Disable globs
@@ -383,7 +359,7 @@ You can disable globs if needed using this flag. Use this when you run into issu
 ```js
 const options = {
   disableGlobs: true,
-};
+}
 ```
 
 ### Specify glob configuration
@@ -397,7 +373,7 @@ const options = {
     dot: true, //To include file names starting with a dot
     windowsPathsNoEscape: true, //To fix paths on Windows OS when path.join() is used to create paths
   },
-};
+}
 ```
 
 Please note that the setting `nodir` will always be passed as `false`.
@@ -411,7 +387,7 @@ Use a different character encoding for reading/writing files. Defaults to `utf-8
 ```js
 const options = {
   encoding: 'utf8',
-};
+}
 ```
 
 ### Dry run
@@ -420,29 +396,46 @@ To do a dry run without actually making replacements, for testing purposes. Defa
 ```js
 const options = {
   dry: true,
-};
+}
 ```
 
 ### File system
-`replace-in-file` defaults to using `require('fs')` to provide file reading and write APIs.
-You can provide an `fs` object of your own to switch to a different file system, such as a mock file system for unit tests.
+`replace-in-file` defaults to using `'node:fs/promises'` and `'node:fs'` to provide file reading and write APIs.
+You can provide an `fs` or `fsSync` object of your own to switch to a different file system, such as a mock file system for unit tests.
 
-* If using asynchronous APIs, the provided `fs` must provide `readFile` and `writeFile` methods
-* If using synchronous APIs, the provided `fs` must provide `readFileSync` and `writeFileSync` methods
+* For the asynchronous APIs, the provided `fs` must provide the `readFile` and `writeFile` methods.
+* For the synchronous APIs, the provided `fsSync` must provide the `readFileSync` and `writeFileSync` methods.
 
-Custom `fs` methods should have the same parameters and returned values as their [built-in Node `fs`](https://nodejs.org/api/fs.html) equivalents.
+Custom `fs` and `fsSync` implementations should have the same parameters and returned values as their [built-in Node `fs`](https://nodejs.org/api/fs.html) equivalents.
 
 ```js
 replaceInFile({
   from: 'a',
   fs: {
-    readFile: (file, encoding, callback) => {
-      console.log(`Reading ${file} with encoding ${encoding}...`);
-      callback(null, 'fake file contents');
+    readFile: async (file, encoding) => {
+      console.log(`Reading ${file} with encoding ${encoding}...`)
+      return 'fake file contents'
     },
-    writeFile: (file, newContents, encoding, callback) => {
-      console.log(`Writing ${file} with encoding ${encoding}: ${newContents}`);
-      callback(null);
+    writeFile: async (file, newContents, encoding) => {
+      console.log(`Writing ${file} with encoding ${encoding}: ${newContents}`)
+    },
+  },
+  to: 'b',
+})
+```
+
+Or for the sync API:
+
+```js
+replaceInFileSync({
+  from: 'a',
+  fsSync: {
+    readFileSync: (file, encoding) => {
+      console.log(`Reading ${file} with encoding ${encoding}...`)
+      return 'fake file contents'
+    },
+    writeFileSync: (file, newContents, encoding) => {
+      console.log(`Writing ${file} with encoding ${encoding}: ${newContents}`)
     },
   },
   to: 'b',
@@ -453,7 +446,7 @@ replaceInFile({
 
 ```sh
 replace-in-file from to some/file.js,some/**/glob.js
-  [--configFile=replace-config.js]
+  [--configFile=config.json]
   [--ignore=ignore/files.js,ignore/**/glob.js]
   [--encoding=utf-8]
   [--disableGlobs]
@@ -478,7 +471,7 @@ A regular expression may be used for the `from` parameter by specifying the `--i
 
 The `from` and `to` parameters, as well as the files list, can be omitted if you provide this
 information in a configuration file. You can provide a path to a configuration file
-(either Javascript or JSON) with the `--configFile` flag. This path will be resolved using
+(JSON) with the `--configFile` flag. This path will be resolved using
 Node’s built in `path.resolve()`, so you can pass in an absolute or relative path.
 
 ## A note on using globs with the CLI
@@ -487,36 +480,36 @@ When using the CLI, the glob pattern is handled by the operating system. But if 
 For example, the following will only look at top level files:
 
 ```js
-//config.js
-module.exports = {
-  from: /cat/g,
-  to: 'dog',
-};
+//config.json
+{
+  "from": "/cat/g",
+  "to": "dog",
+}
 ```
 
 ```sh
-replace-in-file **  --configFile=config.js
+replace-in-file **  --configFile=config.json
 ```
 
 However, this example is recursive:
 
 ```js
-//config.js
-module.exports = {
-  files: '**',
-  from: /cat/g,
-  to: 'dog',
-};
+//config.json
+{
+  "files": "**",
+  "from": "/cat/g",
+  "to": "dog",
+}
 ```
 
 ```sh
-replace-in-file --configFile=config.js
+replace-in-file --configFile=config.json
 ```
 
 If you want to do a recursive file search as an argument you must use:
 
 ```sh
-replace-in-file $(ls l {,**/}*)  --configFile=config.js
+replace-in-file $(ls l {,**/}*)  --configFile=config.json
 ```
 
 ## Version information

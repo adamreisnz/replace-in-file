@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "node_modules",
+    "**/*.spec.js",
+    "src/helpers/handlers.js"
+  ],
+  "reporter": ["lcov", "text", "html"],
+  "sourceMap": false,
+  "cache": false
+}

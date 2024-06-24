@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "16"
   - "18"
   - "20"
+  - "22"
 branches:
   only:
     - master

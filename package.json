@@ -1,6 +1,7 @@
 {
   "name": "replace-in-file",
-  "version": "7.2.0",
+  "type": "module",
+  "version": "8.0.0",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
@@ -25,41 +26,25 @@
   "bin": "./bin/cli.js",
   "types": "./types/index.d.ts",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "scripts": {
-    "test": "nyc mocha 'lib/**/*.spec.js'",
-    "postversion": "git push && git push --tags && npm publish",
-    "coverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html"
+    "test": "mocha 'src/**/*.spec.js'",
+    "coverage": "c8 npm run test",
+    "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "glob": "^10.4.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6",
-    "@babel/cli": "^7.23.4",
-    "@babel/preset-env": "^7.23.6",
-    "@babel/register": "^7.22.15",
-    "babel-plugin-istanbul": "^6.1.1",
-    "bluebird": "^3.7.2",
-    "chai": "^4.3.10",
-    "chai-as-promised": "^7.1.1",
-    "dirty-chai": "^2.0.1",
-    "mocha": "^10.2.0",
-    "nyc": "^15.0.1"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
+    "@eslint/js": "^9.2.0",
+    "c8": "^10.1.2",
+    "chai": "^5.1.1",
+    "chai-as-promised": "^8.0.0",
+    "eslint": "^9.2.0",
+    "mocha": "^10.4.0"
   }
 }
