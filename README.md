@@ -558,6 +558,8 @@ replace-in-file $(ls l {,**/}*)  --configFile=config.json
 ## Version information
 From version 8.0.0 onwards, this package requires Node 18 or higher. If you need support for older versions of Node, please use a previous version of this package.
 
+As 8.0.0 was a significant rewrite, please [open an issue](https://github.com/adamreisnz/replace-in-file/issues) if you run into any problems or unexpected behaviour.
+
 See the [Changelog](CHANGELOG.md) for more information.
 
 ## License
