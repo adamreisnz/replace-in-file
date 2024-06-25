@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import {argv} from 'yargs'
-import replace from '../src/replace-in-file.js'
+import yargs from 'yargs'
+import {hideBin} from 'yargs/helpers'
+import {replaceInFileSync} from '../src/replace-in-file.js'
 import {loadConfig, combineConfig} from '../src/helpers/config.js'
 import {errorHandler, successHandler} from '../src/helpers/handlers.js'
 
@@ -11,6 +12,7 @@ import {errorHandler, successHandler} from '../src/helpers/handlers.js'
 async function main() {
 
   //Extract parameters
+  const argv = yargs(hideBin(process.argv)).argv
   const {configFile} = argv
 
   //Verify arguments
@@ -43,7 +45,7 @@ async function main() {
   }
 
   //Replace
-  const results = replace.sync(options)
+  const results = replaceInFileSync(options)
   if (!quiet) {
     successHandler(results, verbose)
   }
