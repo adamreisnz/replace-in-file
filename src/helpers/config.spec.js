@@ -46,62 +46,6 @@ describe('helpers/config.js', () => {
       //Clean up
       fs.unlinkSync('config.json')
     })
-
-    it('should convert from regex if provided in JSON', async () => {
-
-      //Test config
-      const config = {
-        files: ['file.txt'],
-        from: '/foo/g',
-        to: 'bar',
-      }
-      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
-
-      //Load config
-      const cfg = await loadConfig('config.json')
-      expect(cfg.from).to.be.an.instanceof(RegExp)
-
-      //Clean up
-      fs.unlinkSync('config.json')
-    })
-
-    it('should not convert from regex if it is a regular string', async () => {
-
-      //Test config
-      const config = {
-        files: ['file.txt'],
-        from: '/foo',
-        to: 'bar',
-      }
-      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
-
-      //Load config
-      const cfg = await loadConfig('config.json')
-      expect(cfg.from).not.to.be.an.instanceof(RegExp)
-      expect(cfg.from).to.equal(config.from)
-
-      //Clean up
-      fs.unlinkSync('config.json')
-    })
-
-    it('should ignore the isRegex flag if a regex has already been provided', async () => {
-
-      //Test config
-      const config = {
-        files: ['file.txt'],
-        from: '/foo/g',
-        to: 'bar',
-        isRegex: true,
-      }
-      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
-
-      //Load config
-      const cfg = await loadConfig('config.json')
-      expect(cfg.from).to.be.an.instanceof(RegExp)
-
-      //Clean up
-      fs.unlinkSync('config.json')
-    })
   })
 
   /**
@@ -114,7 +58,6 @@ describe('helpers/config.js', () => {
         ignore: ['ignore-file.txt'],
         encoding: 'encoding',
         disableGlobs: true,
-        isRegex: true,
         dry: true,
         quiet: true,
       }
@@ -125,7 +68,6 @@ describe('helpers/config.js', () => {
       expect(combined.ignore).to.eql(['ignore-file.txt'])
       expect(combined.encoding).to.equal('encoding')
       expect(combined.disableGlobs).to.be.true
-      expect(combined.isRegex).to.be.true
       expect(combined.dry).to.be.true
       expect(combined.quiet).to.be.true
     })
@@ -234,6 +176,25 @@ describe('helpers/config.js', () => {
       expect(c.encoding).to.equal('utf-8')
     })
 
+    it('should convert from regex if provided in JSON', async () => {
+      const parsed = parseConfig({
+        files: ['file.txt'],
+        from: '/foo/g',
+        to: 'bar',
+      })
+      expect(parsed.from).to.be.an.instanceof(RegExp)
+    })
+
+    it('should not convert from regex if it is a regular string', async () => {
+      const parsed = parseConfig({
+        files: ['file.txt'],
+        from: '/foo',
+        to: 'bar',
+      })
+      expect(parsed.from).not.to.be.an.instanceof(RegExp)
+      expect(parsed.from).to.equal('/foo')
+    })
+
     it('should overwrite the config defaults', () => {
       const parsed = parseConfig({
         files: 'test1',
@@ -244,7 +205,6 @@ describe('helpers/config.js', () => {
         disableGlobs: true,
         allowEmptyPaths: true,
         countMatches: true,
-        isRegex: true,
         verbose: true,
         quiet: true,
         dry: true,
@@ -258,7 +218,6 @@ describe('helpers/config.js', () => {
       expect(parsed.disableGlobs).to.be.true
       expect(parsed.allowEmptyPaths).to.be.true
       expect(parsed.countMatches).to.be.true
-      expect(parsed.isRegex).to.be.true
       expect(parsed.verbose).to.be.true
       expect(parsed.quiet).to.be.true
       expect(parsed.dry).to.be.true

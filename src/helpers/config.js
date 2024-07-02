@@ -14,15 +14,7 @@ export async function loadConfig(file) {
 
   //Read file
   const json = await fs.readFile(path.resolve(file), 'utf8')
-  const config = JSON.parse(json)
-
-  //Since we can't store Regexp in JSON, convert from string if needed
-  if (config.from && config.from.match(/.*\/([gimyus]*)$/)) {
-    config.from = new RegExp(config.from)
-  }
-
-  //Return config
-  return config
+  return JSON.parse(json)
 }
 
 /**
@@ -73,6 +65,13 @@ export function parseConfig(config) {
     }
   }
 
+  //Since we can't store Regexp in JSON, convert from string if needed
+  if (typeof from === 'string' && from.match(/.*\/([gimyus]*)$/)) {
+    const flags = from.replace(/.*\/([gimyus]*)$/, '$1')
+    const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
+    config.from = new RegExp(pattern, flags)
+  }
+
   //Use default encoding if invalid
   if (typeof encoding !== 'string' || encoding === '') {
     config.encoding = 'utf-8'
@@ -85,7 +84,6 @@ export function parseConfig(config) {
     disableGlobs: false,
     allowEmptyPaths: false,
     countMatches: false,
-    isRegex: false,
     verbose: false,
     quiet: false,
     dry: false,
@@ -105,7 +103,7 @@ export function combineConfig(config, argv) {
   //Extract options from config
   let {
     from, to, files, ignore, encoding, verbose,
-    allowEmptyPaths, disableGlobs, isRegex, dry, quiet,
+    allowEmptyPaths, disableGlobs, dry, quiet,
   } = config
 
   //Get from/to parameters from CLI args if not defined in options
@@ -131,9 +129,6 @@ export function combineConfig(config, argv) {
   if (typeof disableGlobs === 'undefined') {
     disableGlobs = !!argv.disableGlobs
   }
-  if (typeof isRegex === 'undefined') {
-    isRegex = !!argv.isRegex
-  }
   if (typeof verbose === 'undefined') {
     verbose = !!argv.verbose
   }
@@ -147,6 +142,6 @@ export function combineConfig(config, argv) {
   //Return through parser to validate
   return parseConfig({
     from, to, files, ignore, encoding, verbose,
-    allowEmptyPaths, disableGlobs, isRegex, dry, quiet,
+    allowEmptyPaths, disableGlobs, dry, quiet,
   })
 }

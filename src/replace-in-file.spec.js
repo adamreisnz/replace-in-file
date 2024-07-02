@@ -826,6 +826,21 @@ describe('Replace in file', () => {
         expect(test1).to.equal('a re bloop c')
       })
     })
+
+    //#197
+    describe('#197', () => {
+      before(() => fs.writeFileSync('test197', 'ABC 123\n6666666\nDEF 456', 'utf8'))
+      after(() => fs.unlinkSync('test197'))
+      it('should replace contents when a regex string is passed', () => {
+        replaceInFileSync({
+          files: 'test197',
+          from: '/\\w{3} \\d{3}/g',
+          to: 'replaced',
+        })
+        const test197 = fs.readFileSync('test197', 'utf8')
+        expect(test197).to.equal('replaced\n6666666\nreplaced')
+      })
+    })
   })
 
   describe('module export', () => {

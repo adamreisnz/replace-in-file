@@ -25,19 +25,12 @@ async function main() {
   const options = combineConfig(config, argv)
 
   //Extract settings
-  const {from, to, files, isRegex, verbose, quiet} = options
+  const {from, to, files, verbose, quiet} = options
 
   //Single star globs already get expanded in the command line
   options.files = files.reduce((files, file) => {
     return files.concat(file.split(','))
   }, [])
-
-  //If the isRegex flag is passed, convert the from parameter to a RegExp object
-  if (isRegex && typeof from === 'string') {
-    const flags = from.replace(/.*\/([gimyus]*)$/, '$1')
-    const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
-    options.from = new RegExp(pattern, flags)
-  }
 
   //Log
   if (!quiet) {
