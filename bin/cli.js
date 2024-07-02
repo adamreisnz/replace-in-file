@@ -15,6 +15,24 @@ async function main() {
   const argv = yargs(hideBin(process.argv)).argv
   const {configFile} = argv
 
+  //Display help
+  if (argv.help || argv.h) {
+    return console.log(`
+Usage:
+  replace-in-file from to from to some/file.js,some/**/glob.js
+
+Available options (all are optional):
+  --configFile   Path to JSON config file
+  --ignore       Files to ignore (comma separated)
+  --encoding     File encoding (default is utf-8)
+  --disableGlobs Disable glob expansion
+  --verbose      Show additional information
+  --quiet        Suppress output
+  --dry          Dry run (no changes made)
+  --help, -h     Show this help information
+`)
+  }
+
   //Verify arguments
   if (argv._.length < 3 && !configFile) {
     throw new Error('Replace in file needs at least 3 arguments')
