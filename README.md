@@ -519,6 +519,8 @@ If you are using a configuration file, and you want to use a regular expression 
 }
 ```
 
+It is not necessary to use the `--isRegex` flag in this case.
+
 ## A note on using globs with the CLI
 When using the CLI, the glob pattern is handled by the operating system. But if you specify the glob pattern in the configuration file, the package will use the glob module from the Node modules, and this can lead to different behaviour despite using the same pattern.
 

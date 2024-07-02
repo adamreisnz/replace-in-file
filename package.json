@@ -1,7 +1,7 @@
 {
   "name": "replace-in-file",
   "type": "module",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {

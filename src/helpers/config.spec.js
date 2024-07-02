@@ -70,7 +70,7 @@ describe('helpers/config.js', () => {
       //Test config
       const config = {
         files: ['file.txt'],
-        from: 'foo',
+        from: '/foo',
         to: 'bar',
       }
       fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
@@ -79,6 +79,25 @@ describe('helpers/config.js', () => {
       const cfg = await loadConfig('config.json')
       expect(cfg.from).not.to.be.an.instanceof(RegExp)
       expect(cfg.from).to.equal(config.from)
+
+      //Clean up
+      fs.unlinkSync('config.json')
+    })
+
+    it('should ignore the isRegex flag if a regex has already been provided', async () => {
+
+      //Test config
+      const config = {
+        files: ['file.txt'],
+        from: '/foo/g',
+        to: 'bar',
+        isRegex: true,
+      }
+      fs.writeFileSync('config.json', JSON.stringify(config), 'utf8')
+
+      //Load config
+      const cfg = await loadConfig('config.json')
+      expect(cfg.from).to.be.an.instanceof(RegExp)
 
       //Clean up
       fs.unlinkSync('config.json')

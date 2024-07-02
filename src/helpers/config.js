@@ -17,7 +17,7 @@ export async function loadConfig(file) {
   const config = JSON.parse(json)
 
   //Since we can't store Regexp in JSON, convert from string if needed
-  if (config.from && config.from.startsWith('/')) {
+  if (config.from && config.from.match(/.*\/([gimyus]*)$/)) {
     config.from = new RegExp(config.from)
   }
 

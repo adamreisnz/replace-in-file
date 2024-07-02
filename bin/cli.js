@@ -33,7 +33,7 @@ async function main() {
   }, [])
 
   //If the isRegex flag is passed, convert the from parameter to a RegExp object
-  if (isRegex) {
+  if (isRegex && typeof from === 'string') {
     const flags = from.replace(/.*\/([gimyus]*)$/, '$1')
     const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
     options.from = new RegExp(pattern, flags)
