@@ -185,6 +185,18 @@ describe('helpers/config.js', () => {
       expect(parsed.from).to.be.an.instanceof(RegExp)
     })
 
+    it('should convert from an array of regexes if provided in JSON', async () => {
+      const parsed = parseConfig({
+        files: ['file.txt'],
+        from: ['/foo/g', '/baz/g', 'plain'],
+        to: 'bar',
+      })
+      expect(parsed.from).to.be.an.instanceof(Array)
+      expect(parsed.from[0]).to.be.an.instanceof(RegExp)
+      expect(parsed.from[1]).to.be.an.instanceof(RegExp)
+      expect(parsed.from[2]).to.equal('plain')
+    })
+
     it('should not convert from regex if it is a regular string', async () => {
       const parsed = parseConfig({
         files: ['file.txt'],

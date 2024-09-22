@@ -18,6 +18,30 @@ export async function loadConfig(file) {
 }
 
 /**
+ * Helper to convert a string to Regex if it matches the pattern
+ */
+export function stringToRegex(str) {
+
+  //Array given
+  if (Array.isArray(str)) {
+    return str.map(stringToRegex)
+  }
+
+  //Not a string, or no match
+  const regexMatch = /.*\/([gimyus]*)$/
+  if (typeof str !== 'string' || !str.match(regexMatch)) {
+    return str
+  }
+
+  //Extract flags and pattern
+  const flags = str.replace(/.*\/([gimyus]*)$/, '$1')
+  const pattern = str.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
+
+  //Return regex
+  return new RegExp(pattern, flags)
+}
+
+/**
  * Parse config
  */
 export function parseConfig(config) {
@@ -66,11 +90,7 @@ export function parseConfig(config) {
   }
 
   //Since we can't store Regexp in JSON, convert from string if needed
-  if (typeof from === 'string' && from.match(/.*\/([gimyus]*)$/)) {
-    const flags = from.replace(/.*\/([gimyus]*)$/, '$1')
-    const pattern = from.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
-    config.from = new RegExp(pattern, flags)
-  }
+  config.from = stringToRegex(from)
 
   //Use default encoding if invalid
   if (typeof encoding !== 'string' || encoding === '') {
