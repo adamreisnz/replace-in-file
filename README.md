@@ -368,10 +368,10 @@ const options = {
   glob: {
 
     //To include hidden files (starting with a dot)
-    dot: true, 
+    dot: true,
 
     //To fix paths on Windows OS when path.join() is used to create paths
-    windowsPathsNoEscape: true, 
+    windowsPathsNoEscape: true,
   },
 }
 ```
@@ -434,6 +434,18 @@ function someProcessingB(input) {
 const results = replaceInFileSync({
   files: 'path/to/files/*.html',
   processor: [someProcessingA, someProcessingB],
+})
+```
+
+Alongside the `processor`, there is also `processorAsync` which is the equivalent for asynchronous processing. It should return a promise that resolves with the processed content:
+
+```js
+const results = await replaceInFile({
+  files: 'path/to/files/*.html',
+  processorAsync: async (input, file) => {
+    const asyncResult = await doAsyncOperation(input, file);
+    return input.replace(/foo/g, asyncResult)
+  },
 })
 ```
 
