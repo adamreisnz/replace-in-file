@@ -41,6 +41,28 @@ export function processSync(file, processor, config) {
 }
 
 /**
+ * Run processors (async)
+ */
+export async function runProcessorsAsync(contents, processorAsync, file) {
+
+  //Ensure array and prepare result
+  const processorAsyncs = Array.isArray(processorAsync) ? processorAsync : [processorAsync]
+
+  //Run processors
+  let newContents = contents
+  for (const processor of processorAsyncs) {
+    newContents = await processor(newContents, file)
+  }
+
+  //Check if contents changed and prepare result
+  const hasChanged = (newContents !== contents)
+  const result = {file, hasChanged}
+
+  //Return along with new contents
+  return [result, newContents]
+}
+
+/**
  * Helper to process in a single file (async)
  */
 export async function processAsync(file, processor, config) {
@@ -50,7 +72,7 @@ export async function processAsync(file, processor, config) {
   const contents = await fs.readFile(file, encoding)
 
   //Make replacements
-  const [result, newContents] = runProcessors(contents, processor, file)
+  const [result, newContents] = await runProcessorsAsync(contents, processor, file)
 
   //Contents changed and not a dry run? Write to file
   if (result.hasChanged && !dry) {

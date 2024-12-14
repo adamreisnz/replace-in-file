@@ -96,6 +96,15 @@ describe('helpers/config.js', () => {
       })).to.throw(Error)
     })
 
+    it('should error when an invalid `processorAsync` is specified', () => {
+      expect(() => parseConfig({
+        processorAsync: 'foo',
+        files: ['test1', 'test2', 'test3'],
+        from: [/re/g, /place/g],
+        to: ['b'],
+      })).to.throw(Error)
+    })
+
     it('should error when `files` are not specified', () => {
       expect(() => parseConfig({
         from: [/re/g, /place/g],
