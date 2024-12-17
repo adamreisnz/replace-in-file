@@ -55,10 +55,15 @@ export function parseConfig(config) {
   config.glob = config.glob || {}
 
   //Extract data
-  const {files, getTargetFile, from, to, processor, ignore, encoding} = config
+  const {files, getTargetFile, from, to, processor, processorAsync, ignore, encoding} = config
   if (typeof processor !== 'undefined') {
     if (typeof processor !== 'function' && !Array.isArray(processor)) {
       throw new Error(`Processor should be either a function or an array of functions`)
+    }
+  }
+  else if (typeof processorAsync !== 'undefined') {
+    if (typeof processorAsync !== 'function' && !Array.isArray(processorAsync)) {
+      throw new Error(`ProcessorAsync should be either a function or an array of functions`)
     }
   }
   else {

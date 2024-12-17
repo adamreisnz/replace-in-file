@@ -72,6 +72,22 @@ describe('Process a file', () => {
       })
     })
 
+    it('should run processorAsync', done => {
+      processFile({
+        files: 'test1',
+        processorAsync: async (input) => {
+          const replaceValue = await Promise.resolve('b')
+          return input.replace(/re\splace/g, replaceValue)
+        },
+      }).then(() => {
+        const test1 = fs.readFileSync('test1', 'utf8')
+        const test2 = fs.readFileSync('test2', 'utf8')
+        expect(test1).to.equal('a b c')
+        expect(test2).to.equal(testData)
+        done()
+      })
+    })
+
     it('should replace contents in a single file with regex', done => {
       processFile(fromToToProcessor({
         files: 'test1',
@@ -400,7 +416,7 @@ describe('Process a file', () => {
       expect(results[0].hasChanged).to.equal(false)
     })
 
-    it('should return corret results for multiple files', function() {
+    it('should return correct results for multiple files', function() {
       const results = processFileSync(fromToToProcessor({
         files: ['test1', 'test2', 'test3'],
         from: /re\splace/g,

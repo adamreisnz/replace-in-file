@@ -29,6 +29,7 @@ declare module 'replace-in-file' {
     dry?: boolean;
     glob?: object;
     processor?: ProcessorCallback | Array<ProcessorCallback>;
+    processorAsync?: ProcessorAsyncCallback | Array<ProcessorAsyncCallback>;
   }
 
   export interface ReplaceResult {
@@ -42,3 +43,4 @@ declare module 'replace-in-file' {
 type FromCallback = (file: string) => string | RegExp | (RegExp | string)[];
 type ToCallback = (match: string, file: string) => string | string[];
 type ProcessorCallback = (input: string, file: string) => string;
+type ProcessorAsyncCallback = (input: string, file: string) => Promise<string>;

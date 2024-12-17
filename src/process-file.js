@@ -10,14 +10,14 @@ export async function processFile(config) {
 
   //Parse config
   config = parseConfig(config)
-  const {files, processor, dry, verbose} = config
+  const {files, processor, processorAsync, dry, verbose} = config
 
   //Dry run?
   logDryRun(dry && verbose)
 
   //Find paths and process them
   const paths = await pathsAsync(files, config)
-  const promises = paths.map(path => processAsync(path, processor, config))
+  const promises = paths.map(path => processAsync(path, processor ?? processorAsync, config))
   const results = await Promise.all(promises)
 
   //Return results

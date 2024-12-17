@@ -10,7 +10,7 @@ import {processFile, processFileSync} from './process-file.js'
 export async function replaceInFile(config) {
 
   //If custom processor is provided use it instead
-  if (config && config.processor) {
+  if (config && (config.processor || config.processorAsync)) {
     return await processFile(config)
   }
 
@@ -34,6 +34,10 @@ export async function replaceInFile(config) {
  * Replace in file (sync)
  */
 export function replaceInFileSync(config) {
+
+  if (config && config.processorAsync) {
+    throw new Error('ProcessorAsync cannot be used in synchronous mode')
+  }
 
   //If custom processor is provided use it instead
   if (config && config.processor) {
