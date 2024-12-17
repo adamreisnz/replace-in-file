@@ -21,6 +21,7 @@ declare module 'replace-in-file' {
     ignore?: string | string[];
     from?: From | Array<From>;
     to?: To | Array<To>;
+    getTargetFile?(source: string): string;
     countMatches?: boolean;
     allowEmptyPaths?: boolean;
     disableGlobs?: boolean;
