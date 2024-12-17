@@ -416,7 +416,7 @@ describe('Process a file', () => {
       expect(results[0].hasChanged).to.equal(false)
     })
 
-    it('should return corret results for multiple files', function() {
+    it('should return correct results for multiple files', function() {
       const results = processFileSync(fromToToProcessor({
         files: ['test1', 'test2', 'test3'],
         from: /re\splace/g,

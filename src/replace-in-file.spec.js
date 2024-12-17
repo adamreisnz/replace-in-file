@@ -469,6 +469,16 @@ describe('Replace in file', () => {
    */
   describe('Sync', () => {
 
+    it('should error with processorAsync', function() {
+      return expect(() => replaceInFileSync({
+        files: 'test1',
+        processorAsync: async (input) => {
+          const replaceValue = await Promise.resolve('b')
+          return input.replace(/re\splace/g, replaceValue)
+        },
+      })).to.throw(Error)
+    })
+
     it('should replace contents in a single file with regex', function() {
       replaceInFileSync({
         files: 'test1',

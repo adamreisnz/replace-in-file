@@ -35,13 +35,13 @@ export async function replaceInFile(config) {
  */
 export function replaceInFileSync(config) {
 
+  if (config && config.processorAsync) {
+    throw new Error('ProcessorAsync cannot be used in synchronous mode')
+  }
+
   //If custom processor is provided use it instead
   if (config && config.processor) {
     return processFileSync(config)
-  }
-
-  if (typeof processorAsync !== 'undefined') {
-    throw new Error('ProcessorAsync cannot be used in synchronous mode')
   }
 
   //Parse config
