@@ -1,7 +1,7 @@
 {
   "name": "replace-in-file",
   "type": "module",
-  "version": "8.3.1",
+  "version": "8.4.0",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
@@ -34,6 +34,12 @@
     "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
     "postversion": "git push && git push --tags && npm publish"
   },
+  "files": [
+    "bin",
+    "src",
+    "types",
+    "index.js"
+  ],
   "dependencies": {
     "chalk": "^5.6.2",
     "glob": "^13.0.0",
