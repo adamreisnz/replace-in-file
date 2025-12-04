@@ -1,7 +1,7 @@
 {
   "name": "replace-in-file",
   "type": "module",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "description": "A simple utility to quickly replace text in one or more files.",
   "homepage": "https://github.com/adamreisnz/replace-in-file#readme",
   "author": {
@@ -35,16 +35,16 @@
     "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
-    "glob": "^10.4.2",
-    "yargs": "^17.7.2"
+    "chalk": "^5.6.2",
+    "glob": "^13.0.0",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.2.0",
-    "c8": "^10.1.2",
-    "chai": "^5.1.1",
-    "chai-as-promised": "^8.0.0",
-    "eslint": "^9.2.0",
-    "mocha": "^10.4.0"
+    "@eslint/js": "^9.39.1",
+    "c8": "^10.1.3",
+    "chai": "^6.2.1",
+    "chai-as-promised": "^8.0.2",
+    "eslint": "^9.39.1",
+    "mocha": "^11.7.5"
   }
 }
