@@ -27,17 +27,15 @@ export function stringToRegex(str) {
     return str.map(stringToRegex)
   }
 
-  //Not a string, or no match
-  const regexMatch = /.*\/([gimyus]*)$/
-  if (typeof str !== 'string' || !str.match(regexMatch)) {
+  //Not a string, or not wrapped in slashes like /pattern/flags
+  const regexMatch = /^\/(.*)\/([gimyus]*)$/s
+  const match = (typeof str === 'string') ? str.match(regexMatch) : null
+  if (!match) {
     return str
   }
 
-  //Extract flags and pattern
-  const flags = str.replace(/.*\/([gimyus]*)$/, '$1')
-  const pattern = str.replace(new RegExp(`^/(.*?)/${flags}$`), '$1')
-
-  //Return regex
+  //Extract pattern and flags and return regex
+  const [, pattern, flags] = match
   return new RegExp(pattern, flags)
 }
 

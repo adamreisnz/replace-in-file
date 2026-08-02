@@ -1,6 +1,6 @@
 import {expect, use, should} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {loadConfig, combineConfig, parseConfig} from './config.js'
+import {loadConfig, combineConfig, parseConfig, stringToRegex} from './config.js'
 import fs from 'node:fs'
 
 //Enable should assertion style for usage with chai-as-promised
@@ -45,6 +45,37 @@ describe('helpers/config.js', () => {
 
       //Clean up
       fs.unlinkSync('config.json')
+    })
+  })
+
+  /**
+   * String to regex
+   */
+  describe('stringToRegex()', () => {
+
+    it('should convert strings wrapped in slashes to a regex', () => {
+      expect(stringToRegex('/cat/g')).to.eql(/cat/g)
+      expect(stringToRegex('/cat/')).to.eql(/cat/)
+      expect(stringToRegex('/^foo.*bar$/gim')).to.eql(/^foo.*bar$/gim)
+    })
+
+    it('should convert arrays of strings', () => {
+      expect(stringToRegex(['/cat/g', 'dog'])).to.eql([/cat/g, 'dog'])
+    })
+
+    it('should leave strings without a leading slash untouched', () => {
+      expect(stringToRegex('assets/img')).to.equal('assets/img')
+      expect(stringToRegex('src/gui')).to.equal('src/gui')
+      expect(stringToRegex('path/to/g')).to.equal('path/to/g')
+      expect(stringToRegex('foo/')).to.equal('foo/')
+      expect(stringToRegex('1.2/')).to.equal('1.2/')
+      expect(stringToRegex('plain')).to.equal('plain')
+    })
+
+    it('should leave non-string values untouched', () => {
+      expect(stringToRegex(/cat/g)).to.eql(/cat/g)
+      expect(stringToRegex(42)).to.equal(42)
+      expect(stringToRegex(undefined)).to.equal(undefined)
     })
   })
 
