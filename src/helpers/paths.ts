@@ -1,31 +1,36 @@
 import {glob} from 'glob'
 import nodepath from 'node:path'
+import type {GlobOptionsWithFileTypesFalse} from 'glob'
+import type {ParsedConfig} from '../types.ts'
 
 /**
  * Async wrapper for glob
  */
-export function globAsync(pattern, ignore, allowEmptyPaths, cfg) {
-
-  //Prepare glob config
-  cfg = Object.assign({ignore}, cfg, {nodir: true})
+export async function globAsync(
+  pattern: string,
+  ignore: string[],
+  allowEmptyPaths: boolean,
+  cfg: GlobOptionsWithFileTypesFalse
+): Promise<string[]> {
 
   //Run glob
-  return glob(pattern, cfg).then(files => {
-
-    //Error if no files match, unless allowed
-    if (!allowEmptyPaths && files.length === 0) {
-      throw new Error('No files match the pattern: ' + pattern)
-    }
-
-    //Return files
-    return files
+  const files = await glob(pattern, {
+    ignore, ...cfg, nodir: true, withFileTypes: false,
   })
+
+  //Error if no files match, unless allowed
+  if (!allowEmptyPaths && files.length === 0) {
+    throw new Error('No files match the pattern: ' + pattern)
+  }
+
+  //Return files
+  return files
 }
 
 /**
  * Get paths (sync)
  */
-export function pathsSync(patterns, config) {
+export function pathsSync(patterns: string[], config: ParsedConfig): string[] {
 
   //Extract relevant config
   const {ignore, disableGlobs, glob: globConfig, cwd} = config
@@ -36,7 +41,9 @@ export function pathsSync(patterns, config) {
   }
 
   //Prepare glob config
-  const cfg = Object.assign({ignore}, globConfig, {nodir: true})
+  const cfg: GlobOptionsWithFileTypesFalse = {
+    ignore, ...globConfig, nodir: true, withFileTypes: false,
+  }
 
   //Append CWD configuration if given (#56)
   if (cwd) {
@@ -44,8 +51,7 @@ export function pathsSync(patterns, config) {
   }
 
   //Get paths
-  const paths = patterns.map(pattern => glob.sync(pattern, cfg))
-  const flattened = [].concat.apply([], paths)
+  const flattened = patterns.flatMap(pattern => glob.sync(pattern, cfg))
 
   //Prefix each path with CWD if given (#56)
   if (cwd) {
@@ -59,7 +65,7 @@ export function pathsSync(patterns, config) {
 /**
  * Get paths asynchrously
  */
-export async function pathsAsync(patterns, config) {
+export async function pathsAsync(patterns: string[], config: ParsedConfig): Promise<string[]> {
 
   //Extract relevant config
   const {ignore, disableGlobs, allowEmptyPaths, glob: cfg} = config
@@ -75,5 +81,5 @@ export async function pathsAsync(patterns, config) {
 
   //Expand globs and flatten paths
   const paths = await Promise.all(promises)
-  return [].concat.apply([], paths)
+  return paths.flat()
 }

@@ -1,11 +1,11 @@
-import {expect, use, should} from 'chai'
+import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {processFile, processFileSync} from './process-file.js'
+import {processFile, processFileSync} from './process-file.ts'
+import type {AsyncFs, SyncFs, ReplaceInFileConfig} from './types.ts'
 import fsAsync from 'node:fs/promises'
 import fs from 'node:fs'
 
-//Enable should assertion style for usage with chai-as-promised
-should()
+//Enable promise assertions
 use(chaiAsPromised)
 
 /**
@@ -34,19 +34,19 @@ describe('Process a file', () => {
     fsAsync.unlink('test3'),
   ]))
 
-  function fromToToProcessor(config) {
+  function fromToToProcessor(config: ReplaceInFileConfig) {
     const from = config.from
     const to = config.to
     delete config.from
     delete config.to
-    config.processor = (content) => {
-      return content.replace(from, to)
+    config.processor = (content: string) => {
+      return content.replace(from as RegExp, to as string)
     }
     return config
   }
 
-  function appendFileProcessor(config) {
-    config.processor = (content, file) => {
+  function appendFileProcessor(config: ReplaceInFileConfig) {
+    config.processor = (content: string, file: string) => {
       return `${content}${file}`
     }
     return config
@@ -170,11 +170,11 @@ describe('Process a file', () => {
     })
 
     it('should fulfill the promise on success', () => {
-      return processFile(fromToToProcessor({
+      return expect(processFile(fromToToProcessor({
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-      })).should.be.fulfilled
+      }))).to.eventually.be.fulfilled
     })
 
     it('should reject the promise with an error on failure', () => {
@@ -186,12 +186,12 @@ describe('Process a file', () => {
     })
 
     it('should not reject the promise if allowEmptyPaths is true', () => {
-      return processFile(fromToToProcessor({
+      return expect(processFile(fromToToProcessor({
         files: 'nope',
         allowEmptyPaths: true,
         from: /re\splace/g,
         to: 'b',
-      })).should.be.fulfilled
+      }))).to.eventually.be.fulfilled
     })
 
     it('should return a results array', done => {
@@ -300,7 +300,7 @@ describe('Process a file', () => {
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-        glob: null,
+        glob: null as any,
       })).then(() => {
         const test1 = fs.readFileSync('test1', 'utf8')
         expect(test1).to.equal('a b c')
@@ -311,9 +311,9 @@ describe('Process a file', () => {
     describe('fs', () => {
       it('reads and writes using a custom fs when provided', done => {
         const before = 'abc'
-        let written
+        let written: string | undefined
 
-        const fs = {
+        const fs: AsyncFs = {
           readFile: async () => {
             return before
           },
@@ -527,15 +527,14 @@ describe('Process a file', () => {
     describe('fsSync', () => {
       it('reads and writes using a custom fsSync when provided', done => {
         const before = 'a'
-        let written
+        let written: string | undefined
 
-        const fsSync = {
+        const fsSync: SyncFs = {
           readFileSync: () => {
             return before
           },
           writeFileSync: (_fileName, data) => {
             written = data
-            return data
           },
         }
 

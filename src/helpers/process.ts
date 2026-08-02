@@ -1,8 +1,11 @@
+import type {ParsedConfig, Processor, ProcessorAsync, ReplaceResult} from '../types.ts'
 
 /**
  * Run processors
  */
-export function runProcessors(contents, processor, file) {
+export function runProcessors(
+  contents: string, processor: Processor | Processor[], file: string
+): [ReplaceResult, string] {
 
   //Ensure array and prepare result
   const processors = Array.isArray(processor) ? processor : [processor]
@@ -22,7 +25,9 @@ export function runProcessors(contents, processor, file) {
 /**
  * Helper to process in a single file (sync)
  */
-export function processSync(file, processor, config) {
+export function processSync(
+  file: string, processor: Processor | Processor[], config: ParsedConfig
+): ReplaceResult {
 
   //Extract relevant config and read file contents
   const {encoding, dry, fsSync} = config
@@ -43,7 +48,9 @@ export function processSync(file, processor, config) {
 /**
  * Run processors (async)
  */
-export async function runProcessorsAsync(contents, processorAsync, file) {
+export async function runProcessorsAsync(
+  contents: string, processorAsync: ProcessorAsync | ProcessorAsync[], file: string
+): Promise<[ReplaceResult, string]> {
 
   //Ensure array and prepare result
   const processorAsyncs = Array.isArray(processorAsync) ? processorAsync : [processorAsync]
@@ -65,7 +72,9 @@ export async function runProcessorsAsync(contents, processorAsync, file) {
 /**
  * Helper to process in a single file (async)
  */
-export async function processAsync(file, processor, config) {
+export async function processAsync(
+  file: string, processor: ProcessorAsync | ProcessorAsync[], config: ParsedConfig
+): Promise<ReplaceResult> {
 
   //Extract relevant config and read file contents
   const {encoding, dry, fs} = config

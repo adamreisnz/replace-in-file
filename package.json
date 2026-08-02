@@ -23,24 +23,33 @@
     "file"
   ],
   "packageManager": "pnpm@11.18.0",
-  "main": "index.js",
-  "bin": "./bin/cli.js",
-  "types": "./types/index.d.ts",
+  "main": "./dist/index.js",
+  "bin": "./dist/bin/cli.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
-    "test": "mocha 'src/**/*.spec.js'",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "test": "mocha --node-option=experimental-strip-types 'src/**/*.spec.ts'",
     "lint": "eslint .",
     "coverage": "c8 npm run test",
+    "coverage:ci": "c8 npm run test",
     "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
+    "prepack": "pnpm run build",
     "postversion": "git push && git push --tags"
   },
   "files": [
-    "bin",
-    "src",
-    "types",
-    "index.js"
+    "dist"
   ],
   "dependencies": {
     "chalk": "^6.0.0",
@@ -50,11 +59,18 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/chai": "^5.2.3",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^26.1.2",
+    "@types/yargs": "^17.0.35",
     "c8": "^12.0.0",
     "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
     "eslint": "^10.8.0",
     "globals": "^17.8.0",
-    "mocha": "^11.7.6"
+    "mocha": "^11.7.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0"
   }
 }

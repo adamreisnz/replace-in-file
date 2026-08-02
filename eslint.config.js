@@ -1,14 +1,19 @@
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
+import tseslint from 'typescript-eslint'
 import globals from 'globals'
 
 export default [
-  js.configs.recommended,
   {
     ignores: [
       'node_modules',
       'coverage',
+      'dist',
     ],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
     plugins: {
       '@stylistic': stylistic,
     },
@@ -49,11 +54,25 @@ export default [
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-empty': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       'no-empty-function': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-      'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        process.env.NODE_ENV === 'production' ? 'error' : 'warn', {
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       'no-unreachable': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       '@stylistic/no-multiple-empty-lines': ['error', {
         max: 1, maxEOF: 0,
       }],
+    },
+  },
+  {
+    //Allow chai assertion expressions and deliberately invalid inputs in specs
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ]

@@ -1,13 +1,11 @@
+import type {ParsedConfig, From, FromValue, To, ReplaceResult} from '../types.ts'
 
 /**
  * Get replacement helper
  */
-export function getReplacement(replace, isArray, i) {
-  if (isArray && typeof replace[i] === 'undefined') {
-    return null
-  }
-  if (isArray) {
-    return replace[i]
+export function getReplacement(replace: To | To[], i: number): To | null {
+  if (Array.isArray(replace)) {
+    return replace[i] ?? null
   }
   return replace
 }
@@ -15,7 +13,7 @@ export function getReplacement(replace, isArray, i) {
 /**
  * Escape string to make it safe for use in a regex
  */
-export function escapeRegex(string) {
+export function escapeRegex(string: FromValue): FromValue {
   if (typeof string === 'string') {
     return string.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')
   }
@@ -25,16 +23,18 @@ export function escapeRegex(string) {
 /**
  * Helper to make replacements
  */
-export function makeReplacements(contents, from, to, file, count) {
+export function makeReplacements(
+  contents: string, from: From | From[], to: To | To[],
+  file: string, count?: boolean
+): [ReplaceResult, string] {
 
   //Turn into array
   if (!Array.isArray(from)) {
     from = [from]
   }
 
-  //Check if replace value is an array and prepare result
-  const isArray = Array.isArray(to)
-  const result = {file}
+  //Prepare result
+  const result: ReplaceResult = {file, hasChanged: false}
 
   //Counting? Initialize number of matches
   if (count) {
@@ -43,37 +43,32 @@ export function makeReplacements(contents, from, to, file, count) {
   }
 
   //Make replacements
-  const newContents = from.reduce((contents, item, i) => {
+  const newContents = from.reduce<string>((contents, item, i) => {
 
     //Call function if given, passing in the filename
-    if (typeof item === 'function') {
-      item = item(file)
-    }
+    const search = (typeof item === 'function') ? item(file) : item
 
     //Get replacement value
-    let replacement = getReplacement(to, isArray, i)
+    const replacement = getReplacement(to, i)
     if (replacement === null) {
       return contents
     }
 
-    //Call function if given, appending the filename
-    if (typeof replacement === 'function') {
-      const original = replacement
-      replacement = (...args) => original(...args, file)
-    }
-
     //Count matches
     if (count) {
-      const matches = contents.match(escapeRegex(item))
+      const matches = contents.match(escapeRegex(search))
       if (matches) {
         const replacements = matches.filter(match => match !== replacement)
-        result.numMatches += matches.length
-        result.numReplacements += replacements.length
+        result.numMatches! += matches.length
+        result.numReplacements! += replacements.length
       }
     }
 
-    //Make replacement
-    return contents.replace(item, replacement)
+    //Make replacement, appending the filename if a function is given
+    if (typeof replacement === 'function') {
+      return contents.replace(search, (...args: string[]) => replacement(...args, file))
+    }
+    return contents.replace(search, replacement)
   }, contents)
 
   //Check if changed
@@ -86,7 +81,9 @@ export function makeReplacements(contents, from, to, file, count) {
 /**
  * Helper to replace in a single file (sync)
  */
-export function replaceSync(source, from, to, config) {
+export function replaceSync(
+  source: string, from: From | From[], to: To | To[], config: ParsedConfig
+): ReplaceResult {
 
   //Extract relevant config and read file contents
   const {getTargetFile, encoding, dry, countMatches, fsSync} = config
@@ -112,7 +109,9 @@ export function replaceSync(source, from, to, config) {
 /**
  * Helper to replace in a single file (async)
  */
-export async function replaceAsync(source, from, to, config) {
+export async function replaceAsync(
+  source: string, from: From | From[], to: To | To[], config: ParsedConfig
+): Promise<ReplaceResult> {
 
   //Extract relevant config and read file contents
   const {getTargetFile, encoding, dry, countMatches, fs} = config

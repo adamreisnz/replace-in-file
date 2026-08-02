@@ -2,9 +2,10 @@
 
 import yargs from 'yargs'
 import {hideBin} from 'yargs/helpers'
-import {replaceInFileSync} from '../src/replace-in-file.js'
-import {loadConfig, combineConfig} from '../src/helpers/config.js'
-import {errorHandler, successHandler} from '../src/helpers/handlers.js'
+import {replaceInFileSync} from '../src/replace-in-file.ts'
+import {loadConfig, combineConfig} from '../src/helpers/config.ts'
+import {errorHandler, successHandler} from '../src/helpers/handlers.ts'
+import type {CliArguments} from '../src/types.ts'
 
 /**
  * Main routine
@@ -12,7 +13,7 @@ import {errorHandler, successHandler} from '../src/helpers/handlers.js'
 async function main() {
 
   //Extract parameters
-  const argv = yargs(hideBin(process.argv)).argv
+  const argv = await yargs(hideBin(process.argv)).argv as CliArguments
   const {configFile} = argv
 
   //Display help
@@ -46,9 +47,7 @@ Available options (all are optional):
   const {from, to, files, verbose, quiet} = options
 
   //Single star globs already get expanded in the command line
-  options.files = files.reduce((files, file) => {
-    return files.concat(file.split(','))
-  }, [])
+  options.files = files.flatMap(file => file.split(','))
 
   //Log
   if (!quiet) {

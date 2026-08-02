@@ -6,6 +6,11 @@ The package now requires Node 22.12.0 or higher, as Node 18 and Node 20 have rea
 - Strings passed to `from` are now only converted to a regular expression if they both start and end with a slash (e.g. `"/cat/g"`), as documented. Previously, plain strings that merely ended in a slash and optional flag characters (e.g. `"assets/img"` or `"foo/"`) were silently converted to regular expressions as well.
 
 ### Other changes
+- The codebase has been converted to TypeScript. Type definitions are now generated from the source code instead of being maintained by hand, fixing several inaccuracies in the previous type definitions:
+  - The types incorrectly declared a default export and a `replaceInFile.replaceInFileSync` namespace API, both of which were removed from the runtime in 8.0.0
+  - `processFile` and `processFileSync` were missing from the types
+  - The `cwd`, `verbose`, `quiet`, `fs` and `fsSync` options were missing from the config type
+- The package now ships compiled output from the `dist` folder, and an `exports` map has been added. Deep imports into package internals (e.g. `replace-in-file/src/...`) are no longer possible
 - Upgraded all dependencies, including chalk to 6.x
 - The repository now uses pnpm as its package manager
 
