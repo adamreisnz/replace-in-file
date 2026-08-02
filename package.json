@@ -40,9 +40,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc",
-    "test": "mocha --node-option import=tsx 'src/**/*.spec.ts'",
+    "test": "mocha --node-option=experimental-strip-types 'src/**/*.spec.ts'",
     "lint": "eslint .",
     "coverage": "c8 npm run test",
+    "coverage:ci": "c8 npm run test",
     "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
     "prepack": "pnpm run build",
     "postversion": "git push && git push --tags"
@@ -69,7 +70,6 @@
     "eslint": "^10.8.0",
     "globals": "^17.8.0",
     "mocha": "^11.7.6",
-    "tsx": "^4.23.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0"
   }

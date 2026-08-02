@@ -4,7 +4,16 @@
     "**/*.spec.ts",
     "src/helpers/handlers.ts"
   ],
-  "reporter": ["lcov", "text", "html"],
-  "sourceMap": false,
-  "cache": false
+  "reporter": [
+    "lcov",
+    "text",
+    "html"
+  ],
+  "sourceMap": true,
+  "cache": false,
+  "check-coverage": true,
+  "statements": 100,
+  "branches": 100,
+  "functions": 100,
+  "lines": 100
 }

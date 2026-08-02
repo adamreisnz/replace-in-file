@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import fsSync from 'node:fs'
-import type {ReplaceInFileConfig, ParsedConfig, CliArguments, From} from '../types.js'
+import type {ReplaceInFileConfig, ParsedConfig, CliArguments, From} from '../types.ts'
 
 /**
  * Helper to load options from a config file

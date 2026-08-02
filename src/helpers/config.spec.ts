@@ -1,6 +1,6 @@
 import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {loadConfig, combineConfig, parseConfig, stringToRegex} from './config.js'
+import {loadConfig, combineConfig, parseConfig, stringToRegex} from './config.ts'
 import fs from 'node:fs'
 
 //Enable promise assertions

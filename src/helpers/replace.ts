@@ -1,4 +1,4 @@
-import type {ParsedConfig, From, FromValue, To, ReplaceResult} from '../types.js'
+import type {ParsedConfig, From, FromValue, To, ReplaceResult} from '../types.ts'
 
 /**
  * Get replacement helper

@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import type {ReplaceResult} from '../types.js'
+import type {ReplaceResult} from '../types.ts'
 
 /**
  * Success handler

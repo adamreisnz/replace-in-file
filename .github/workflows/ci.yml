@@ -27,4 +27,5 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run typecheck
       - run: pnpm run build
-      - run: pnpm test
+      # Runs the tests and fails if coverage drops below 100%
+      - run: pnpm run coverage:ci

@@ -1,4 +1,4 @@
-import type {ParsedConfig, Processor, ProcessorAsync, ReplaceResult} from '../types.js'
+import type {ParsedConfig, Processor, ProcessorAsync, ReplaceResult} from '../types.ts'
 
 /**
  * Run processors

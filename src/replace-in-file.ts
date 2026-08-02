@@ -1,9 +1,9 @@
-import {parseConfig} from './helpers/config.js'
-import {logDryRun} from './helpers/handlers.js'
-import {pathsSync, pathsAsync} from './helpers/paths.js'
-import {replaceSync, replaceAsync} from './helpers/replace.js'
-import {processFile, processFileSync} from './process-file.js'
-import type {ReplaceInFileConfig, ReplaceResult} from './types.js'
+import {parseConfig} from './helpers/config.ts'
+import {logDryRun} from './helpers/handlers.ts'
+import {pathsSync, pathsAsync} from './helpers/paths.ts'
+import {replaceSync, replaceAsync} from './helpers/replace.ts'
+import {processFile, processFileSync} from './process-file.ts'
+import type {ReplaceInFileConfig, ReplaceResult} from './types.ts'
 
 /**
  * Replace in file (async)

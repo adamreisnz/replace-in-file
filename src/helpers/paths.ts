@@ -1,7 +1,7 @@
 import {glob} from 'glob'
 import nodepath from 'node:path'
 import type {GlobOptionsWithFileTypesFalse} from 'glob'
-import type {ParsedConfig} from '../types.js'
+import type {ParsedConfig} from '../types.ts'
 
 /**
  * Async wrapper for glob

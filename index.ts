@@ -1,5 +1,5 @@
-import {replaceInFile, replaceInFileSync} from './src/replace-in-file.js'
-import {processFile, processFileSync} from './src/process-file.js'
+import {replaceInFile, replaceInFileSync} from './src/replace-in-file.ts'
+import {processFile, processFileSync} from './src/process-file.ts'
 
 //Export
 export {replaceInFile, replaceInFileSync, processFile, processFileSync}
@@ -18,4 +18,4 @@ export type {
   GetTargetFile,
   AsyncFs,
   SyncFs
-} from './src/types.js'
+} from './src/types.ts'

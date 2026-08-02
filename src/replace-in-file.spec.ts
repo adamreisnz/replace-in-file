@@ -1,7 +1,7 @@
 import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {replaceInFile, replaceInFileSync} from './replace-in-file.js'
-import type {AsyncFs, SyncFs} from './types.js'
+import {replaceInFile, replaceInFileSync} from './replace-in-file.ts'
+import type {AsyncFs, SyncFs} from './types.ts'
 import fsAsync from 'node:fs/promises'
 import fs from 'node:fs'
 

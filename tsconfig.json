@@ -7,7 +7,17 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["node", "mocha"]
+    "types": [
+      "node",
+      "mocha"
+    ],
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true
   },
-  "include": ["index.ts", "bin", "src"]
+  "include": [
+    "index.ts",
+    "bin",
+    "src"
+  ]
 }

@@ -2,10 +2,10 @@
 
 import yargs from 'yargs'
 import {hideBin} from 'yargs/helpers'
-import {replaceInFileSync} from '../src/replace-in-file.js'
-import {loadConfig, combineConfig} from '../src/helpers/config.js'
-import {errorHandler, successHandler} from '../src/helpers/handlers.js'
-import type {CliArguments} from '../src/types.js'
+import {replaceInFileSync} from '../src/replace-in-file.ts'
+import {loadConfig, combineConfig} from '../src/helpers/config.ts'
+import {errorHandler, successHandler} from '../src/helpers/handlers.ts'
+import type {CliArguments} from '../src/types.ts'
 
 /**
  * Main routine

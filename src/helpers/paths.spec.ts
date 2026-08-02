@@ -1,7 +1,7 @@
 import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {pathsSync, pathsAsync} from './paths.js'
-import type {ParsedConfig} from '../types.js'
+import {pathsSync, pathsAsync} from './paths.ts'
+import type {ParsedConfig} from '../types.ts'
 
 //Enable promise assertions
 use(chaiAsPromised)
