@@ -24,8 +24,8 @@ describe('helpers/path.js', () => {
         cwd: './src/helpers/',
       } as ParsedConfig)
       expect(paths).to.be.an('array')
-      expect(paths).to.have.lengthOf(7)
-      expect(paths[0]).to.equal('src/helpers/replace.ts')
+      expect(paths).to.have.lengthOf(9)
+      expect(paths[0]).to.equal('src/helpers/stream.ts')
     })
 
     it('should return patterns as is if globs have been disabled', () => {

@@ -5,6 +5,9 @@ The package now requires Node 22.12.0 or higher, as Node 18 and Node 20 have rea
 - Node 22.12.0 or higher is now required (dependencies `yargs@18` and `chalk@6` require it)
 - Strings passed to `from` are now only converted to a regular expression if they both start and end with a slash (e.g. `"/cat/g"`), as documented. Previously, plain strings that merely ended in a slash and optional flag characters (e.g. `"assets/img"` or `"foo/"`) were silently converted to regular expressions as well.
 
+### New features
+- Added a `streaming` option for processing large files with bounded memory usage. Files are streamed through Node streams instead of being read into memory in full, with matches found across chunk boundaries. This also enables processing of files larger than the maximum string size supported by Node.js (about 500MB), which previously failed outright. Regex matches are guaranteed up to a configurable `maxMatchLength` window (default `1024` characters); plain string values are always matched exactly. Streaming is available for asynchronous replacement via the API (`streaming: true`) and in the CLI via `--streaming`. See the README for details and constraints.
+
 ### Other changes
 - The codebase has been converted to TypeScript. Type definitions are now generated from the source code instead of being maintained by hand, fixing several inaccuracies in the previous type definitions:
   - The types incorrectly declared a default export and a `replaceInFile.replaceInFileSync` namespace API, both of which were removed from the runtime in 8.0.0

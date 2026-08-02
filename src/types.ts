@@ -51,6 +51,8 @@ export interface ReplaceInFileConfig {
   verbose?: boolean
   quiet?: boolean
   dry?: boolean
+  streaming?: boolean
+  maxMatchLength?: number
   glob?: GlobOptionsWithFileTypesFalse
   cwd?: string | null
   getTargetFile?: GetTargetFile
@@ -73,6 +75,8 @@ export interface ParsedConfig extends ReplaceInFileConfig {
   verbose: boolean
   quiet: boolean
   dry: boolean
+  streaming: boolean
+  maxMatchLength: number
   glob: GlobOptionsWithFileTypesFalse
   cwd: string | null
   getTargetFile: GetTargetFile
@@ -84,7 +88,8 @@ export interface ParsedConfig extends ReplaceInFileConfig {
  * CLI arguments as parsed by yargs
  */
 export interface CliArguments extends Pick<ReplaceInFileConfig,
-  'ignore' | 'encoding' | 'disableGlobs' | 'verbose' | 'quiet' | 'dry'
+  'ignore' | 'encoding' | 'disableGlobs' | 'verbose' | 'quiet' | 'dry' |
+  'streaming' | 'maxMatchLength'
 > {
   _: (string | number)[]
   configFile?: string
