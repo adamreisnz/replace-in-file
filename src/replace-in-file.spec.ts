@@ -193,11 +193,11 @@ describe('Replace in file', () => {
     })
 
     it('should fulfill the promise on success', () => {
-      return replaceInFile({
+      return (replaceInFile({
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-      }).should.be.fulfilled
+      }) as any).should.be.fulfilled
     })
 
     it('should reject the promise with an error on failure', () => {
@@ -209,12 +209,12 @@ describe('Replace in file', () => {
     })
 
     it('should not reject the promise if allowEmptyPaths is true', () => {
-      return replaceInFile({
+      return (replaceInFile({
         files: 'nope',
         allowEmptyPaths: true,
         from: /re\splace/g,
         to: 'b',
-      }).should.be.fulfilled
+      }) as any).should.be.fulfilled
     })
 
     it('should return a results array', done => {
@@ -365,7 +365,7 @@ describe('Replace in file', () => {
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-        glob: null,
+        glob: null as any,
       }).then(() => {
         const test1 = fs.readFileSync('test1', 'utf8')
         expect(test1).to.equal('a b c')
@@ -440,13 +440,13 @@ describe('Replace in file', () => {
     describe('fs', () => {
       it('reads and writes using a custom fs when provided', done => {
         const before = 'a'
-        let written
+        let written: string | undefined
 
         const fs = {
           readFile: async () => {
             return before
           },
-          writeFile: async (_fileName, data) => {
+          writeFile: async (_fileName: string, data: string) => {
             written = data
           },
         }
@@ -790,13 +790,13 @@ describe('Replace in file', () => {
     describe('fsSync', () => {
       it('reads and writes using a custom fsSync when provided', () => {
         const before = 'a'
-        let written
+        let written: string | undefined
 
         const fsSync = {
           readFileSync: () => {
             return before
           },
-          writeFileSync: (_fileName, data) => {
+          writeFileSync: (_fileName: string, data: string) => {
             written = data
             return data
           },

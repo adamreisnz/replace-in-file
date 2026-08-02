@@ -34,19 +34,19 @@ describe('Process a file', () => {
     fsAsync.unlink('test3'),
   ]))
 
-  function fromToToProcessor(config) {
+  function fromToToProcessor(config: any) {
     const from = config.from
     const to = config.to
     delete config.from
     delete config.to
-    config.processor = (content) => {
+    config.processor = (content: string) => {
       return content.replace(from, to)
     }
     return config
   }
 
-  function appendFileProcessor(config) {
-    config.processor = (content, file) => {
+  function appendFileProcessor(config: any) {
+    config.processor = (content: string, file: string) => {
       return `${content}${file}`
     }
     return config
@@ -170,11 +170,11 @@ describe('Process a file', () => {
     })
 
     it('should fulfill the promise on success', () => {
-      return processFile(fromToToProcessor({
+      return (processFile(fromToToProcessor({
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-      })).should.be.fulfilled
+      })) as any).should.be.fulfilled
     })
 
     it('should reject the promise with an error on failure', () => {
@@ -186,12 +186,12 @@ describe('Process a file', () => {
     })
 
     it('should not reject the promise if allowEmptyPaths is true', () => {
-      return processFile(fromToToProcessor({
+      return (processFile(fromToToProcessor({
         files: 'nope',
         allowEmptyPaths: true,
         from: /re\splace/g,
         to: 'b',
-      })).should.be.fulfilled
+      })) as any).should.be.fulfilled
     })
 
     it('should return a results array', done => {
@@ -311,13 +311,13 @@ describe('Process a file', () => {
     describe('fs', () => {
       it('reads and writes using a custom fs when provided', done => {
         const before = 'abc'
-        let written
+        let written: string | undefined
 
         const fs = {
           readFile: async () => {
             return before
           },
-          writeFile: async (_fileName, data) => {
+          writeFile: async (_fileName: string, data: string) => {
             written = data
           },
         }
@@ -527,13 +527,13 @@ describe('Process a file', () => {
     describe('fsSync', () => {
       it('reads and writes using a custom fsSync when provided', done => {
         const before = 'a'
-        let written
+        let written: string | undefined
 
         const fsSync = {
           readFileSync: () => {
             return before
           },
-          writeFileSync: (_fileName, data) => {
+          writeFileSync: (_fileName: string, data: string) => {
             written = data
             return data
           },

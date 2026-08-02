@@ -1,11 +1,28 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import fsSync from 'node:fs'
+import type {ReplaceInFileConfig, ParsedConfig, From} from '../types.js'
+
+/**
+ * CLI arguments as parsed by yargs
+ */
+export interface CliArguments {
+  _: (string | number)[]
+  configFile?: string
+  ignore?: string | string[]
+  encoding?: string
+  disableGlobs?: boolean
+  verbose?: boolean
+  quiet?: boolean
+  dry?: boolean
+  help?: boolean
+  h?: boolean
+}
 
 /**
  * Helper to load options from a config file
  */
-export async function loadConfig(file) {
+export async function loadConfig(file: string): Promise<ReplaceInFileConfig> {
 
   //No config file provided?
   if (!file) {
@@ -14,17 +31,17 @@ export async function loadConfig(file) {
 
   //Read file
   const json = await fs.readFile(path.resolve(file), 'utf8')
-  return JSON.parse(json)
+  return JSON.parse(json) as ReplaceInFileConfig
 }
 
 /**
  * Helper to convert a string to Regex if it matches the pattern
  */
-export function stringToRegex(str) {
+export function stringToRegex(str: From | From[] | undefined): From | From[] | undefined {
 
   //Array given
   if (Array.isArray(str)) {
-    return str.map(stringToRegex)
+    return str.map(item => stringToRegex(item)) as From[]
   }
 
   //Not a string, or not wrapped in slashes like /pattern/flags
@@ -36,13 +53,13 @@ export function stringToRegex(str) {
 
   //Extract pattern and flags and return regex
   const [, pattern, flags] = match
-  return new RegExp(pattern, flags)
+  return new RegExp(pattern!, flags)
 }
 
 /**
  * Parse config
  */
-export function parseConfig(config) {
+export function parseConfig(config: ReplaceInFileConfig): ParsedConfig {
 
   //Validate config
   if (typeof config !== 'object' || config === null) {
@@ -81,7 +98,7 @@ export function parseConfig(config) {
 
   //Ensure arrays
   if (!Array.isArray(files)) {
-    config.files = [files]
+    config.files = [files] as string[]
   }
   if (!Array.isArray(ignore)) {
     if (typeof ignore === 'undefined') {
@@ -112,34 +129,35 @@ export function parseConfig(config) {
     dry: false,
     glob: {},
     cwd: null,
-    getTargetFile: source => source,
+    getTargetFile: (source: string) => source,
     fs,
     fsSync,
-  }, config)
+  }, config) as ParsedConfig
 }
 
 /**
  * Combine CLI script arguments with config options
  */
-export function combineConfig(config, argv) {
+export function combineConfig(config: ReplaceInFileConfig, argv: CliArguments): ParsedConfig {
 
   //Extract options from config
+  const {allowEmptyPaths} = config
   let {
     from, to, files, ignore, encoding, verbose,
-    allowEmptyPaths, disableGlobs, dry, quiet,
+    disableGlobs, dry, quiet,
   } = config
 
   //Get from/to parameters from CLI args if not defined in options
   if (typeof from === 'undefined') {
-    from = argv._.shift()
+    from = argv._.shift() as string
   }
   if (typeof to === 'undefined') {
-    to = argv._.shift()
+    to = argv._.shift() as string
   }
 
   //Get files and ignored files
   if (typeof files === 'undefined') {
-    files = argv._
+    files = argv._ as string[]
   }
   if (typeof ignore === 'undefined' && typeof argv.ignore !== 'undefined') {
     ignore = argv.ignore

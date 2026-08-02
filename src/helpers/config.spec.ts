@@ -18,11 +18,11 @@ describe('helpers/config.js', () => {
   describe('loadConfig()', () => {
 
     it('should error if no file is provided', () => {
-      return expect(loadConfig()).to.eventually.be.rejectedWith(Error)
+      return expect(loadConfig(undefined as any)).to.eventually.be.rejectedWith(Error)
     })
 
     it('should error when an invalid file is provided', () => {
-      return expect(loadConfig(42)).to.eventually.be.rejectedWith(Error)
+      return expect(loadConfig(42 as any)).to.eventually.be.rejectedWith(Error)
     })
 
     it('should read config from a valid file', async () => {
@@ -74,7 +74,7 @@ describe('helpers/config.js', () => {
 
     it('should leave non-string values untouched', () => {
       expect(stringToRegex(/cat/g)).to.eql(/cat/g)
-      expect(stringToRegex(42)).to.equal(42)
+      expect(stringToRegex(42 as any)).to.equal(42)
       expect(stringToRegex(undefined)).to.equal(undefined)
     })
   })
@@ -110,17 +110,17 @@ describe('helpers/config.js', () => {
   describe('parseConfig()', () => {
 
     it('should error if no config is provided', () => {
-      expect(() => parseConfig()).to.throw(Error)
+      expect(() => parseConfig(undefined as any)).to.throw(Error)
     })
 
     it('should error when an invalid config is provided', () => {
-      expect(() => parseConfig(42)).to.throw(Error)
-      expect(() => parseConfig(null)).to.throw(Error)
+      expect(() => parseConfig(42 as any)).to.throw(Error)
+      expect(() => parseConfig(null as any)).to.throw(Error)
     })
 
     it('should error when an invalid `processor` is specified', () => {
       expect(() => parseConfig({
-        processor: 'foo',
+        processor: 'foo' as any,
         files: ['test1', 'test2', 'test3'],
         from: [/re/g, /place/g],
         to: ['b'],
@@ -129,7 +129,7 @@ describe('helpers/config.js', () => {
 
     it('should error when an invalid `processorAsync` is specified', () => {
       expect(() => parseConfig({
-        processorAsync: 'foo',
+        processorAsync: 'foo' as any,
         files: ['test1', 'test2', 'test3'],
         from: [/re/g, /place/g],
         to: ['b'],
@@ -159,7 +159,7 @@ describe('helpers/config.js', () => {
 
     it('should error when an invalid `getTargetFile` handler is specified', () => {
       expect(() => parseConfig({
-        getTargetFile: 'foo',
+        getTargetFile: 'foo' as any,
         files: ['test1', 'test2', 'test3'],
         from: [/re/g, /place/g],
         to: ['b'],
@@ -203,7 +203,7 @@ describe('helpers/config.js', () => {
         files: ['test1'],
         from: [/re/g, /place/g],
         to: ['b'],
-        encoding: 42,
+        encoding: 42 as any,
       })
       const c = parseConfig({
         files: ['test1'],
@@ -232,9 +232,9 @@ describe('helpers/config.js', () => {
         to: 'bar',
       })
       expect(parsed.from).to.be.an.instanceof(Array)
-      expect(parsed.from[0]).to.be.an.instanceof(RegExp)
-      expect(parsed.from[1]).to.be.an.instanceof(RegExp)
-      expect(parsed.from[2]).to.equal('plain')
+      expect((parsed.from as any[])[0]).to.be.an.instanceof(RegExp)
+      expect((parsed.from as any[])[1]).to.be.an.instanceof(RegExp)
+      expect((parsed.from as any[])[2]).to.equal('plain')
     })
 
     it('should not convert from regex if it is a regular string', async () => {
@@ -260,10 +260,10 @@ describe('helpers/config.js', () => {
         verbose: true,
         quiet: true,
         dry: true,
-        glob: 'glob',
+        glob: 'glob' as any,
         cwd: 'cwd',
-        fs: 'fs',
-        fsSync: 'fsSync',
+        fs: 'fs' as any,
+        fsSync: 'fsSync' as any,
       })
       expect(parsed.ignore).to.eql(['ignore-file.txt'])
       expect(parsed.encoding).to.equal('encoding')

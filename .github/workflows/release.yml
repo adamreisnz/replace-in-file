@@ -25,7 +25,9 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
+      - run: pnpm run typecheck
       - run: pnpm test
+      - run: pnpm run build
       # Trusted publishing requires npm 11.5.1 or higher
       - run: npm install -g npm@latest
       # Publishes via OIDC (no token) and generates provenance automatically

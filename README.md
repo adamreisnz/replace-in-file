@@ -574,7 +574,7 @@ replace-in-file $(ls l {,**/}*)  --configFile=config.json
 ```
 
 ## Version information
-From version 9.0.0 onwards, this package requires Node 22.12.0 or higher, as older versions of Node have reached end of life. If you need support for older versions of Node, please use a previous version of this package.
+From version 9.0.0 onwards, this package requires Node 22.12.0 or higher, as older versions of Node have reached end of life. If you need support for older versions of Node, please use a previous version of this package. The package is written in TypeScript as of version 9.0.0, and type definitions are generated directly from the source code.
 
 From version 8.0.0 onwards, this package requires Node 18 or higher.
 

@@ -1,9 +1,10 @@
 import chalk from 'chalk'
+import type {ReplaceResult} from '../types.js'
 
 /**
  * Success handler
  */
-export function successHandler(results, verbose) {
+export function successHandler(results: ReplaceResult[], verbose?: boolean) {
   const changed = results.filter(result => result.hasChanged)
   const numChanges = changed.length
   if (numChanges > 0) {
@@ -20,7 +21,7 @@ export function successHandler(results, verbose) {
 /**
  * Error handler
  */
-export function errorHandler(error, exitCode = 1) {
+export function errorHandler(error: unknown, exitCode: number = 1) {
   console.error(error)
   process.exit(exitCode)
 }
@@ -28,7 +29,7 @@ export function errorHandler(error, exitCode = 1) {
 /**
  * Helper to log a dry run
  */
-export function logDryRun(log) {
+export function logDryRun(log?: boolean) {
   if (log) {
     console.log(chalk.yellow('Dry run, not making actual changes'))
   }
