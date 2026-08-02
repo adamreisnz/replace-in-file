@@ -47,6 +47,9 @@ npm i replace-in-file
 
 # Using yarn
 yarn add replace-in-file
+
+# Using pnpm
+pnpm add replace-in-file
 ```
 
 ### Asynchronous replacement

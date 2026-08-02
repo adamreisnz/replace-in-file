@@ -22,6 +22,7 @@
     "contents",
     "file"
   ],
+  "packageManager": "pnpm@11.18.0",
   "main": "index.js",
   "bin": "./bin/cli.js",
   "types": "./types/index.d.ts",
