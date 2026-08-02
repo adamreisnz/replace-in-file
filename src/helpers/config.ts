@@ -68,7 +68,10 @@ export function parseConfig(config: ReplaceInFileConfig): ParsedConfig {
   config.glob = config.glob || {}
 
   //Extract data
-  const {files, getTargetFile, from, to, processor, processorAsync, ignore, encoding} = config
+  const {
+    files, getTargetFile, from, to, processor, processorAsync,
+    ignore, encoding, streaming, maxMatchLength,
+  } = config
   if (typeof processor !== 'undefined') {
     if (typeof processor !== 'function' && !Array.isArray(processor)) {
       throw new Error(`Processor should be either a function or an array of functions`)
@@ -91,6 +94,25 @@ export function parseConfig(config: ReplaceInFileConfig): ParsedConfig {
     }
     if (typeof getTargetFile !== 'undefined' && typeof getTargetFile !== 'function') {
       throw new Error(`Target file transformation parameter should be a function that takes the source file path as argument and returns the target file path`)
+    }
+  }
+
+  //Validate streaming constraints
+  if (streaming) {
+    if (typeof processor !== 'undefined' || typeof processorAsync !== 'undefined') {
+      throw new Error('Streaming is not supported with custom processors')
+    }
+    //Compare against the default file systems, as an already parsed config
+    //will have those merged in (e.g. when the CLI re-parses its options)
+    const hasCustomFs = (typeof config.fs !== 'undefined' && config.fs !== fs)
+    const hasCustomFsSync = (typeof config.fsSync !== 'undefined' && config.fsSync !== fsSync)
+    if (hasCustomFs || hasCustomFsSync) {
+      throw new Error('Streaming is not supported with a custom file system')
+    }
+  }
+  if (typeof maxMatchLength !== 'undefined') {
+    if (!Number.isInteger(maxMatchLength) || maxMatchLength < 1) {
+      throw new Error('Max match length must be a positive integer')
     }
   }
 
@@ -125,6 +147,8 @@ export function parseConfig(config: ReplaceInFileConfig): ParsedConfig {
     verbose: false,
     quiet: false,
     dry: false,
+    streaming: false,
+    maxMatchLength: 1024,
     glob: {},
     cwd: null,
     getTargetFile: (source: string) => source,
@@ -139,10 +163,10 @@ export function parseConfig(config: ReplaceInFileConfig): ParsedConfig {
 export function combineConfig(config: ReplaceInFileConfig, argv: CliArguments): ParsedConfig {
 
   //Extract options from config
-  const {allowEmptyPaths} = config
+  const {allowEmptyPaths, maxMatchLength} = config
   let {
     from, to, files, ignore, encoding, verbose,
-    disableGlobs, dry, quiet,
+    disableGlobs, dry, quiet, streaming,
   } = config
 
   //Get from/to parameters from CLI args if not defined in options
@@ -177,10 +201,14 @@ export function combineConfig(config: ReplaceInFileConfig, argv: CliArguments): 
   if (typeof quiet === 'undefined') {
     quiet = !!argv.quiet
   }
+  if (typeof streaming === 'undefined') {
+    streaming = !!argv.streaming
+  }
 
   //Return through parser to validate
   return parseConfig({
     from, to, files, ignore, encoding, verbose,
-    allowEmptyPaths, disableGlobs, dry, quiet,
+    allowEmptyPaths, disableGlobs, dry, quiet, streaming,
+    maxMatchLength: maxMatchLength ?? argv.maxMatchLength,
   })
 }

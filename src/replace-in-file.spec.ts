@@ -462,12 +462,56 @@ describe('Replace in file', () => {
         })
       })
     })
+
+    describe('streaming', () => {
+      it('should replace contents in a single file with regex', async () => {
+        await replaceInFile({
+          files: 'test1',
+          from: /re\splace/g,
+          to: 'b',
+          streaming: true,
+        })
+        const test1 = fs.readFileSync('test1', 'utf8')
+        const test2 = fs.readFileSync('test2', 'utf8')
+        expect(test1).to.equal('a b c')
+        expect(test2).to.equal(testData)
+      })
+
+      it('should replace contents in multiple files and count matches', async () => {
+        const results = await replaceInFile({
+          files: ['test1', 'test2', 'test3'],
+          from: /re\splace/g,
+          to: 'b',
+          streaming: true,
+          countMatches: true,
+        })
+        expect(fs.readFileSync('test1', 'utf8')).to.equal('a b c')
+        expect(fs.readFileSync('test2', 'utf8')).to.equal('a b c')
+        expect(fs.readFileSync('test3', 'utf8')).to.equal('nope')
+        expect(results).to.have.lengthOf(3)
+        expect(results[0]).to.deep.equal({
+          file: 'test1', hasChanged: true, numMatches: 1, numReplacements: 1,
+        })
+        expect(results[2]).to.deep.equal({
+          file: 'test3', hasChanged: false, numMatches: 0, numReplacements: 0,
+        })
+      })
+    })
   })
 
   /**
    * Sync
    */
   describe('Sync', () => {
+
+    it('should error with streaming', function() {
+      return expect(() => replaceInFileSync({
+        files: 'test1',
+        from: /re\splace/g,
+        to: 'b',
+        streaming: true,
+      })).to.throw(/Streaming cannot be used in synchronous mode/)
+    })
 
     it('should error with processorAsync', function() {
       return expect(() => replaceInFileSync({

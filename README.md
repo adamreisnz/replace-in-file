@@ -33,6 +33,7 @@ A simple utility to quickly replace text in one or more files or globs. Works sy
   - [Making replacements on network drives](#making-replacements-on-network-drives)
   - [Specify character encoding](#specify-character-encoding)
   - [Dry run](#dry-run)
+  - [Replacing in large files (streaming)](#replacing-in-large-files-streaming)
   - [Using custom processors](#using-custom-processors)
   - [Using a custom file system API](#using-a-custom-file-system-api)
 - [CLI usage](#cli-usage)
@@ -402,6 +403,39 @@ const options = {
 }
 ```
 
+### Replacing in large files (streaming)
+
+By default, files are read into memory in full. This is fast and allows the whole contents to be matched at once, but for very large files it uses memory proportional to the file size, and files larger than the maximum string size supported by Node.js (about 500MB) cannot be processed at all.
+
+For those cases you can enable streaming mode, which processes files through Node streams with a bounded amount of memory, regardless of file size:
+
+```js
+const options = {
+  files: 'path/to/huge/file.log',
+  from: /needle/g,
+  to: 'replacement',
+  streaming: true,
+}
+```
+
+Streaming mode finds matches across chunk boundaries, so the result is normally identical to the in-memory replacement. There are however some inherent constraints to be aware of:
+
+- Streaming is only available for asynchronous replacement, as Node streams are asynchronous by nature. Using `streaming` with `replaceInFileSync` throws an error.
+- A stream cannot match text of unbounded length, so regular expression matches are only guaranteed to be found if the match (including any lookahead or lookbehind) fits within a window of `maxMatchLength` characters (default `1024`). Regex matches longer than this window may be missed. Plain string values for `from` are always matched exactly, regardless of length. If you expect longer matches, increase the window:
+
+  ```js
+  const options = {
+    streaming: true,
+    maxMatchLength: 10000,
+  }
+  ```
+
+- When using a callback for `to`, the callback receives the match, any capture groups, the offset within the file and the file name — but not the full file contents argument, as it never exists in one piece. The file name is always the last argument, so the documented `(...args) => args.pop()` pattern keeps working.
+- The `$\`` and `$'` replacement patterns refer to the buffered window rather than the whole file contents when streaming.
+- Streaming cannot be combined with custom [processors](#using-custom-processors) or a [custom file system API](#using-a-custom-file-system-api), as both operate on full file contents.
+
+Changed files are written atomically: replacements are streamed to a temporary file next to the target, which then replaces the target, preserving its file mode. The target file is therefore never left half-written, even if the process is interrupted mid-replacement.
+
 ### Using custom processors
 
 For advanced usage where complex processing is needed it's possible to use a callback that will receive content as an argument and should return it processed.
@@ -506,6 +540,8 @@ replace-in-file from to some/file.js,some/**/glob.js
   [--verbose]
   [--quiet]
   [--dry]
+  [--streaming]
+  [--maxMatchLength=1024]
 ```
 
 Multiple files or globs can be replaced by providing a comma separated list.
@@ -518,6 +554,8 @@ synchronous, and this setting is only relevant for asynchronous replacement.
 To list the changed files, use the `--verbose` flag. Success output can be suppressed by using the `--quiet` flag.
 
 To do a dry run without making any actual changes, use `--dry`.
+
+To process large files with bounded memory usage, use `--streaming`, optionally with `--maxMatchLength` (see [Replacing in large files](#replacing-in-large-files-streaming)).
 
 A regular expression may be used for the `from` parameter by passing in a string correctly formatted as a regular expression. The library will automatically detect that it is a regular expression.
 

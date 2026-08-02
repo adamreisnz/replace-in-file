@@ -101,6 +101,26 @@ describe('helpers/config.js', () => {
       expect(combined.dry).to.be.true
       expect(combined.quiet).to.be.true
     })
+
+    it('should pass through streaming arguments', () => {
+      const argv = {
+        _: ['foo', 'bar', 'file.txt'],
+        streaming: true,
+        maxMatchLength: 64,
+      }
+      const combined = combineConfig({}, argv)
+      expect(combined.streaming).to.be.true
+      expect(combined.maxMatchLength).to.equal(64)
+    })
+
+    it('should prefer streaming options from the config', () => {
+      const argv = {
+        _: ['foo', 'bar', 'file.txt'],
+      }
+      const combined = combineConfig({streaming: true, maxMatchLength: 32}, argv)
+      expect(combined.streaming).to.be.true
+      expect(combined.maxMatchLength).to.equal(32)
+    })
   })
 
   /**
@@ -154,6 +174,71 @@ describe('helpers/config.js', () => {
         files: ['test1', 'test2', 'test3'],
         from: [/re/g, /place/g],
       })).to.throw(Error)
+    })
+
+    it('should error when streaming is combined with processors', () => {
+      expect(() => parseConfig({
+        streaming: true,
+        processor: (contents: string) => contents,
+        files: ['test1'],
+      })).to.throw(/not supported with custom processors/)
+      expect(() => parseConfig({
+        streaming: true,
+        processorAsync: async (contents: string) => contents,
+        files: ['test1'],
+      })).to.throw(/not supported with custom processors/)
+    })
+
+    it('should error when streaming is combined with a custom file system', () => {
+      expect(() => parseConfig({
+        streaming: true,
+        fs: {} as any,
+        files: ['test1'], from: /re/g, to: 'b',
+      })).to.throw(/not supported with a custom file system/)
+      expect(() => parseConfig({
+        streaming: true,
+        fsSync: {} as any,
+        files: ['test1'], from: /re/g, to: 'b',
+      })).to.throw(/not supported with a custom file system/)
+    })
+
+    it('should error when an invalid `maxMatchLength` is specified', () => {
+      expect(() => parseConfig({
+        maxMatchLength: 'foo' as any,
+        files: ['test1'], from: /re/g, to: 'b',
+      })).to.throw(/positive integer/)
+      expect(() => parseConfig({
+        maxMatchLength: 1.5,
+        files: ['test1'], from: /re/g, to: 'b',
+      })).to.throw(/positive integer/)
+      expect(() => parseConfig({
+        maxMatchLength: 0,
+        files: ['test1'], from: /re/g, to: 'b',
+      })).to.throw(/positive integer/)
+    })
+
+    it('should allow re-parsing an already parsed streaming config', () => {
+      //The CLI parses via combineConfig and the result is parsed again in
+      //replaceInFile, at which point the default fs has been merged in
+      const parsed = parseConfig({
+        streaming: true,
+        files: ['test1'], from: /re/g, to: 'b',
+      })
+      expect(() => parseConfig(parsed)).to.not.throw()
+    })
+
+    it('should accept a valid `maxMatchLength` and default streaming options', () => {
+      const parsed = parseConfig({
+        maxMatchLength: 64,
+        files: ['test1'], from: /re/g, to: 'b',
+      })
+      expect(parsed.maxMatchLength).to.equal(64)
+      expect(parsed.streaming).to.be.false
+      const defaults = parseConfig({
+        files: ['test1'], from: /re/g, to: 'b',
+      })
+      expect(defaults.maxMatchLength).to.equal(1024)
+      expect(defaults.streaming).to.be.false
     })
 
     it('should error when an invalid `getTargetFile` handler is specified', () => {

@@ -2,7 +2,7 @@
 
 import yargs from 'yargs'
 import {hideBin} from 'yargs/helpers'
-import {replaceInFileSync} from '../src/replace-in-file.ts'
+import {replaceInFile, replaceInFileSync} from '../src/replace-in-file.ts'
 import {loadConfig, combineConfig} from '../src/helpers/config.ts'
 import {errorHandler, successHandler} from '../src/helpers/handlers.ts'
 import type {CliArguments} from '../src/types.ts'
@@ -30,6 +30,8 @@ Available options (all are optional):
   --verbose      Show additional information
   --quiet        Suppress output
   --dry          Dry run (no changes made)
+  --streaming    Stream files instead of reading them into memory (for large files)
+  --maxMatchLength Max regex match length across chunk boundaries when streaming
   --help, -h     Show this help information
 `)
   }
@@ -54,8 +56,10 @@ Available options (all are optional):
     console.log(`Replacing '${from}' with '${to}'`)
   }
 
-  //Replace
-  const results = replaceInFileSync(options)
+  //Replace, streaming if configured
+  const results = options.streaming ?
+    await replaceInFile(options) :
+    replaceInFileSync(options)
   if (!quiet) {
     successHandler(results, verbose)
   }
