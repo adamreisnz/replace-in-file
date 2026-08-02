@@ -585,4 +585,6 @@ See the [Changelog](CHANGELOG.md) for more information.
 ## License
 (MIT License)
 
-Copyright 2015-2024, Adam Reis
+Copyright 2015-2026, Adam Reis
+
+See the [LICENSE](LICENSE) file for the full license text.
