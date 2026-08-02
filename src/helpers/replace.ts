@@ -1,24 +1,19 @@
-import type {ParsedConfig, From, FromValue, To, ToCallback, ReplaceResult} from '../types.js'
+import type {ParsedConfig, From, FromValue, To, ReplaceResult} from '../types.js'
 
 /**
  * Get replacement helper
  */
-export function getReplacement(
-  replace: To | To[], isArray: boolean, i: number
-): To | null {
-  if (isArray && typeof (replace as To[])[i] === 'undefined') {
-    return null
+export function getReplacement(replace: To | To[], i: number): To | null {
+  if (Array.isArray(replace)) {
+    return replace[i] ?? null
   }
-  if (isArray) {
-    return (replace as To[])[i]!
-  }
-  return replace as To
+  return replace
 }
 
 /**
  * Escape string to make it safe for use in a regex
  */
-export function escapeRegex<T>(string: T): T | string {
+export function escapeRegex(string: FromValue): FromValue {
   if (typeof string === 'string') {
     return string.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')
   }
@@ -38,8 +33,7 @@ export function makeReplacements(
     from = [from]
   }
 
-  //Check if replace value is an array and prepare result
-  const isArray = Array.isArray(to)
+  //Prepare result
   const result: ReplaceResult = {file, hasChanged: false}
 
   //Counting? Initialize number of matches
@@ -49,28 +43,20 @@ export function makeReplacements(
   }
 
   //Make replacements
-  const newContents = from.reduce((contents: string, item: From, i: number) => {
+  const newContents = from.reduce<string>((contents, item, i) => {
 
     //Call function if given, passing in the filename
-    if (typeof item === 'function') {
-      item = item(file) as FromValue
-    }
+    const search = (typeof item === 'function') ? item(file) : item
 
     //Get replacement value
-    let replacement = getReplacement(to, isArray, i)
+    const replacement = getReplacement(to, i)
     if (replacement === null) {
       return contents
     }
 
-    //Call function if given, appending the filename
-    if (typeof replacement === 'function') {
-      const original = replacement
-      replacement = (...args: unknown[]) => original(...args, file)
-    }
-
     //Count matches
     if (count) {
-      const matches = contents.match(escapeRegex(item as string | RegExp))
+      const matches = contents.match(escapeRegex(search))
       if (matches) {
         const replacements = matches.filter(match => match !== replacement)
         result.numMatches! += matches.length
@@ -78,8 +64,11 @@ export function makeReplacements(
       }
     }
 
-    //Make replacement
-    return contents.replace(item, replacement as string & ToCallback)
+    //Make replacement, appending the filename if a function is given
+    if (typeof replacement === 'function') {
+      return contents.replace(search, (...args: string[]) => replacement(...args, file))
+    }
+    return contents.replace(search, replacement)
   }, contents)
 
   //Check if changed

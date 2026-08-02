@@ -1,32 +1,30 @@
 import {glob} from 'glob'
 import nodepath from 'node:path'
-import type {GlobOptions} from 'glob'
+import type {GlobOptionsWithFileTypesFalse} from 'glob'
 import type {ParsedConfig} from '../types.js'
 
 /**
  * Async wrapper for glob
  */
-export function globAsync(
+export async function globAsync(
   pattern: string,
   ignore: string[],
   allowEmptyPaths: boolean,
-  cfg: GlobOptions
+  cfg: GlobOptionsWithFileTypesFalse
 ): Promise<string[]> {
 
-  //Prepare glob config
-  cfg = Object.assign({ignore}, cfg, {nodir: true})
-
   //Run glob
-  return (glob(pattern, cfg) as Promise<string[]>).then(files => {
-
-    //Error if no files match, unless allowed
-    if (!allowEmptyPaths && files.length === 0) {
-      throw new Error('No files match the pattern: ' + pattern)
-    }
-
-    //Return files
-    return files
+  const files = await glob(pattern, {
+    ignore, ...cfg, nodir: true, withFileTypes: false,
   })
+
+  //Error if no files match, unless allowed
+  if (!allowEmptyPaths && files.length === 0) {
+    throw new Error('No files match the pattern: ' + pattern)
+  }
+
+  //Return files
+  return files
 }
 
 /**
@@ -43,7 +41,9 @@ export function pathsSync(patterns: string[], config: ParsedConfig): string[] {
   }
 
   //Prepare glob config
-  const cfg: GlobOptions = Object.assign({ignore}, globConfig, {nodir: true})
+  const cfg: GlobOptionsWithFileTypesFalse = {
+    ignore, ...globConfig, nodir: true, withFileTypes: false,
+  }
 
   //Append CWD configuration if given (#56)
   if (cwd) {
@@ -51,8 +51,7 @@ export function pathsSync(patterns: string[], config: ParsedConfig): string[] {
   }
 
   //Get paths
-  const paths = patterns.map(pattern => glob.sync(pattern, cfg) as string[])
-  const flattened = paths.flat()
+  const flattened = patterns.flatMap(pattern => glob.sync(pattern, cfg))
 
   //Prefix each path with CWD if given (#56)
   if (cwd) {

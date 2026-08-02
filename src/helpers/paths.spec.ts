@@ -1,10 +1,9 @@
-import {expect, use, should} from 'chai'
+import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import {pathsSync, pathsAsync} from './paths.js'
 import type {ParsedConfig} from '../types.js'
 
-//Enable should assertion style for usage with chai-as-promised
-should()
+//Enable promise assertions
 use(chaiAsPromised)
 
 /**

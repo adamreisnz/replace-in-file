@@ -1,11 +1,11 @@
-import {expect, use, should} from 'chai'
+import {expect, use} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import {replaceInFile, replaceInFileSync} from './replace-in-file.js'
+import type {AsyncFs, SyncFs} from './types.js'
 import fsAsync from 'node:fs/promises'
 import fs from 'node:fs'
 
-//Enable should assertion style for usage with chai-as-promised
-should()
+//Enable promise assertions
 use(chaiAsPromised)
 
 /**
@@ -193,11 +193,11 @@ describe('Replace in file', () => {
     })
 
     it('should fulfill the promise on success', () => {
-      return (replaceInFile({
+      return expect(replaceInFile({
         files: 'test1',
         from: /re\splace/g,
         to: 'b',
-      }) as any).should.be.fulfilled
+      })).to.eventually.be.fulfilled
     })
 
     it('should reject the promise with an error on failure', () => {
@@ -209,12 +209,12 @@ describe('Replace in file', () => {
     })
 
     it('should not reject the promise if allowEmptyPaths is true', () => {
-      return (replaceInFile({
+      return expect(replaceInFile({
         files: 'nope',
         allowEmptyPaths: true,
         from: /re\splace/g,
         to: 'b',
-      }) as any).should.be.fulfilled
+      })).to.eventually.be.fulfilled
     })
 
     it('should return a results array', done => {
@@ -442,11 +442,11 @@ describe('Replace in file', () => {
         const before = 'a'
         let written: string | undefined
 
-        const fs = {
+        const fs: AsyncFs = {
           readFile: async () => {
             return before
           },
-          writeFile: async (_fileName: string, data: string) => {
+          writeFile: async (_fileName, data) => {
             written = data
           },
         }
@@ -792,13 +792,12 @@ describe('Replace in file', () => {
         const before = 'a'
         let written: string | undefined
 
-        const fsSync = {
+        const fsSync: SyncFs = {
           readFileSync: () => {
             return before
           },
-          writeFileSync: (_fileName: string, data: string) => {
+          writeFileSync: (_fileName, data) => {
             written = data
-            return data
           },
         }
 

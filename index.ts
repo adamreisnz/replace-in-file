@@ -15,6 +15,7 @@ export type {
   ToCallback,
   Processor,
   ProcessorAsync,
+  GetTargetFile,
   AsyncFs,
   SyncFs
 } from './src/types.js'

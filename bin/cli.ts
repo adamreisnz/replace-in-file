@@ -5,7 +5,7 @@ import {hideBin} from 'yargs/helpers'
 import {replaceInFileSync} from '../src/replace-in-file.js'
 import {loadConfig, combineConfig} from '../src/helpers/config.js'
 import {errorHandler, successHandler} from '../src/helpers/handlers.js'
-import type {CliArguments} from '../src/helpers/config.js'
+import type {CliArguments} from '../src/types.js'
 
 /**
  * Main routine
@@ -47,9 +47,7 @@ Available options (all are optional):
   const {from, to, files, verbose, quiet} = options
 
   //Single star globs already get expanded in the command line
-  options.files = files.reduce((files: string[], file: string) => {
-    return files.concat(file.split(','))
-  }, [])
+  options.files = files.flatMap(file => file.split(','))
 
   //Log
   if (!quiet) {

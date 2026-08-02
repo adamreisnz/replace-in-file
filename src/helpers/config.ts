@@ -1,23 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import fsSync from 'node:fs'
-import type {ReplaceInFileConfig, ParsedConfig, From} from '../types.js'
-
-/**
- * CLI arguments as parsed by yargs
- */
-export interface CliArguments {
-  _: (string | number)[]
-  configFile?: string
-  ignore?: string | string[]
-  encoding?: string
-  disableGlobs?: boolean
-  verbose?: boolean
-  quiet?: boolean
-  dry?: boolean
-  help?: boolean
-  h?: boolean
-}
+import type {ReplaceInFileConfig, ParsedConfig, CliArguments, From} from '../types.js'
 
 /**
  * Helper to load options from a config file
@@ -41,8 +25,22 @@ export function stringToRegex(str: From | From[] | undefined): From | From[] | u
 
   //Array given
   if (Array.isArray(str)) {
-    return str.map(item => stringToRegex(item)) as From[]
+    return str.map(toRegex)
   }
+
+  //Nothing given
+  if (typeof str === 'undefined') {
+    return str
+  }
+
+  //Convert single value
+  return toRegex(str)
+}
+
+/**
+ * Convert a single value to a regex if it is wrapped in slashes
+ */
+function toRegex(str: From): From {
 
   //Not a string, or not wrapped in slashes like /pattern/flags
   const regexMatch = /^\/(.*)\/([gimyus]*)$/s

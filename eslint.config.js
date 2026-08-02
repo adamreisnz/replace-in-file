@@ -55,7 +55,6 @@ export default [
       'no-empty': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       'no-empty-function': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': [
         process.env.NODE_ENV === 'production' ? 'error' : 'warn', {
           argsIgnorePattern: '^_',
@@ -69,10 +68,11 @@ export default [
     },
   },
   {
-    //Allow chai assertion expressions in specs
+    //Allow chai assertion expressions and deliberately invalid inputs in specs
     files: ['**/*.spec.ts'],
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ]

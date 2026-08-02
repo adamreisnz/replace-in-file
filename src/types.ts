@@ -1,19 +1,28 @@
-import type {GlobOptions} from 'glob'
+import type {GlobOptionsWithFileTypesFalse} from 'glob'
 
 /**
  * Replacement source and target values
  */
 export type FromValue = string | RegExp
-export type FromCallback = (file: string) => FromValue | FromValue[]
+export type FromCallback = (file: string) => FromValue
 export type From = FromValue | FromCallback
+
+/**
+ * The replacement is passed to String.replace(), which calls it with the match,
+ * any capture groups, the offset and the full string, with the file name
+ * appended. The argument types therefore vary per call, and `unknown` would
+ * reject the documented `(...args) => args.pop()` usage.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ToCallback = (...args: any[]) => string
 export type To = string | ToCallback
 
 /**
- * Processor callbacks
+ * Processor and target file callbacks
  */
 export type Processor = (contents: string, file: string) => string
 export type ProcessorAsync = (contents: string, file: string) => string | Promise<string>
+export type GetTargetFile = (source: string) => string
 
 /**
  * File system interfaces (subset of node:fs/promises and node:fs)
@@ -42,9 +51,9 @@ export interface ReplaceInFileConfig {
   verbose?: boolean
   quiet?: boolean
   dry?: boolean
-  glob?: GlobOptions
+  glob?: GlobOptionsWithFileTypesFalse
   cwd?: string | null
-  getTargetFile?(source: string): string
+  getTargetFile?: GetTargetFile
   processor?: Processor | Processor[]
   processorAsync?: ProcessorAsync | ProcessorAsync[]
   fs?: AsyncFs
@@ -64,11 +73,23 @@ export interface ParsedConfig extends ReplaceInFileConfig {
   verbose: boolean
   quiet: boolean
   dry: boolean
-  glob: GlobOptions
+  glob: GlobOptionsWithFileTypesFalse
   cwd: string | null
-  getTargetFile(source: string): string
+  getTargetFile: GetTargetFile
   fs: AsyncFs
   fsSync: SyncFs
+}
+
+/**
+ * CLI arguments as parsed by yargs
+ */
+export interface CliArguments extends Pick<ReplaceInFileConfig,
+  'ignore' | 'encoding' | 'disableGlobs' | 'verbose' | 'quiet' | 'dry'
+> {
+  _: (string | number)[]
+  configFile?: string
+  help?: boolean
+  h?: boolean
 }
 
 /**
