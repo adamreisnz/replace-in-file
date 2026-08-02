@@ -4,9 +4,7 @@
     "noEmit": false,
     "outDir": "dist",
     "rootDir": ".",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "declaration": true
   },
   "exclude": ["**/*.spec.ts"]
 }
