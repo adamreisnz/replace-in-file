@@ -1,7 +1,7 @@
 # Replace in file
 
 [![npm version](https://img.shields.io/npm/v/replace-in-file.svg)](https://www.npmjs.com/package/replace-in-file)
-[![coverage status](https://coveralls.io/repos/github/adamreisnz/replace-in-file/badge.svg?branch=master)](https://coveralls.io/github/adamreisnz/replace-in-file?branch=master)
+[![ci status](https://github.com/adamreisnz/replace-in-file/actions/workflows/ci.yml/badge.svg)](https://github.com/adamreisnz/replace-in-file/actions/workflows/ci.yml)
 [![github issues](https://img.shields.io/github/issues/adamreisnz/replace-in-file.svg)](https://github.com/adamreisnz/replace-in-file/issues)
 
 A simple utility to quickly replace text in one or more files or globs. Works synchronously or asynchronously with either promises or callbacks. Make a single replacement or multiple replacements at once.
@@ -52,6 +52,8 @@ yarn add replace-in-file
 # Using pnpm
 pnpm add replace-in-file
 ```
+
+## Basic usage
 
 ### Asynchronous replacement
 
@@ -321,6 +323,8 @@ const options = {
 }
 ```
 
+Note that the target directory is not created for you, so it must already exist.
+
 ### Ignore a single file or glob
 
 ```js
@@ -497,6 +501,7 @@ Custom `fs` and `fsSync` implementations should have the same parameters and ret
 
 ```js
 replaceInFile({
+  files: 'path/to/file',
   from: 'a',
   fs: {
     readFile: async (file, encoding) => {
@@ -515,6 +520,7 @@ Or for the sync API:
 
 ```js
 replaceInFileSync({
+  files: 'path/to/file',
   from: 'a',
   fsSync: {
     readFileSync: (file, encoding) => {
@@ -548,8 +554,9 @@ Multiple files or globs can be replaced by providing a comma separated list.
 
 The flags `--disableGlobs`, `--ignore` and `--encoding` are supported in the CLI.
 
-The setting `allowEmptyPaths` is not supported in the CLI as the replacement is
-synchronous, and this setting is only relevant for asynchronous replacement.
+There is no CLI flag for `allowEmptyPaths`, as this setting is only relevant for
+asynchronous replacement and the CLI replaces synchronously unless `--streaming`
+is used.
 
 To list the changed files, use the `--verbose` flag. Success output can be suppressed by using the `--quiet` flag.
 
@@ -571,7 +578,7 @@ If you are using a configuration file, and you want to use a regular expression 
 ```json
 {
   "from": "/cat/g",
-  "to": "dog",
+  "to": "dog"
 }
 ```
 
@@ -583,7 +590,7 @@ For example, the following will only look at top level files:
 ```json
 {
   "from": "cat",
-  "to": "dog",
+  "to": "dog"
 }
 ```
 
@@ -597,7 +604,7 @@ However, this example is recursive:
 {
   "files": "**",
   "from": "cat",
-  "to": "dog",
+  "to": "dog"
 }
 ```
 
