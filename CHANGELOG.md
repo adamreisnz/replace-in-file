@@ -1,3 +1,14 @@
+## 9.0.0
+The package now requires Node 22.12.0 or higher, as Node 18 and Node 20 have reached end of life. If you need support for older versions of Node, please use version 8.x.x.
+
+### Breaking changes
+- Node 22.12.0 or higher is now required (dependencies `yargs@18` and `chalk@6` require it)
+- Strings passed to `from` are now only converted to a regular expression if they both start and end with a slash (e.g. `"/cat/g"`), as documented. Previously, plain strings that merely ended in a slash and optional flag characters (e.g. `"assets/img"` or `"foo/"`) were silently converted to regular expressions as well.
+
+### Other changes
+- Upgraded all dependencies, including chalk to 6.x
+- The repository now uses pnpm as its package manager
+
 ## 8.0.0
 The package has been converted to an ES module and now requires Node 18 or higher. If you need support for Node 16 or below, please use version 7.x.x.
 
