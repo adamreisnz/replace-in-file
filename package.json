@@ -31,6 +31,7 @@
   },
   "scripts": {
     "test": "mocha 'src/**/*.spec.js'",
+    "lint": "eslint .",
     "coverage": "c8 npm run test",
     "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
     "postversion": "git push && git push --tags && npm publish"
