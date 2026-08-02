@@ -34,7 +34,7 @@
     "lint": "eslint .",
     "coverage": "c8 npm run test",
     "postcoverage": "open -a \"Google Chrome\" ./coverage/lcov-report/index.html",
-    "postversion": "git push && git push --tags && npm publish"
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "bin",
